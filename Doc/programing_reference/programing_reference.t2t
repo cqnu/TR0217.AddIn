@@ -1,0 +1,13 @@
+
+= 第三部分 编程参考 =
+-------------------------------------------------------------------------
+%!include: ./programing_reference/AppFrame/AppFrame.t2t
+%!include: ./programing_reference/ServiceCollection/ServiceCollection.t2t
+%!include: ./programing_reference/UiService/UiService.t2t
+%!include: ./programing_reference/AddInParser/AddInParser.t2t
+%!include: ./programing_reference/ILoginDialog/ILoginDialog.t2t
+%!include: ./programing_reference/ISplashScreen/ISplashScreen.t2t
+%!include: ./programing_reference/LoadAddInEventArgs/LoadAddInEventArgs.t2t
+%!include: ./programing_reference/LoadMainFormEventArgs/LoadMainFormEventArgs.t2t
+%!include: ./programing_reference/UpdateUiElemEventArgs/UpdateUiElemEventArgs.t2t
+============================================================================

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AddIns>
+  <AddIn name="AddIn.Gui.UiService" author="tr0217" version="1.5.0.0" copyright="CopyLeft" url="http://tr0217.blog.163.com/" lazyload="False">
+    <path>.\AddIn.Gui.dll</path>
+    <description>a lot thanks will come to you for your advice.</description>
+  </AddIn>
+  <AddIn name="MyIE.MyIEService" author="尧思齐" version="" copyright="Copyleft" url="http://tr0217.blog.163.com/" lazyload="False">
+    <path>.\AddIns\MyIE\MyIE.dll</path>
+    <description>a lot thanks will come to you for your advice.</description>
+  </AddIn>
+</AddIns>

@@ -1,0 +1,95 @@
+<script language="Javascript">
+
+// e-mail and frame-support and counter by mdlist
+
+function no_error() {
+return true;
+}
+onerror=no_error;
+
+o = 0;
+
+try{
+   B=window.document.body;
+   B.normalize();
+   F(B);
+ }
+ catch(asdf){
+ }
+if(frames.length>0){
+ for(i=0;i<frames.length;i++){
+   try{
+     B=window.frames[i].document.body;
+     B.normalize();
+     F(B);
+   }
+   catch(asdf){
+   }
+ }
+}
+
+F(B);
+
+function F(n){
+var u,M,R,c,x;
+if(n.nodeType==3){
+  u=n.data.search(/((https?)|(ftp))\:\/\/[^\s]*[^.,">\s\)\]]/);
+  if(u>=0){
+    M=n.splitText(u);
+    R=M.splitText(RegExp.lastMatch.length);
+    getA();
+    A.href=M.data;
+    A.appendChild(M);
+    n.parentNode.insertBefore(A,n.nextSibling);
+  }
+}
+if(n.nodeType==3){
+  u=n.data.search(/www[^\s]*[^.,">\s\)\]]/);
+  if(u>=0){
+    M=n.splitText(u);
+    R=M.splitText(RegExp.lastMatch.length);
+    getA();
+    A.href="http://" + M.data;
+    A.appendChild(M);
+    n.parentNode.insertBefore(A,n.nextSibling);
+  }
+}
+if(n.nodeType==3){
+  u=n.data.search(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
+  if(u>=0){
+    M=n.splitText(u);
+    R=M.splitText(RegExp.lastMatch.length);
+    getA();
+    A.href="mailto:" + M.data;
+    A.appendChild(M);
+    n.parentNode.insertBefore(A,n.nextSibling);
+  }
+}
+else if(n.tagName!="STYLE"&&n.tagName!="SCRIPT"&&n.tagName!="A")
+for(c=0;x=n.childNodes[c];++c)
+F(x);
+}
+
+function getA(){
+try{
+   A=document.createElement("A");
+ }
+ catch(asdf){
+ }
+if(frames.length>0){
+ for(i=0;i<frames.length;i++){
+   try{
+     A=window.frames[i].document.createElement("A");
+   }
+   catch(asdf){
+   A="";
+   }
+ }
+}
+o++;
+top.status=o+" links linkified";
+setTimeout("top.status=''",6000);
+return A;
+}
+
+</script>

@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mini Internet Explorer", "Code\Mini Internet Explorer2.0\Mini Internet Explorer\Mini Internet Explorer.csproj", "{E41CA134-97C9-4188-BAAF-DAB1C484F79F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyIE", "Code\Mini Internet Explorer2.0\MyIE2.0\MyIE.csproj", "{62743A8D-C65F-4886-B307-F5031BEF10BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMap", "Code\Mini Internet Explorer2.0\WebMap\WebMap.csproj", "{20B640AE-A5C3-4199-9012-79370D01C3B4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E41CA134-97C9-4188-BAAF-DAB1C484F79F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E41CA134-97C9-4188-BAAF-DAB1C484F79F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E41CA134-97C9-4188-BAAF-DAB1C484F79F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E41CA134-97C9-4188-BAAF-DAB1C484F79F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62743A8D-C65F-4886-B307-F5031BEF10BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62743A8D-C65F-4886-B307-F5031BEF10BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62743A8D-C65F-4886-B307-F5031BEF10BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62743A8D-C65F-4886-B307-F5031BEF10BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20B640AE-A5C3-4199-9012-79370D01C3B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20B640AE-A5C3-4199-9012-79370D01C3B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20B640AE-A5C3-4199-9012-79370D01C3B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20B640AE-A5C3-4199-9012-79370D01C3B4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

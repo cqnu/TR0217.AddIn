@@ -1,0 +1,19 @@
+
+==LoadMainFormEventArgs==
+===属性===
+
+ - string[] Args { get; }
+
+
+获取应用程序的执行的参数。如果在某个插件中需要使用该参数，则通过该参数获得。
+
+ - IUiService UiService  { get; }
+
+
+获取界面服务。
+
+ - Form MainForm  { get; }
+
+
+获取应用程序的主窗体。
+

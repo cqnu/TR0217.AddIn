@@ -1,0 +1,67 @@
+
+==UiService/IUiService==
+===属性===
+ - System.Windows.Forms.Form MainForm { get; }
+
+
+获取应用程序的主窗体。
+===方法===
+ - void Execute(string exe,string parameter)
+
+
+执行一个外部程序，exe表示外部程序的路径，可以使相对路径；parameter外部程序运行的参数。
+ - void Exexute(string exe)
+
+
+不用参数运行一个外部程序。相当于给方法``void Execute(string exe,string parameter)``传入的parameter为``null``。
+ - void Exit()
+
+
+退出程序。
+ - void Config()
+
+
+配置本插件。
+ - System.Windows.Forms.ContextMenuStrip GetContextMenuStrip(string str, bool byform);
+
+
+获取右键菜单。如果byfrom为true，表示通过窗口类型名称获取；如果为false表示通过右键菜单的Text属性获取。
+ - System.Windows.Forms.StatusStrip GetStatusStrip(string str);
+
+
+根据状态栏的Text属性获取状态栏。str状态栏的Text值。
+ - System.Windows.Forms.ToolStrip GetToolStrip(string str, bool byname);
+
+
+获取工具栏。如果byname为true，表示根据工具条的``Name``属性获取；否则更具工具条的``Text``属性获取。
+ - System.Windows.Forms.ToolStripItem GetToolStripItem(string path)
+
+
+获取工具条项目。容纳在工具条和状态栏上的按钮等控件都是工具条项。path表示工具条项目的路径，为以斜杠分割的从最上层UI项目一直展开到本UI项目的``Text``属性值，如//MenuStrip/收藏(&B)///。
+ - System.Windows.Forms.Form LoadMainForm()
+
+
+根据UI配置载入主窗体。
+ - void ModifyAddIns()
+
+
+向系统中注册插件和配置界面。
+ - void SetStatusStripVisible(bool visible, string name)
+
+
+设置``Name``为name的状态栏的可见性。
+ - void SetToolStripVisible(bool visible, string name)
+
+
+设置``Name``为name的工具条的可见性。
+ - void ShowDocForm(System.Windows.Forms.Form docForm)
+
+
+显示文档窗体。
+ - void ShowToolWin(System.Windows.Forms.Form toolWin, System.Windows.Forms.DockStyle dockStyle)
+
+
+显示工具窗体并指定显示的方式。
+
+
+

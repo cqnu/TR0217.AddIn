@@ -1,0 +1,59 @@
+
+==AddInParser==
+
+插件列表描述对象，用于从插件列表配置文件中某个插件配置节点解析出有关该插件的一些信息。
+===属性===
+ - System.Reflection.Assembly Assembly { get; set; }
+
+
+获取和设置该插件描述对象所代表的插件的程序集对象。
+ - string Author { get; set; }
+
+
+获取和设置作者。
+ - string Copyright { get; set; }
+
+
+获取和设置版权描述信息。
+ - string Description { get; set; }
+
+
+获取和设置插件描述信息。
+ - bool Lazyload { get; set; }
+
+
+获取和设置是否延迟加载该插件。
+ - string Name { get; set; }
+
+
+获取和设置插件服务类的名称。
+ - string Path { get; set; }
+
+
+获取和设置插件存放的路径，可以使相对路径。
+ - ServiceBase Service { get; }
+
+
+获取该插件描述对象所代表的插件的服务类。
+ - string Url { get; set; }
+
+
+获取和设置该提供该插件更详细描述信息的网址。
+ - bool Valid { get; }
+
+获取和设置该插件是否是有效的。
+ - string Version { get; set; }
+
+
+获取设置该插件的版本号。
+
+
+===方法===
+
+ - ServiceBase GetService()
+
+
+
+获取该插件描述对象所代表的插件的服务类。
+
+

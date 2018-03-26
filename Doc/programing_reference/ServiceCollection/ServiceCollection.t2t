@@ -1,0 +1,47 @@
+
+
+==ServiceCollection/IServiceCollection==
+===属性===
+ - System.Collections.Generic.List<AddInParser> AddInParserList { get; }
+
+
+获取插件信息列表。本插件框架规定向系统注册插件的功能在界面插件中实现，本属性用于实现向系统注册插件。将新增加的插件描述对象``AddInParser``插入到该列表中，然后调用``SaveConfig``将列表存储一下就可以将插件注册到系统中。
+
+ - System.Collections.Generic.Dictionary<string, ServiceBase> Services { get; }
+
+
+获取插件服务列表。向系统注册插件时还需要指定，插件提供的某个功能由哪个界面元素触发。本属性用于从插件服务类中反射出实现功能的方法，然后绑定到具体的界面元素上。
+
+===方法===
+ - ServiceBase GetService(string name)
+
+
+根据注册的服务名获取服务。
+ - T GetService<T>() where T : class
+
+
+根据指定类型获取服务。
+ - void Load()
+
+
+加载所有插件。
+ - void SaveConfig(string configPath)
+
+
+保存插件配置文件。
+
+
+
+===事件===
+
+ - event LoadAddInHandler AfterLoadOneAddIn
+
+
+每个插件加载完成后会触发该事件。参数为``LoadAddInEventArgs``。一般用于在SplashScreen上显示提示信息，不直接使用这个事件而是使用``AppFrame``的同名事件。
+  - event LoadAddInHandler BeforLoadeOneAddIn
+
+
+每个插件加载前会触发该事件。参数为``LoadAddInEventArgs``。一般用于在SplashScreen上显示提示信息，不直接使用这个事件而是使用``AppFrame``的同名事件。
+
+
+

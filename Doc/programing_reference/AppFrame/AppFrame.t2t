@@ -1,0 +1,86 @@
+
+==AppFrame==
+插件宿主应用程序类，实例化该类运行其``Run``方法就可以创建一个宿主应用程序。一个宿主应用程序只能实例化一个该类。
+
+===属性===
+
+ - static AppFrame Instance { get; }
+
+
+获取``AppFrame``的实例。
+ - UInt16 Authority { get; }
+
+
+获取运行程序的用户的权限级别。默认值为0，权限级别由框架从登录窗口获得，数值的具体权限含义由您自定义。如果某界面元素的Authority大于``AppFrame``的Authority值，那么这个界面元素就不会显示。
+ - Form MainForm { get; }
+
+
+获取应用程序的主窗体。
+ - public string[] Args { get; set;}
+
+
+设置应用程序运行的参数。设置应用程序的参数应该在调用``Run``方法直接进行。
+ - ILoginDialog LoginDialog { get; set;}
+
+
+获取和设置登录对话框。登录对话框的实现方式参考**高级主题**一章的**创建带有Splash Screen和登陆窗体的宿主**节。
+ - ISplashScreen SplashScreen { get; set;}
+
+
+获取和设置闪屏对象。闪屏的实现方式参考**高级主题**一章的**创建带有Splash Screen和登陆窗体的宿主**节。
+ - UInt16 SplashInterval { get; set;}
+
+
+获取和设置闪屏最少显示时间。单位毫秒。
+
+ - static IServiceCollection ServiceCollection { get; }
+
+
+获取服务列表。
+
+ - static log4net.ILog FrameLogger  { get; }
+
+
+获取日志对象。
+
+===方法===
+ - static AppFrame GetInstance()
+
+
+获取``AppFrame``的实例。
+ - static ServiceCollection GetServiceCollection()
+
+
+获取插件列表。通过该插件列表对象可以获取插件系统中加载的插件所提供的服务对象。
+ - void Run()
+
+
+开始运行插件宿主应用程序。
+ - void RunConfig()
+
+
+开始运行插件配置工具。
+
+
+===事件===
+
+ - static event LoadAddInHandler AfterLoadOneAddIn
+
+
+每个插件加载完成后会触发该事件。参数为``LoadAddInEventArgs``。一般用于在SplashScreen上显示提示信息。
+ - static event LoadAddInHandler BeforeLoadOneAddIn
+
+
+每个插件加载前会触发该事件。参数为``LoadAddInEventArgs``。一般用于在SplashScreen上显示提示信息。
+ - static event LoadAddInHandler FinishLoadAddIn
+
+所有插件都加载完成后会触发该事件。参数为``LoadAddInEventArgs``。可用于在SplashScreen上显示提示信息和在插件中获取需要与之交互的服务。
+ - static event LoadMainFormHandler BeforeLoadMainForm
+
+
+主窗口加载前会触发该事件。参数为``LoadMainFormEventArgs``。一般用于在SplashScreen上显示提示信息。
+ - static event LoadMainFormHandler AfterLoadMainForm
+
+
+主窗口加载结束后会触发该事件。参数为``LoadMainFormEventArgs``。可用于在SplashScreen上显示提示信息和用于在主窗体加载完成后立即显示初始界面。
+

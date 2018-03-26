@@ -1,0 +1,142 @@
+TR0217.AddIn.Release.1.5.0.0
+-----------------------------------------------------------------------------------
+◆AddIn.Core.dll（核心模块）
+    ◇  在AppFrame类中增加:
+           public static AppFrame GetInstance(bool fireEvent)
+        该法用于在启动配置程序时使用。启动配置程序时，传入false参数；那么AppFrame不会发布任何事件。
+    因为配置程序不需要创建程序逻辑，只需要配置界面即可，所以在加载配置程序创建服务的实例时订阅到事
+    件通知反而会出问题。
+    
+    ◇  在IUiService中增加:
+           void InitialUiServiceMsg(AddInParser ap);
+        用户在初始化配置时完善Ui插件的信息。
+
+    ◇  在ServiceCollection中修改:
+        原来的初始化插件列表方法的功能被修改为初始化一个空的插件列表。
+
+◆AddIn.Gui.dll（界面插件）
+
+    ◇  由于核心模块的变动插件注册部分做了相应的更改。
+
+
+TR0217.AddIn.Release.1.4.1.0
+-----------------------------------------------------------------------------------
+◆AddIn.Core.dll（核心模块）
+    有些情况下登录功能不仅仅提供用户的权限等级信息，而是还要提供一些其它信息供插件使用。为了完成此
+功能让插件引用宿主程序是不合理的。所以将插件分为两类，基础服务和一般插件。基础服务在启用闪屏前加载
+加载完成后触发事件，基础服务可以通过订阅该事件将其中的登录对话框导入到宿主中。登录对话框执行完成后
+基础服务可以获知关于登录用户的其它信息，这些信息可以通过基础服务向外提供。
+
+    ◇  在接口IServiceCollection中增加：
+           System.Collections.Generic.List<AddInParser> BaseServiceParserList { get; }
+           void SaveBsConfig(string bsConfigPath);
+           void SaveConfig();
+           void SaveBsConfig();
+    ◇  增加类StartUpEventArgs用做StartUp事件的参数。
+
+    ◇  在AppFrame类中增加:
+           public static event StartUpHandler   StartUp;
+        该事件在基本服务加载完成后触发，基础服务可以通过该事件将登陆对话框导入到AppFrame中，用于控制用户登录。一般插件可以注册该事件获取基础服务。
+
+◆AddIn.Gui.dll（界面插件）
+
+    ◇  由于核心模块的变动插件注册部分做了相应的更改。
+
+    ◇  界面元素解析器类UiElemParser和CmdParser的一些成员修改为虚拟的以方便子类改写。
+
+TR0217.AddIn.Release.1.4.0.1
+-----------------------------------------------------------------------------------
+◆AddIn.Core.dll（核心模块）
+
+    ◇  在AppFrame类中增加:
+           public void RunConfig(string uiService)
+           public void Run(string uiService)
+        用于使用指定的uiService启动程序或者配置程序。这样以来可以使用AddIn.Config.exe进行插件注册，但是使用自定义UIService启动系统。
+
+◆AddIn.Config.exe（配制工具）
+
+    ◇  限制使用"AddIn.Gui.UiService"启动配置程序。
+
+TR0217.AddIn.Release.1.4.0.0
+-----------------------------------------------------------------------------------
+◆AddIn.Core.dll（核心模块）
+
+    ◇  将AddIn.Core里的IUiService中与界面风格有关的方法移动到，新项目AddIn.UiInterface中的接口IUiExService中进行实现。
+
+
+TR0217.AddIn.Release.1.3.1.0
+-----------------------------------------------------------------------------------
+◆AddIn.Core.dll（核心模块）
+
+    ◇  在AppFrame类中增加：
+           static AppFrame Instance { get; }
+           static AppFrame GetInstance()
+           static log4net.ILog FrameLogger { get; }
+           static IServiceCollection ServiceCollection { get; }
+           UInt16 Authority { get; }
+    ◇  在AppFrame类中将GetServiceCollection的返回值从ServiceCollection修改为IServiceCollection
+    ◇  修改用户自定义UI插件不能正确加载使用的bug
+    ◇  将原来使用ServiceCollection的地方修改为使用IServiceCollection
+    ◇  完善AppFrame的单例机制，如果尝试new出多个AppFrame，则会抛出异常
+
+◆AddIn.Gui.dll（界面插件）
+
+    ◇ 完善权限级别限制功能，就是如果登录的用户无权执行某个功能则调用该功能的界面元素将会不可见。
+
+
+TR0217.AddIn.Release.1.3.0.1
+-----------------------------------------------------------------------------------
+◆AddIn.Core.dll（核心模块）
+
+    ◇  AddIn.Core.dll不再依赖界面库
+    ◇  不需要手动添加初始化配置
+
+
+◆AddIn.Gui.dll（界面插件）
+
+    ◇ 不需要手动添加初始化配置
+
+
+TR0217.AddIn.Release.1.2.0.0
+-----------------------------------------------------------------------------------
+◆AddIn.Core.dll（核心模块）
+
+    ◇  增加日志功能能，在此模块提供了一个FrameLogger用于记录加载程序集时出现的信息
+    ◇  其它的插件可以为自己配置一个日志对象，然后使用自己的日志对象来记录消息
+    ◇  增加了安全性，某个插件的错误不会影响到整个系统的启动
+
+◆AddIn.Gui.dll（界面插件）
+
+    ◇ 使用FrameLogger将界面加载时的错误记录到日志
+
+
+TR0217.AddIn.Release.1.1.0.8
+-----------------------------------------------------------------------------------
+
+◆AddIn.Core.dll（核心模块）
+
+    ◇ 为ServiceBase类增加两个虚方法——Config和About。Config方法由插件中的服务类改写以完成系统配制，About方法用于弹出关于信息。如果不重写，弹出的关于信息是注册插件是提供的信息。
+    ◇ 鉴于在其它插件服务中UiService的使用频率很高，将获取界面服务的过程纳入到ServiceBase中。可以ServiceBase的UiService属性直接获取界面服务。
+    ◇ 注册信息中增加了版本号。
+    ◇ 为IUiService增加了一个接口Config。用于弹出系统配制信息，配制信息中需要列出注册到系统中的服务，并且能够运行服务的Config和About方法。
+    ◇ AppFrame中闪屏时间更加准确。
+
+◆AddIn.Gui.dll（界面插件）
+
+    ◇ 为所有ToolStripItem类型界面元素增加AutoSize配制项，指示他们是否更具需显示的内容自动调整大小。
+    ◇ 更新ToolStripComboBox、ToolStripTextbox使其能够显示EmptyTextTip。
+    ◇ 排除了ToolStripComboBox由于TextChanged而引发SelectedIndexChanged事件的问题。在浏览器中的表现就是当选择网址ComboBox中的文字后点击界面的其它部分又重新打开当前页面。
+    ◇ 为ToolStripComboBox和ToolStripTextbox对应的界面配制项增加EmptyTextTip字段和EmptyTextTipColor字段。
+    ◇ 删除了UiService中的About方法，使用基类的方法
+    ◇ UiService中重写了Config方法完成了功能约定。
+    ◇ 由于在为ToolStripComboBox实现EmptyTextTip时使用了P/Invoke所以AddIn.Gui.dll已不能够运行于其它.NET实现上。
+    ◇ 修正偶尔会载入界面元素图片出错的问题。
+    ◇ 修正了偶尔载入住窗体图标出错的问题。
+
+◆AddIn.Config.exe（配制工具）
+（其实配制工具的运行实际上调用的UiService中的ModifyAddIns方法，所以对配制工具的更新实际上也是对AddIn.Gui.dll的更新）
+    ◇ 选取界面元素图片和主窗体图标时能够首先定位到当前程序的根目录下，并且能够识别相对路径。
+    ◇ 注册入系统中的界面插件不允许被移出，如果要移出请手动修改代码。如果需要替换界面插件可以首先将界面插件注册到系统，然后保存配制。然后打开插件注册配制文件，手动移出原来的界面插件配制项目。
+    ◇ 移出所有插件时，界面插件不会移出。
+    ◇ 解决了移出某个插件后于这个插件相关的服务仍然在界面配制页面的Service项的下拉项中出现的问题。
+    ◇ 解决了移出某个插件后于这个插件相关的服务提供的方法和事件仍然在界面配制页面的Function和UpdateEvent项的下拉项中出现的问题。

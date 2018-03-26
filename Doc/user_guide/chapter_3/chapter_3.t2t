@@ -1,0 +1,241 @@
+
+==高级主题==
+
+===创建带有Splash Screen和登陆窗体的宿主===
+
+假如使用该框架编写的系统包含很多插件，那么系统启动时加载这些插件会耗费一些时间。这样一来，当用户双击后需要等待较长的时间系统主界面才能显示出来，这是很差的用户体验；显示出一个Splash Screen将系统目前正在进行的工作告知用户，能够让用户感觉到的等待时间减少，从而提高了用户体验。
+
+有时需要对使用系统的用户进行限制，就不得不首先弹出一个登陆窗口来验证用户的身份。等到主窗口加载完成后再来验证用户的身份，是很不划算的；假如用户等待至系统启动完成后，失败地通过一次身份验证后发现忘记了口令将会是一件比较郁闷的事情，当然这也是个仁者见仁智者见智的事情。但是在这个插件框架里，如果有登录窗口的话，登录窗口将会首先弹出，如果有SplashScreen接着弹出；因为登录是在一个单独的线程里执行的，在等待用户登录的过程中可以在后台完成插件的加载；从而减少了SplashScreen的保持时间，有时候SplashScreen只用保持设定的最短时间就可以了。
+
+====创建登录窗口====
+
+如果您实际动手编写过一个宿主或者细心查看过随本文档所附带的示例代码，就会发现AppFrame类拥有两个Property——``LoginDialog``和``SplashScreen``；``LoginDialog``就是登录窗口。
+
+在宿主工程中创建一个窗体，让其实现接口``ILoginDialog``。从窗口编辑器中打开这个窗口，制作好登录窗口的外观。``ILoginDialog``有一个``ShowDialog``方法其返回值为bool，这个方法只有在窗口关闭后才返回，返回值表示用户是否确认登录。所以应该为窗口提供一个确认（或者OK以及其它能够表示这个意思的）按钮，并且让这个按钮的返回值是**DialogResult.OK**。在实现接口的``ShowDialog``方法中调用``base.ShowDialog()``，并判断其返回值是否是**DialogResult.OK**。
+```
+	public new bool ShowDialog()
+	{
+	    bool ret = (DialogResult.OK == base.ShowDialog());
+	    return ret;
+	}
+```
+
+在``ShowDialog``返回之前需要将其bool属性``Valid``设置为用户通是否过了验证。验证用户权限和这个过程可以放在确认按钮的消息处理函数中进行，如果验证过程过长可以在另外一个线程里进行。此时可以将确认按钮的DialogResult设置为None，点击确认后新开一个线程用于处理验证过程，验证过程结束后需指定对话框的返回值，并将验证结果赋值给``Valid``，下面是其实现代码。
+
+```
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            btnOK.Enabled = false;
+            _LoginThread = new Thread(new ThreadStart(Login));
+            _LoginThread.Start();
+        }
+
+        private void Login()
+        {
+            Thread.Sleep(5000);//验证用户过程,并将验证结果赋值给_valid
+            this.Invoke(new MethodInvoker(delegate() { this.DialogResult = DialogResult.OK;}));
+        }
+```
+
+====创建SplashScreen====
+
+实例化一个实现了``ISplashScreen``的类，并在类中完成SplashScreen的功能，将其赋给``AppFrame``的Property——``SplashScreen``，即可完成SplashScreen功能。还可以通过为``AppFrame``对象的``SplashInterval``属性赋值来指示SplashScreen最少展示的时间，其单位是毫秒。
+
+在宿主工程中创建一个窗体，从窗口编辑器中打开这个窗体，制作好外观。让其实现接口``ISplashScreen``。其实现代码如下。``SetInfo``用来在界面上显示系统启动中需要显示的一些信息，告诉用户系统当前正在干什么比现实一个静态的窗口要有好的多。其它两个就是显示SplashScreen和关闭SplashScreen，通过调用窗口的``ShowDialog``和``Close``方法对其进行了简单的实现。值得注意的是其中采用线程安全的调用方式，因为在``AppFrame``里SplashScreen是放在另外一个线程里使用的。
+
+```
+        public void SetInfo(string info)
+        {
+            try
+            {
+                this.Invoke(new MethodInvoker(delegate() { this.label1.Text = info; }));
+            }
+            catch
+            { }
+        }
+
+        public void CloseSplash()
+        {
+            this.Invoke(new MethodInvoker(this.Close));
+        }
+
+        public void ShowSplash()
+        {
+            this.ShowDialog();
+        }
+```
+
+此时通过编写简单如下的语句就能简单得实现登录窗口和SplashScreen。注册事件在SplashScreen上显示消息的方法可以参考在随文档的示例代码。
+
+```
+        [STAThread]
+        static void Main(string[] args)
+        {
+
+            AppFrame app = new AppFrame();
+            app.LoginDialog = new LoginDialog();
+            app.SplashScreen = new SplashWin();
+            app.SplashInterval = 8000;
+            app.Run();
+        }
+```
+
+
+===界面逻辑维护与多线程===
+
+在这个插件框架里闪屏和登陆窗口在一个线程里运行，所有的插件的服务方法都在主线程（UI线程）里运行，所以服务方法应该在不影响用户体验的时间范围内；那么遇到繁重的任务就需在服务方法里启动一个线程单独执行。有些用于操作文档对象的控件本身具有多线程的特性。比如ESRI、SuperMap的GIS基础平台软件中的三维场景控件，用于在三维中显示地理对象。它的每一个实例都使用一个线程来处理对象的渲染。那么每一个文档对象都运行在一个独立的线程当中。
+
+每个编写过.NET平台多线程的程序都应该知道，WinForm的控件是不能在非创建这些控件的线程中使用的。如果在多个线程里都触发了更新界面的事件，这样就会产生竞争访问界面元素的情形。
+
+所以如果存在多线程，发布界面元素状态事件时一定要判断发布了这个事件后界面逻辑是否合理，此外还需要考虑效率问题。
+
+对于包含多线程的文档操作控件，在直接订阅控件的事件里发布更新界面元素状态事件时一定要首先判断发布这个事件的文档窗体是否是当前文档窗体。
+
+在本浏览器插件中就有这种情况。其代码如下：
+```
+        void page_StatusTextChanged(object sender, EventArgs e)
+        {
+            PageForm page = sender as PageForm;
+
+            if (!page.IsActivated)
+                return;
+
+            if (UpdateStatus != null)
+            {
+                UpdateUiElemEventArgs arg = new UpdateUiElemEventArgs();
+                arg.Text = page.WebBrowser.StatusText;
+                UpdateStatus(this, arg);
+            }
+        }
+
+        void page_ProgressChanged(object sender, WebBrowserProgressChangedEventArgs e)
+        {
+            PageForm page = sender as PageForm;
+
+            if (!page.IsActivated)
+                return;
+
+            if (UpdateProgress != null)
+            {
+                UpdateUiElemEventArgs arg = new UpdateUiElemEventArgs();
+                arg.Count = page.Progress;
+                arg.Maximum = 100;
+                arg.Visible = page.Progress < 100;
+                UpdateProgress(this, arg);
+            }
+   }
+```
+
+由于本插件框架提供了灵活的插件之间的交互方式，用户可以获取UI 插件并取得界面元素的引用。如果用户需要直接操作界面元素，多线程运行时界面逻辑问题需要自己解决。如果调用UI插件的方法时，则不用考虑多线程问题。
+
+
+===如何建立完备的服务集合===
+
+这是一个企业级用户的命题。某个企业或某个部门通常会专注于软件的某一应用领域。随着时间的推移，当然会有很多积累。此时可以抽调人力对这些积累进行分析，从中提取出绝大多数用户都会需要的功能，将其按照相关性组织成多个插件。让这些插件构成基础服务集合，为其创建一个接口定义程序集。所有用户的特殊需求都可以实现新的插件独立完成或者与基础服务集合交互完成。
+
+每一个基础服务插件都需要引用接口定义程序集，以使接口对于所有需要交互插件是可见的。通过调用取得的服务列表的获取服务的泛型方法取得需要与之交互的服务类实例。其原型为：
+```
+	public T GetService<T>() where T : class;
+```
+
+实际上应该将T约束为接口的，但是好像目前没有这类语法支持。使用时将接口类型参数传入即可获得相应的服务类实例。为什么就一定能够获取呢？本插件框架还隐含了另外一个约定，在一个插件列表中，每一个服务接口只能有一个实现类，因为接口的每一个方法定义了唯一需要提供给用户的功能。而不是像SharpDevelop一样接口定义了一个抽象的Run方法用来完成功能。
+
+请注意，无论使用那种交互方式都不能在需要交互的时候去获取服务交互完成就将获取到的服务丢掉。凡是需要和本插件交互的插件，都应该为之声明一个成员，当接收到``FinishLoadAddIn``消息时，将其指向``从ServiceCollection``中获取的服务类的实例。下面是HelloDock程序中获取界面服务的代码。
+```
+        private IUiService _uiService;
+
+        public HelloDock()
+        {
+            AppFrame.FinishLoadAddIn += new LoadAddInHandler(AppFrame_FinishLoadAddIn);
+        }
+
+        void AppFrame_FinishLoadAddIn(LoadAddInEventArgs e)
+        {
+            _uiService = AppFrame.GetServiceCollection().GetService<IUiService>();
+        }
+```
+
+事实上界面服务并不需要获取，因为它是如此普遍的被需要以至于需要让其作为**ServiceBase**的成员。
+```
+    public abstract class ServiceBase
+    {
+        public ServiceBase();
+
+        public IUiService UiService { get; }
+
+        public virtual void About();
+        public virtual void Config();
+    }
+```
+
+
+如果一个插件和另外一个插件的交互很少，那就说明需要重新设计。对于良好的插件设计的效果是，插件之间的交互不多不少，如果太多则应该考虑他们是否应该放到一个服务中，如果太少则考虑是否将需要交互的方法从该服务中分离出去。
+
+
+===使用混淆器对插件进行版权保护时的注意事项===
+
+开发这个系统时，我就希望它非常开放的，在授权声明中已经指出您有任何使用的自由。所以您可以在商业软件中使用该插件框架而不用公开代码，并且可以对编译结果进行加密以保护知识产权。
+
+由于宿主通过注册的插件服务的类名实例化服务，并且通过接口或者方法名调用服务类提供的方法。所以使用混淆器时必须注意：
+ - 服务类的类名不得改变；
+ - 服务类的共有方法名不得改变；
+ - 服务类中用来更新界面的事件名不得改变。
+
+
+===深入到此插件框架的内部实现===
+
+====一些基本概念====
+ - 服务（Service）——提供一系列功能的对象。在这个插件框架中所有的服务类都必须继承自``ServiceBase``类。
+ - 插件（AddIn）——至少包含一个访问控制级别为``public``的服务类的程序集。
+ - 插件解析器（AddInParser）——插件解析器，用于解析插件配置文本并在需要的时候根据配置对服务类进行实例化。
+ - 服务集合（ServiceCollection）——所有服务类的实例（即服务）都包含在这个集合里。一个应用程序只有一个服务集合的实例，可以通过``AppFrame``类的静态属性获取。服务集合提供了一系列方法用于获取服务。
+ - 插件宿主应用程序（AppFrame）——在应用程序入口方法里，实例化一个``AppFrame``，调用其``Run``方法既可以创建一个插件宿主应用程序。
+
+
+====启动过程====
+
+首先一个``AppFrame``的实例被创建，然后进入``Run``方法执行。在``Run``方法里会创建一个闪屏线程，用于弹出登录对话框和显示SplashScreen。同时，在主线程里``ServiceCollection``通过``AddInParser``将所有插件信息解析出来，创建服务类的实例并将实例放到``ServiceCollection``的内部容器中；然后从``ServiceCollection``中获取UI服务，将主窗体加载出来；在主线程里等待闪屏线程结束，然后调用``Application.Run``方法将主窗体显示出来，启动应用程序。UI服务在加载主窗体时根据界面配置文件完成界面元素和服务提供的功能之间的连接。
+
+
+====系统结构图====
+
+                    [./user_guide/images/class.png]                   
+
+本插件框架只定义了一个扩展点——``IUiService``。使用该插件框架开发系统时，需要针对系统需要提供的功能自定义出所有的扩展点，然后在插件中实现。比如使用该框架开发Mini Internet Explorer的时候，就是定义了一个IMyIE接口。开发插件对系统的功能进行扩展的时候，可以将扩展功能定义为接口，也可以不定义接口。扩展功能需要和已有插件进行交互时，通过``ServiceCollection``获取已有插件。
+
+===如何替换UI插件===
+
+UI插件的开发和一般插件开发一模一样，首先创建一个类库项目，然后添加对AddIn.Core.dll的引用。新建一个类命名为MyUiService，继承自ServiceBase，实现IUiService接口。在AddIn.Core.dll中只需要使用``LoadMainForm``方法，因此只要事实上实现了``LoadMainForm``，插件框架就可以使用了。下面是一个非常简单的演示实现。
+```
+        public System.Windows.Forms.Form LoadMainForm()
+        {
+            return _mainForm = new Form1();
+        }
+
+        public System.Windows.Forms.Form MainForm
+        {
+            get { return _mainForm; }
+        }
+
+```
+
+然后手动修改插件配置文件的内容为：
+```
+<?xml version="1.0" encoding="utf-8"?>
+<AddIns>
+  <AddIn name="MyGui.MyUiService" author="" version="0.0.0.0" copyright="" url="" lazyload="False">
+    <path>.\MyGui.dll</path>
+    <description>
+    </description>
+  </AddIn>
+</AddIns>
+```
+
+编译之后，将所有有关文件集中到一起，将StartUp.exe添加进来。
+                    [./user_guide/images/mygui.jpg]                   
+
+然后执行StartUp.exe，即可将主窗体显示出来。
+                    [./user_guide/images/form1.png]                   
+
+其它的功能可以自由实现，比如界面定制、插件注册功能等。如果包含界面定制功能，界面的描述文件格式也可以完全自定义。
+

@@ -1,0 +1,412 @@
+
+==TR0217插件框架应用进阶==
+
+===规划应用程序的目录结构===
+
+在上一章的第二节//从Hello, world! 开始//中已经对此插件框架的目录结构进行了介绍。所以这一节直接进入目录规划的主题。
+
+插件框架依赖的几个基本文件（AddIn.Core.dll、AddIn.Gui.dll、log4net.dll、WeifenLuo.WinFormsUI.Docking.dll、AddIn.Config.exe）的存放位置最好保持不变，放在应用程序的根目录下，即宿主目录下。此时和Mini Internet Explorer.exe文件放在同一个目录下。
+                    [./user_guide/images/dir2.png]                    
+
+上图与上一章的第二节中的图片相比多了一个Tools文件夹。这里边放的是一些可以单独运行的小工具。这些工具是由``AddIn.Gui.UiService``的``Void Exexute(System.String)``进行调用的。这个方法的目的是执行某个路径下的应用程序。
+
+每一个插件单独放到AddIns目录下的一个文件夹里。
+                    [./user_guide/images/dir2.png]                    
+一个插件需要的固定的图片资源可以放到其下的Images文件夹里。如果有可以加载到这个插件中运行的插件再新建一个文件存放之；如MyIE_Plugin，其下存放的是可以自当前打开的页面中执行以完成某些特殊功能的Javascript。调用插件的插件的界面元素需要的图片资源直接存放到子插件的目录下。如调用解除右键菜单限制的MenuItem左侧显示的图片就存放在插件MouseUnlock目录下。
+                    [./user_guide/images/Mun.png]                    
+
+你或许会说一些插件并不是如此简单，只有一个dll文件。它很可能还需要引用其它dll文件。事实确实是这样，那么我们该如何处理呢。.NET程序启动时会首先到GAC里寻找需要的引用，然后是当前运行程序的目录，最后会查找App.Config文件中配制的目录。所以如果某些程序集只会被某个插件所引用，那么将这些程序集放到插件目录中，然后在配制文件夹中添加这个目录为引用目录。引用目录的配制节的形式为：
+
+```
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<runtime>
+		<assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+			<probing privatePath=""/>
+		</assemblyBinding>
+	</runtime>
+</configuration>
+```
+
+使用时只需要修改privatePath的值，如果有多个目录使用半角英文分号分隔。如果浏览器插件还需要引用一些只会被它使用程序集，那么把这些程序集放到MyIE目录下。然后将AddIns\MyIE增加为引用目录，即 privatePath="AddIns\MyIE"。
+
+插件运行中使用的不确定的资源，如浏览器的网站图标（FavoritesIcon），就单独存放到插件目录下的一个文件夹中。
+
+系统主要功能的帮助文档放到Help文件夹下。某个插件的帮助文档推荐放到插件的目录下，然后再重写插件服务的About方法时，给出交互界面将帮助文档显示出来。
+
+
+
+===如何使用日志系统===
+
+本框架的日志系统采用的是开源日志系统——log4net。在此采用了将日志对象在配制文件中进行说明，然后在类中通过``log4net.LogManager.GetLogger``方法获取这个日志对象。如，在Log.Config中使用下面一节配制了一个日志对象，名称为"AddIn.Core"。
+```
+		<logger name="AddIn.Core">
+			<level value="DEBUG"/>
+			<appender-ref ref="CoreLogFileAppender" />
+		</logger>
+```
+在AppFrame类中使用``GetLogger``方法通过日志名称获取了这个日志对象。
+```
+public static log4net.ILog FrameLogger = log4net.LogManager.GetLogger("AddIn.Core");
+```
+
+为了让您能够更好的使用日志系统，在此，对log4net进行一个简要的说明，更细致的消息请参考log4net的帮助。在下面列出几个log4net的汉语参考：
+- [Log4Net使用指南  http://www.cnblogs.com/dragon/archive/2005/03/24/124254.html]
+- [日志系统Log4net的学习手记系列  http://blog.sina.com.cn/s/blog_4849e97e010004i5.html]
+- [Log4net源码分析  http://blog.csdn.net/Maths_bai/archive/2010/12/14/6075183.aspx]
+-
+
+在log4net中所有与日志有关的对象都配制在配制文件的``log4net``节。首先需要在``configSections``节对``log4net``节进行必要的说明。
+```
+	<configSections>
+		<section name="log4net" 
+                type="log4net.Config.Log4NetConfigurationSectionHandler, 
+                log4net-net-1.0" 
+		/>
+	</configSections>
+```
+然后在``log4net``配制各种日志对象。
+```
+	<log4net>
+		
+		<root>
+			<level value="DEBUG" />
+			<appender-ref ref="ConsoleAppender" />
+		</root>
+
+		<appender name="ConsoleAppender"  type="log4net.Appender.ConsoleAppender" >
+			<layout type="log4net.Layout.PatternLayout">
+				<param name="ConversionPattern"  value="%d [%t] %-5p %c [%x] &lt;%X{auth}&gt;%n - %m%n" />
+			</layout>
+		</appender>
+
+		<logger name="AddIn.Core">
+			<level value="WARN"/>
+			<appender-ref ref="CoreLogFileAppender" />
+		</logger>
+
+		<appender name="CoreLogFileAppender"  type="log4net.Appender.FileAppender" >
+			<param name="File" value="Log\\Core.log" />
+			<param name="AppendToFile" value="false" />
+			<layout type="log4net.Layout.PatternLayout">
+				<param name="ConversionPattern"  value="%d [%t] %-5p %c [%x] &lt;%X{auth}&gt;%n - %m%n" />
+			</layout>
+		</appender>
+		
+	</log4net>
+```
+
+log4net中的日志对象有：
+- logger，实现了ILog接口。通过调用logger的不同方法来记录不同级别的日志。logger拥有一个记录级别，如果需要记录的日志的级别低于这个logger的级别这个日志就不会被记录。如名称为"“AddIn.Core”的日志对象的级别为“WARN”，则调用Info和Debug方法就不能将日志信息输出到目标。
+
+|| 级别     | 方法             | 是否有效             | 说明           |
+| OFF       |                  |                      | 不记录任何日志 |
+| FATAL     | void Fatal(...); | bool IsFatalEnabled; | 严重错误       |
+| ERROR     | void Error(...); | bool IsErrorEnabled; | 错误           |
+| WARN      | void Warn(...);  | bool IsWarnEnabled;  | 警告           |
+| INFO      | void Info(...);  | bool IsInfoEnabled;  | 消息           |
+| DEBUG     | void Debug(...); | bool IsDebugEnabled; | 调试消息       |
+| ALL       |                  |                      | 所有消息       |
+	//（日志级别从上到下递减。）//
+
+在Log.Config中可以看到``root``节的配制内容和``logger``节的内容很相似。其实``root``节也配制了个日志对象。由于在实际应用中，许多logger可能具有相同的特点，便将这些相同的特点配制进``root``节中，在``logger``节中就不用再配制了。在上面的配制文件中``root``拥有一个名称为“ConsoleAppender”的日志对象，则所有的日志都会拥有这么一个appender对象。``root``的日志级别为``DEBUG``，如果不现实指名logger的级别，则默认为``DEBUG``级别。
+
+- appender，定义了存储日志的目标和方式。一个logger对象可以包括多个appender对象。一个appender对象也可以被多个logger对象引用。logger实际上是通过appender对象将日志信息记录到目的地的。
+
+appender对象可以通过单独的一节配制，如上面的配制文件中的“ConsoleAppender”。在日志节中通过appender-ref属性指名对其引用，如``<appender-ref ref="ConsoleAppender" />``。
+
+- filter，有些时候需要对日志的过滤条件并不是低于某个级别的日志就不记录。所以就需要为appender对象指定一个filer对象来对日志进行过滤。在log4net.Filter的名字空间下已经有几个预定义的过滤器，完全满足日常需要，具体配制方法参考官方的使用手册。
+
+- layout，日志需要按一定的格式输出，所以appender对象还拥有一个layout对象。
+-
+
+打开Mini Internet Explorer的Log.Config文件会发现其中多了两部分内容。
+```
+		<logger name="MyIE.MyIEService">
+			<level value="ERROR"/>
+			<appender-ref ref="MyIELogFileAppender" />
+		</logger>
+
+		<appender name="MyIELogFileAppender"  type="log4net.Appender.FileAppender" >
+			<param name="File" value="Log\\MyIE.log" />
+			<param name="AppendToFile" value="true" />
+			<layout type="log4net.Layout.PatternLayout">
+				<param name="ConversionPattern"  value="%d [%t] %-5p %c [%x] &lt;%X{auth}&gt;%n - %m%n" />
+			</layout>
+		</appender>
+```
+在一个新的logger节定义了一个名称为``MyIE.MyIEService``的logger。这个logger对象使用了一个名称为“MyIELogFileAppender”的appender对象，其配制信息紧随其后。
+type属性说明这是一个文件类型的appender，将会把日志输出到文件。第二行使用value字段指明File的位置为"Log\\MyIE.log"。第三行指明日志的输出类型为追加到末尾，如果将value的值修改为false，系统每次启动都会清除上一次运行记录的日志。
+
+	（//以后的章节中将会以Mini Internet Explorer为例，从实际应用方面对此插件框架的使用进行讲解//）
+
+===设计插件的接口===
+
+这个插件框架的目标是快速创建可定制的应用系统，注册到系统中的插件的目标在于满足用户的需求，而不是提供开发应用系统的基础功能组件。所以从上至下的插件开发过程是合适的，即首先需要提供给用户的功能和用户的交互方式确定下来。
+
+基础功能是什么呢？它是不需要用户直接调用从而应该对用户隐藏的功能。比如，为了开发多语言版本的系统，通常需要文本字典功能，用于将用户关键字映射为各种语言的版本，提供字典功能的组件就不应该设计为插件。这样做的好处有很多。
+- 首先，可复用性提高了；这种组件非常有可能用到不使用此框架开发的系统 。
+- 第二，减少用户破坏系统配置的可能性；用这个插件框架开发的系统是允许用户定制的，如果注册到系统中的与用户需求无关的插件越多，用户错误地订制系统的几率就越大。
+-
+
+所以设计在本框架中使用的插件的第一指导原则就是尽量不考虑将基础功能设计为插件（其实使用Sharpdevelop之类的插件框架也一样）。当然在设计插件接口时也不要加入一些提供基础功能的接口。唯一的特例就是，这些基础功能不可能在别的地方重用，而是为需要注册到这个系统中的全部或者绝大多数插件提供基础服务时，才能将这些功能设计为基础插件。提供届面服务的AddIn.Gui.dll插件便是这种情形。
+
+第二个指导原则，相关性强的一系列功能应该作为同一个类的成员方法，用于更新调用这些功能的界面元素状态的事件（将在下一章详细讲解）也应该包含在这个类中。插件的目标在于满足用户需求，所以在设计插件的接口时应该从用户的需求入手。设计时不仅要考虑到需要向用户提供的功能，还要考虑到功能之间的相关性和流程性。相关性和流程性就是通过更新界面元素状态体现出来的。
+
+下面以这个浏览器为例进行说明。
+
+首先需要分析用户对于浏览器的功能需求。当然，浏览器的第一功能就是浏览某个网址。接下来就是与浏览网页有关的一系列功能：当用户向前浏览后可以后退，后退之后可以前进；有些时候需要刷新和停止某个页面；有时候需要在页面中查找某个关键字。
+
+由此便可以设计出浏览器最基本的接口。接下来要考虑这些功能之间的关联性——完成某个功能的先决条件和功能完成后的后续结果。只有向前浏览之后才可以后退——向前浏览便是后退的先决条件，可以后退便是向前浏览的后续结果。这种相关性便需要用事件来完成，这些事件最终会被插件框架订阅用来更新调用这些功能的界面元素的状态。
+
+考虑到这个一个标签式多文档界面的插件框架，当然也会实现为一个标签式的多页浏览器。还需要一些与页面有关的基本功能。如，关闭当前页面，关闭所有页面，关闭所有非当前页面，恢复最近关闭的页面等。
+
+综合所有常用的需求，以及我们对浏览器一些其它需求，比如解除右键菜单，清除页面上的飞行广告，让页面变成某种适合阅读的颜色，将页面内容保存为图片，截取页面上某部分内容为图片等。我们设计出了Mini Internet Explorer中的MyIE插件的接口。
+
+到此为止仍然让我们疑惑的或许就是下面这些事件了。这就是用来维护界面逻辑的事件，将在下一章详细讲解。
+```
+        //用于页面关闭后维护界面逻辑的事件
+        event AddIn.Core.UpdateUiElemHandler UpdateClose;
+        //用于页面下载完成后更新界面逻辑
+        event AddIn.Core.UpdateUiElemHandler UpdateComplete;
+        //用于确认是否可以进行后退操作，以更新完成后退功能的界面元素的状态
+        event AddIn.Core.UpdateUiElemHandler UpdateGoBack;
+        //用于确认是否可以进行前进操作，以更新完成前进功能的界面元素的状态
+        event AddIn.Core.UpdateUiElemHandler UpdateGoForward;
+        ……
+```
+
+===怎么维护界面逻辑===
+
+上一节设计出的插件的接口中除了UpdateUiElemHandler，其它的都好理解。虽然前文已经指明插件框架靠订阅这些事件来更新界面元素的状态，但是插件怎么得知需要更新界面元素至什么状态。
+
+界面元素的状态在第一章的第三节已经有所提及。它包括界面元素的Enabled、Checked、Visible属性，界面上显示的文字，选项界面元素（如：ListBox、ComboBox）的选择项或者选择索引，能提供数值的界面元素（如：ProgressBar）的数值等。这些都是可以用来指示系统当前所处的状态和用户下一步可进行的操作。
+
+UpdateUiElemHandler的原型如下：
+```
+    public delegate void UpdateUiElemHandler(object sender, UpdateUiElemEventArgs e);
+
+    public class UpdateUiElemEventArgs : EventArgs
+    {
+        private bool _checked;
+        private bool _enabled;
+        private bool _visible;
+        private int _count;
+        private int _maximum;
+        private string _text;
+        private object _value;
+    }
+```
+
+值得注意的是UpdateUiElemHandler的最后一个参数——UpdateUiElemEventArgs的实例。正是这个实例将界面元素需处于的状态传递给插件框架的。插件框架对这个类的各个成员有标准的理解，所以在编写方法时如果需要更新界面状态就要按插件框架的理解为它的实例赋值。
+
+- Checked——用于设置界面元素十分应该处于选中状态。
+- Enabled——用于设置界面元素的可用性。
+- Visible——用于设置界面元素的可见性。
+- Count——用于更新界面元素的数值属性。
+- Maximum——用于确认界面元素数值属性的最值。
+- Text——用于更新显示在界面上的文本。
+- Value——用于更新各种界面元素的各种其它值。也用来设置Combox或者其它选项类控件的选定值，或者选项类控件中添加值。
+- 
+
+在这个浏览器中将前进和后退的按钮的UpdateEevent分别设置为UpdateGoForward和UpdateGoBack，初始状态都设置为false。
+当在当前页面中向前浏览后，需要发布UpdateGoBack事件将参数的Enabled字段设置为true；向后浏览后需要进行类似的操作。
+当切换页面后需要发布UpdateGoForward和UpdateGoBack事件，用于让启用和停用前进和后退按钮以指示在当前页面中是否可进行前进和后退操作。当然在发布这些事件时Checked应为false，Visible应该为true。
+
+在状态栏中的一个进度条的UpdateEvent设置UpdateProgress，用于指示当前页面的打开进度。当当前页面的下载进度发生变化时发布UpdateProgress事件，将参数的Count设置为当前的进度值，Maximum设置为下载完成时的进度值，Visible、Enabled、Checked保留默认值，分别为true，true，false。框架在设置ProgressBar的进度值使用的计算公式为Count*ProgressBarMaximum/Maximum。
+
+状态栏中还有一个文本框，其Enabled的属性始终都是false。其显示出来的文字用于指示当前使用的默认搜索引擎。它的更新事件为UpdateSearchEngine。当默认搜索引擎发生变化时，发布此事件，将Text字段设置为当前默认搜索引擎的名称，Enabled字段设置为false。
+
+对于输入网址的组合框，不仅要更新其显示的文字，有时还要想其下拉列表中添加历史访问记录。在此种情况下本框架约定：
+	如果参数的Text成员不等于null或Empty，首先将选项类控件的显示文本设置为Text，并且约定不引发SelectedIndexChanged事件。对于ComboBox来说，如果Text不等于null就将ComboBox的显示文本设置为Text。当Value成员也不为null时，就将Value对象插入到选项类控件成员容器的第一个位置。对于ComboBox 来说，就是将Value插入到Items的索引为0的位置。此时会检查选项类控件的子项目是否多于Maximum个，如果多于Maximum就从最后移出一个，对于ComboBox，就是移出Items的最后一项。
+
+	否则，首先判断Count是否是一个合适的SelectedIndex。如果是将选项类控件的选择索引设置为Count，此时引发SelectedIndexChanged事件。如果不是一个合适的SelectedIndex则测试Value是否是null，如果不为null，就将选项类控件的选择项设置为value。如果替换了本框架的UI 插件，且本UI组件的选项类控件的选择项对象比较大，请不要使用Value更新选择项。
+
+
+===文档窗体、工具窗体和对话框===
+
+所有功能强大的应用程序中都有三种窗体——对话框、文档窗体、工具窗体。
+
+对话框是一种非常简单的窗体，都以模态弹出，即对话框弹出时在当前应用程序中只能在对话框上进行操作。
+对话框的作用是让用户做出简单的选择或者提供一些必要的输入。
+比如，在用户退出程序时如果有没有保存的改变，应该弹出对话框询问用户是否保存。打印文档时弹出对话框让用户输入打印的页码范围、份数，选择打印机等。在.NET环境中，已经提供多种进行基本操作的对话框，这些对话框运行时会和系统的风格保持一致。
+
+文档窗体是用来表现用户数据的，它最明显的特征是可以拥有多个实例，单文档应用系统除外。
+大多数情况下，文档窗体需要以一定的布局显示到应用程序主窗体内部。
+对于插件框架来说，就是文档窗体的显示需要框架的管理。所以插件提供了DocFormBase这样一个文档窗口基类。使用此插件框架时所有文档窗体都需要继承自此类。
+此类不仅提供用于管理文档窗口布局的基本功能，还自动获取配置给某类文档窗口的弹出菜单。
+对于某个窗口一般需要两种文档菜单，一个在右击标题栏时弹出，用于控制整个文档，如关闭、保存等；另一个在右击文档内容时弹出用于对文档内容进行编辑。
+DocFormBase提供了两个property用于获取配置到窗口标题栏和客户区的右键菜单。
+
+```
+        public ContextMenuStrip ContextMenuStripCaption
+        {
+            get { return _contextMenuStripCaption; }
+        }
+
+        public ContextMenuStrip ContextMenuStripClient
+        {
+            get { return _contextMenuStripClient; }
+        }
+```
+
+所以将右键菜单指定给某个窗体时一定要指明所属位置。如下图，这个右键菜单指定给页面文档的标题栏。
+                    [./user_guide/images/cms.png]                   
+
+
+工具窗口用来控制用户数据或者提供其它与操作文档不冲突的功能，即不需要以模态形式显示，比如Visual Studio中的工具栏和解决方案管理器。
+工具窗口的特性是只有一个实例或者至少让用户感觉只有一个实例。肯定不能让用户点击一次“显示工具栏”菜单就新显示一个工具栏。单是为了内存使用效率，也最好让工具窗口只有一个实例。
+工具窗口一般有两种类型，第一种就像Visual Studio的工具栏，需要停靠到主窗体中。这中工具窗口需要插件框架来管理其显示。另一种像对话框一样是弹出窗口，但是不是模态的，这种工具窗口不需要插件管理器显示。在本框架中只提供了第一种工具窗口的基类ToolWinBase。它同样可以自动获得配置给本类工具窗口的弹出菜单，当然也提供了同样的用于获得弹出菜单的property。
+
+===创建文档模型实现文档窗口===
+
+建立好需要处理的文档的模型，然后新建一个窗体或者类让其继承自DocFormBase。在文档窗体中实现一些方法用于将文档对象显示出来，并且提供一些浏览功能。这样一个文档窗口就算完工了。
+
+事实上，现在绝大多数组件产品对于文档对象都提供了对应的控件来显示浏览甚至是编辑，就像WebBrowser控件一样。仅仅将他们拖放到新建的文档窗口上，Dock属性设为Fill。运行时，将文档对象和控件关联起来，控件立刻就能显示出文档对象，并能提供浏览、编辑等功能。
+
+对于那些自定义的文档对象，也希望你能够编写这样的控件。这样做能够实现更高级的重用性，对程序的模块划分也更加明确，维护起来也更加容易。
+
+创建好文档窗口后仍然有些问题需要考虑。界面元素需要指示的指示当前文档内容的状态。当切换文档窗口后，需要获得新激活的窗口关联的文档的内容的状态。所以在多文档系统中每一个文档窗口还要记录文档内容的状态，如果文档对象没有记录的话。
+
+首先需要分析的是有那些状态是需要记录。对网页来说，页面的下载进度，是否可以前进或者后退，当前的地址就是必须记录的状态。对于其它文档来说还需要记录文档内容与打开时相比是否改变了，是否有操作可以撤销，是否有操作可以重做，剪贴板上是否有内容可粘贴，是否需要指示文档中选中项的格式等信息，需要在状态栏显示的文本以及一些其它的自定义信息等。
+
+在Mini Internet Explorer中将一个扩展后的WebBrowser拖放到继承自DocFormBase的窗体（PageForm）内就完成了页面窗口。
+由于WebBrowser的Progress和Complete存在不一致性，所以要在PageForm中实现了两个Property用于确认当前框架是否下载完成，以及当前框架的下载进度，用于分别更新表示进度的ProgressBar的可见性和进度值。
+```
+        public bool Complete
+        {
+            get { return _complete; }
+        }
+
+        public int Progress
+        {
+            get { return _progress; }
+        }
+```
+
+此外，还须要将WebBrowser的一些表示页面状态改变的事件发布出来。有两种方式可以选择，第一种直接通过属性取得WebBrowser，然后直接订阅WebBrowser的事件；另一种就是将在PageForm中订阅WebBrowser的事件再重新发布。推荐以第一种方式进行，如果要对状态进行预处理则采用第二种方式。 
+
+===何时发布更新界面事件===
+
+通常插件向用户提供的某些功能完成后，必然会导致文档中的数据发生改变。所以首要的发布更新界面事件的时机就是在完成用户功能的方法退出时。
+
+当然有些时候并非只有显式的通过界面元素实现的功能才会导致文档数据的改变。用来显示、浏览、编辑用户数据的控件可能实现了一些右键菜单功能或者快捷键，这些操作同样会导致文档数据的改变。
+对于优秀的此类控件都会在文档数据的不同改变时发布相应事件。所以在打开或者新建一个新文档的方法完成时，应该订阅这些文档的数据改变事件以便在数据改变时发布更新界面事件。
+
+这便引发了一个问题，手动调用提供给用户的功能后通常也会导致控件发布数据改变事件。如果一次数据改变发布两次界面更新事件是很低效的做法。使用本插件框架时应该详细思考并作出协调。
+其实并非只有使用本插件框架时需要注意这个问题，采用普通方式编写程序时也需要注意这个问题。
+
+由于界面元素始终要表示的是当前文档的状态，所以在文档窗口激活或者失活时需要发布更新界面的所有事件。如果系统支持一种文档类型，则可以只在文档窗口激活或失活时发布事件。如果系统支持多种类型的文档就需要在激活和失活时都发布这些事件。这是由于，如果有多种文档类型，当新激活的文档类型和原来的活动文档类型不同时，需要改变的界面元素很可能和激活同类型文档时不同。而表示原来文档状态的界面元素应该处于不可用状态。
+
+推荐的做法是在激活和失活时都发布更新界面事件。插件框架是灵活的，非常有可能加入另外一个插件就会引入一种新的文档类型。
+
+这些问题其实在使用普通方式编写WinForm应用程序时也应该注意。在下一节会涉及到另外一个主题，多线程与界面元素。其中也有部分关于发布更新界面事件的注意事项。
+
+
+===和AddIn.Gui交互，创建收藏菜单和收藏工具条===
+
+系统的运行界面并非被界面说明文件完全限制给此插件框架带来了更大的灵活性。对这个浏览器来说，就是可以根据实际情况创建收藏菜单和收藏工具条。
+
+首先需要在界面上配置好收藏菜单和收藏工具条。在IE插件中获取UI服务之后立即通过唯一名称或者路径获取对它们的引用。
+```
+            _services = AppFrame.GetServiceCollection();
+            _uiService = (IUiService)_services.GetService("AddIn.Gui.UiService");
+            _uiService.MainForm.WindowState = FormWindowState.Maximized;
+
+            _favoritesMenu = _uiService.GetToolStripItem("MenuStrip/收藏(&B)/") as ToolStripMenuItem;
+            _favoritesMenu.DropDownItems.Add(new ToolStripSeparator());
+            _tsmi = _favoritesMenu;
+            _favoritesStrip = _uiService.GetToolStrip("ts1", true);
+```
+
+由于同时需要对收藏夹的结构创建收藏菜单、收藏工具条、收藏夹工具栏中的树形结构。所以有必要新建一个类``FavoritesAgent``用于对收藏夹结构进行代理和管理。
+为了减少对收藏夹树的遍历次数同时为了降低耦合性，让``FavoritesAgent``在初始化收藏夹树的时候发布事件，然后按照需要订阅这个事件创建收藏菜单、收藏工具条
+。收藏夹菜单和收藏夹工具条的树形结构中子节点都需要添加到父节点的节点容器中，如下图，代表各个大牛博客网址的MenuItem需要添加到代表代表“大牛的博客”的文件夹的MenuItem的``DropDownItems``中。
+                    [./user_guide/images/favorite.png]                    
+
+所以子节点在创建之前父节点必须已经被创建了，也就是``FavoritesAgent``中加载父节点加载事件必须在子节点加载之前；因而``FavoritesAgent``中加载收藏夹树时应该采用先根遍历的方式。请注意下面的代码，文件夹的处理放在链接文件之前。由于收藏夹中文件夹和链接文件的层次不同在收藏工具条中要使用不同的界面元素代表，所以发布事件时还需将``_level``信息一并发送出去。
+```
+        int _level = 0;
+        private void ProcessFavoritesDir(FavoritesDir favoritesDir)
+        {
+            _level++;
+
+            foreach (string dir in Directory.GetDirectories(favoritesDir.Path))
+            {
+                FavoritesDir fDir = new FavoritesDir();
+                fDir.Path = dir;
+                favoritesDir.FavoritesDirList.Add(fDir);
+                if (FavoritesAgent.OnAddFavoritesItem != null)
+                {
+                    FavoritesEventArgs arg = new FavoritesEventArgs(_level, fDir, null);
+                    FavoritesAgent.OnAddFavoritesItem(this, arg);
+                }
+                this.ProcessFavoritesDir(fDir);
+            }
+
+            foreach (string file in Directory.GetFiles(favoritesDir.Path))
+            {
+                if (file.EndsWith(".url", true, null))
+                {
+                    UrlFile urlFile = new UrlFile();
+                    urlFile.FromFile(file);
+                    favoritesDir.UrlFileList.Add(urlFile);
+                    if (FavoritesAgent.OnAddFavoritesItem != null)
+                    {
+                        FavoritesEventArgs arg = new FavoritesEventArgs(_level, null, urlFile);
+                        FavoritesAgent.OnAddFavoritesItem(this, arg);
+                    }
+                }
+            }
+            _level--;
+        }
+```
+
+接下来就是订阅事件创建收藏夹菜单和收藏工具条了。同样由于子节点需要放入父节点的容器中，所以在处理子节点时能够获取对树节点的引用。下面以收藏工具条为例说明如何编写处理``OnProcessFavoritesStrip``事件的代码。下面那个level表示当前处理的层次的父层。对其的更新放在创建收藏菜单的代码中，查看源码可以看到其方法的最后一句是``_level2 = e.Level;``。
+```
+        int _level2 = 0;
+        ToolStripDropDownItem _tsddi;
+        void FavoritesAgent_OnProcessFavoritesStrip(object sender, FavoritesEventArgs e)
+        {
+                ToolStripItem tsi = null;
+                ToolStripItemCollection tsic = null;
+
+                if (e.Level == 1)
+                {
+                    if (e.UrlFile != null)
+                    {
+                        tsi = this.CreateToolStripButton(e.UrlFile);
+                    }
+                    else
+                    {
+                        tsi = this.CreateToolStripDropDownButton(e.FavoritesDir);
+                    }
+                    tsic = _favoritesStrip.Items;
+                }
+                else
+                {
+                    this.ResetTsi(e.Level, _level2);
+                    if (e.UrlFile != null)
+                    {
+                        tsi = this.CreateToolStripMenuItem(e.UrlFile);
+                    }
+                    else
+                    {
+                        tsi = this.CreateToolStripMenuItem(e.FavoritesDir);
+                    }
+
+                    tsic = (_tsi as  ToolStripDropDownItem).DropDownItems;
+                }
+
+                tsic.Add(tsi);
+                _tsi = tsi;
+
+                _level2 = e.Level;
+        }
+```
+
+声明一个``ToolStripDropDownItem``类型的成员``_tsddi``用于保留在创建收藏夹工具条菜单项时当前父界面元素的引用。在事件信息中，如果``e.UrlFile != null``说明当前加载的是链接文件，否则就是收藏夹下面的文件夹。由于是先根遍历，所以首先处理的肯定是文件夹；否则，只能说明收藏夹下面没有其它的文件夹。
+根据约定收藏夹下的第一层文件夹的level为1，所以首先执行的是最外层else块的``if (e.Level == 1)``子块。结果是将代表这个文件夹的``ToolStripDropDownButton``添加到收藏工具条中，且使``_tsddi``指向它。
+接下开始解析这个文件下的文件夹，执行的是最外层else块的else子块，此时``e.Level``显然大于0。执行的结果是将代表这个文件夹的``ToolStripMenuItem``添加到``_tsddi``中，即添加到代表上层文件夹的界面元素的子元素集合中，然后将``_tsddi``指向这个``ToolStripMenuItem``。
+如此往复只到某个文件夹下全是链接文件或者什么都没有，然后开始回到上一层开始开始处理下一个文件夹，就这样处理完所有收藏夹中的内容。
+

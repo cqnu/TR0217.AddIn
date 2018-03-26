@@ -1,0 +1,2236 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META NAME="generator" CONTENT="http://txt2tags.sf.net">
+<TITLE>TR0217插件框架用户手册</TITLE>
+</HEAD><BODY BGCOLOR="white" TEXT="black">
+<P ALIGN="center"><CENTER><H1>TR0217插件框架用户手册</H1>
+<FONT SIZE="4">
+<I>唐锐</I><BR>
+更新时间: 05/23/12 22:34:02
+</FONT></CENTER>
+
+<A NAME="toc1"></A>
+<H1>目录</H1>
+<HR NOSHADE SIZE=1>
+  <UL>
+  <LI><A HREF="#toc1">目录</A>
+  <LI><A HREF="#toc2">前言</A>
+    <UL>
+    <LI><A HREF="#toc3">本手册使用的格式约定</A>
+    <LI><A HREF="#toc4">手册内容的组织结构</A>
+    <LI><A HREF="#toc5">您预先需要掌握那些知识</A>
+    <LI><A HREF="#toc6">怎样使用本手册</A>
+    </UL>
+  <LI><A HREF="#toc7">第一部分 概览</A>
+    <UL>
+    <LI><A HREF="#toc8">首先，您想问？</A>
+      <UL>
+      <LI><A HREF="#toc9">它是什么类型的插件框架？</A>
+      <LI><A HREF="#toc10">为什么我会需要这样一个插件框架？</A>
+      </UL>
+    <LI><A HREF="#toc11">更进一步的信息</A>
+      <UL>
+      <LI><A HREF="#toc12">它能够运行在那些平台上？</A>
+      <LI><A HREF="#toc13">有那些成功的应用案例？</A>
+      <LI><A HREF="#toc14">需要付钱吗？从哪里可以获得？</A>
+      <LI><A HREF="#toc15">如何获得技术支持？</A>
+      </UL>
+    <LI><A HREF="#toc16">授权与责任声明</A>
+      <UL>
+      <LI><A HREF="#toc17">授权</A>
+      <LI><A HREF="#toc18">责任声明</A>
+      </UL>
+    <LI><A HREF="#toc19">关于插件框架的一般性问题</A>
+      <UL>
+      <LI><A HREF="#toc20">插件框架的基本任务</A>
+      <LI><A HREF="#toc21">不得不考虑的界面设计原则</A>
+      <LI><A HREF="#toc22">使用任何一款插件框架都需要注意的问题</A>
+      <LI><A HREF="#toc23">插件框架还需要完成那些任务</A>
+      </UL>
+    </UL>
+  <LI><A HREF="#toc24">第二部分 使用指南</A>
+    <UL>
+    <LI><A HREF="#toc25">TR0217插件框架入门</A>
+      <UL>
+      <LI><A HREF="#toc26">TR0217插件框架简介</A>
+      <LI><A HREF="#toc27">从Hello, world! 开始</A>
+      <LI><A HREF="#toc28">显示在停靠窗口中的Hello, world!</A>
+      <LI><A HREF="#toc29">事实上，我想说Hi, beauty!</A>
+      <LI><A HREF="#toc30">我要问候任何一个想打招呼的对象</A>
+      <LI><A HREF="#toc31">插件间的两种交互方式</A>
+      <LI><A HREF="#toc32">内容回顾</A>
+      </UL>
+    <LI><A HREF="#toc33">TR0217插件框架应用进阶</A>
+      <UL>
+      <LI><A HREF="#toc34">规划应用程序的目录结构</A>
+      <LI><A HREF="#toc35">如何使用日志系统</A>
+      <LI><A HREF="#toc36">设计插件的接口</A>
+      <LI><A HREF="#toc37">怎么维护界面逻辑</A>
+      <LI><A HREF="#toc38">文档窗体、工具窗体和对话框</A>
+      <LI><A HREF="#toc39">创建文档模型实现文档窗口</A>
+      <LI><A HREF="#toc40">何时发布更新界面事件</A>
+      <LI><A HREF="#toc41">和AddIn.Gui交互，创建收藏菜单和收藏工具条</A>
+      </UL>
+    <LI><A HREF="#toc42">高级主题</A>
+      <UL>
+      <LI><A HREF="#toc43">创建带有Splash Screen和登陆窗体的宿主</A>
+      <LI><A HREF="#toc44">界面逻辑维护与多线程</A>
+      <LI><A HREF="#toc45">如何建立完备的服务集合</A>
+      <LI><A HREF="#toc46">使用混淆器对插件进行版权保护时的注意事项</A>
+      <LI><A HREF="#toc47">深入到此插件框架的内部实现</A>
+      <LI><A HREF="#toc48">如何替换UI插件</A>
+      </UL>
+    </UL>
+  <LI><A HREF="#toc49">第三部分 编程参考</A>
+    <UL>
+    <LI><A HREF="#toc50">AppFrame</A>
+      <UL>
+      <LI><A HREF="#toc51">属性</A>
+      <LI><A HREF="#toc52">方法</A>
+      <LI><A HREF="#toc53">事件</A>
+      </UL>
+    <LI><A HREF="#toc54">ServiceCollection/IServiceCollection</A>
+      <UL>
+      <LI><A HREF="#toc55">属性</A>
+      <LI><A HREF="#toc56">方法</A>
+      <LI><A HREF="#toc57">事件</A>
+      </UL>
+    <LI><A HREF="#toc58">UiService/IUiService</A>
+      <UL>
+      <LI><A HREF="#toc59">属性</A>
+      <LI><A HREF="#toc60">方法</A>
+      </UL>
+    <LI><A HREF="#toc61">AddInParser</A>
+      <UL>
+      <LI><A HREF="#toc62">属性</A>
+      <LI><A HREF="#toc63">方法</A>
+      </UL>
+    <LI><A HREF="#toc64">ILoginDialog</A>
+      <UL>
+      <LI><A HREF="#toc65">属性</A>
+      <LI><A HREF="#toc66">方法</A>
+      </UL>
+    <LI><A HREF="#toc67">ISplashScreen</A>
+      <UL>
+      <LI><A HREF="#toc68">方法</A>
+      </UL>
+    <LI><A HREF="#toc69">LoadAddInEventArgs</A>
+      <UL>
+      <LI><A HREF="#toc70">属性</A>
+      </UL>
+    <LI><A HREF="#toc71">LoadMainFormEventArgs</A>
+      <UL>
+      <LI><A HREF="#toc72">属性</A>
+      </UL>
+    <LI><A HREF="#toc73">UpdateUiElemEventArgs</A>
+      <UL>
+      <LI><A HREF="#toc74">属性</A>
+      </UL>
+    </UL>
+  <LI><A HREF="#toc75">附录</A>
+    <UL>
+    <LI><A HREF="#toc76">推荐的第三方界面组件</A>
+    </UL>
+  </UL>
+
+<HR NOSHADE SIZE=5>
+<A NAME="toc2"></A>
+<H1>前言</H1>
+<A NAME="toc3"></A>
+<H2>本手册使用的格式约定</H2>
+<P>
+为了更加清晰的组织文档内容，本手册采用如下的内容约定。
+</P>
+<P>
+句子中的<B>粗体关键字</B>表示<B>强调</B>。
+</P>
+	<BLOCKQUOTE>
+	<I>缩进一个Tab宽度的斜体段落表示<B>引用</B></I>
+	</BLOCKQUOTE>
+<P></P>
+	<BLOCKQUOTE>
+	（<I>缩进一个Tab宽度的斜体且用括号包围的段落表示<B>提示</B></I>）
+	</BLOCKQUOTE>
+<P></P>
+	<BLOCKQUOTE>
+	（<B><I>缩进一个Tab宽度的斜体加粗的且用括号包围的段落表示<U>重要提示</U></I></B>）
+	</BLOCKQUOTE>
+<P></P>
+<P>
+代码片断缩进一个Tab宽度，其格式如下所示
+</P>
+<PRE>
+  	static void Main(string[] args)
+  	{
+  		AppFrame app = new AppFrame();
+  		app.Run();
+  	} 
+</PRE>
+<P></P>
+<P>
+存在于句子中的<CODE>这种格式</CODE>表示<B>类名</B>、<B>实例名</B>、<B>方法名</B>，如<CODE>AppFrame</CODE>。
+</P>
+<P>
+<A HREF="http://tr0217.blog.163.com/">这表示一个链接</A>，默认在当前窗口中打开这个链接。如果它不是链接到本手册某一章节的内容的话，请不要随意单击它，以防干扰您阅读的流畅性。
+</P>
+<A NAME="toc4"></A>
+<H2>手册内容的组织结构</H2>
+<P>
+为了方便您的使用，将本手册分为五部分。
+</P>
+<P>
+<B>前言</B>部分的目的在于让您能够更好的使用本手册。其包含的内容有文档格式约定、手册的组织结构、首先需要掌握的知识以及为不同的角色推荐了不同的阅读方案。
+</P>
+<P>
+<B>概览</B>部分从总体上对此插件框架进行了介绍，并且讲述了一些必须了解的关于此插件框架使用方面的内容，如怎么获取免费授权、怎么获得技术支持等。为了让您能够将此插件框架或者其它插件框架的作用发挥到极致，本部分还讲述了使用任何一款插件框架都需要注意的问题。
+</P>
+<P>
+<B>使用指南</B>部分循序渐进地讲述了如何使用此插件框架创建完善的专业的应用系统。首先以<I>Hello, World!</I>为例，讲解了如何创建插件，如何将插件注册到系统中以使用户能够调用插件提供的功能，插件之间怎么交互。
+</P>
+<P>
+接下来的一节以<I>Mini Internet Explorer</I>为例详细说明了如何使用此插件框架创建出高专业程度的应用系统。这一节包含的内容有如何规划应用程序的目录结构、如何在插件中调用日志系统、如何分拆提供给用户的功能至不同的插件、如何高效的更新界面逻辑、如何创建并显示多样化的界面。
+</P>
+<P>
+<I>高级主题</I>部分涉及到一些更加深入的内容:
+</P>
+<UL>
+<LI>当需要加载的插件有很多时，如何制作闪屏来改进用户体验。
+<LI>当需要控制登入系统的用户的权限时，如何在系统启动之初进行用户验证并将验证结果传递到其它插件。
+<LI>关于<B>多线程</B>的若干问题。
+<LI>如何创建完备的服务集合从而真正做到面向用户需求的复用。
+<LI>如何合理的设计插件从而易于使用混淆器进行版权保护。
+<LI>深入到此插件框架的内部实现层面上对其进行了解。
+<LI>如何<B>替换UI插件</B>以使系统轻易具有不同界面风格。这是本插件框架与众不同的优点之一。
+</UL>
+
+<P>
+<B>编程参考</B>部分供用户日常使用时查询类及其成员方法的使用细节。
+</P>
+<P>
+<B>附录</B>部分对常见的第三方Winfrom界面组件进行了点评，以供您在选取界面组件时进行参考。此外需要说明的是本部分的内容会根据用户的提议及实际需要进行增减。
+</P>
+<A NAME="toc5"></A>
+<H2>您预先需要掌握那些知识</H2>
+<P>
+这一款运行在.NET 2.0及更高平台上的插件框架，当然首先您应该熟悉.NET平台，熟悉C# 开发语言。此外还希望您对软件复用有深入的思考。最好还能够熟练使用并深入了解过某款插件结构的软件，对插件有较深入的认识；否则可以先阅读一下<I>概览</I>部分的第一节。
+</P>
+<A NAME="toc6"></A>
+<H2>怎样使用本手册</H2>
+<P>
+作为一个开发人员，如果您不熟悉.NET平台的话，推荐您首先阅读一下《Programming C#》或者直接阅读《Essential C#》。如果您已经有了.NET平台的开发基础，即使没有对软件复用做过太多的思考，没有了解过什么插件框架，也可以轻松的通过阅读本手册学会此插件框架的使用并且能够获得软件复用和插件框架的一般性知识；但是首先您必须结合网络上的资料仔细阅读<I>概览</I>部分第一节——“<I>首先，您想问？</I>”。一般情况下，开发人员只需要粗略的阅读<I>概览</I>部分的内容，然后根据自己理解的情况安排阅读<I>使用指南</I>部分的进度。<I>编程参考</I>部分用于平时查阅。
+</P>
+<P>
+如果您是开发小组的领导，还需要对<I>概览</I>部分的最后一节——“<I>关于插件框架的一般性问题</I>”和<I>使用指南</I>部分的最后一节——“<I>高级主题</I>”稍加注意。
+</P>
+<P>
+如果您是技术主管，可以首先通读一下<I>概览</I>部分和<I>使用指南那</I>的最后一节——“<I>高级主题</I>”。此外，对<I>附录</I>部分也应该稍加留意。
+</P>
+<A NAME="toc7"></A>
+<H1>第一部分 概览</H1>
+<HR NOSHADE SIZE=1>
+<A NAME="toc8"></A>
+<H2>首先，您想问？</H2>
+<A NAME="toc9"></A>
+<H3>它是什么类型的插件框架？</H3>
+<P>
+作为有经验的电脑用户和软件工程师,您已经见识过各种各样的插件框架了。
+比如暴风影音的解码器、Photoshop的滤镜、Vim的语法高亮、Visual Studio、Eclipse、Sharpdevelop……它们都用到了插件框架，并且给用户带来了很大的方便。按照其能够达到的目标，我们可以将其归为如下三类：
+</P>
+<OL>
+<LI>使软件某方面的功能能够被灵活地扩展，如暴风影音的解码器、Photoshop的滤镜、gVim的语法高亮。
+<LI>允许用户通过编写符合其规范的插件对系统功能进行扩展并且提供了一定程度定制能力，如Visual Studio。
+<LI>整个系统由一些插件和一个插件宿主组成从而提供了更加灵活的定制能力和可扩充性，如Sharpdevelop，Eclipse。
+</OL>
+
+<P></P>
+<P>
+虽然您会说，他们的优点显而易见并且满足了各自的应用情形；但是我们不得不承认它们都有不同层次的不足。第一种插件形式的缺点是很明显的，它仅能提供很有限的扩充能力，事实上它还算不上框架。对于纯粹的用户来说，第二种和第三种插件框架之间几乎没有什么区别。当查看了它们的源码或者编写了一个对其进行扩展的插件后，其中的区别就能够被察觉出来。那就是：
+</P>
+<P>
+第二种插件框架的宿主完成了太多的功能以至于其提供的基础服务使得系统的扩展能力受到限制，比如Visual Studio提供了一个应用程序对象用来取得当前文档、活动窗体、各种界面对象等用以插件和宿主之间的交互。对于这种形式的插件框架，由于宿主已经规定了系统的目的（比如Visual Studio就是一个IDE）插件之间几乎不需要交互。
+而对于第三种框架甚至为系统提供交互界面的部分都可以作为一个插件提供。但是好像很遗憾，SharpDevelop，Eclipse都没有将界面部分作为一个插件来提供。
+虽然有不少其它类Eclipse插件框架（OSGI）的实现将界面部分抽离为一个插件，但是这个插件很难被替换掉从而难以使系统轻松具有不同风格的界面。
+SharpDevelop的插件形式多被实现为第二种插件框架，虽然SharpDevelop本身是全插件形式也有不少模仿SharpDevelop的其它全插件形式的实现，但都没有考虑将界面部分作为一个插件提供。
+</P>
+<P>
+本插件框架成功地避免了以上各种现存插件框架的不足。首先，对宿主进行了最大程度的瘦身，宿主仅负责插件和服务的装载和卸载以及系统启动的流程控制。第二，为系统运行提供界面的部分也作为插件提供并且能够轻松替换。整个系统通过两个配置文件装配起来，一个是注册到系统中的插件列表，另一个是界面说明文件。此外，本插件框架还提供了灵活的插件间交互方式。
+</P>
+<A NAME="toc10"></A>
+<H3>为什么我会需要这样一个插件框架？</H3>
+<P>
+作为公司或者部门的技术主管，您肯定在不断寻求提高生产力的手段和技术。那么这就是一个不错的选择。本插件框架在快速开发WinForm应用程序和C/S系统时有非凡的表现（其实应该说是装配，因为如果使用这个插件框架相同的功能只需开发一次）。
+每一个有经验的软件工程师都会承认，在很多情况下我们的小组或者部门甚至我们的公司都会专注于软件的某一应用领域。
+此时客户的需求有很大的重叠度，为了避免重复的工作，我们会寻求各种办法来提高重用性，以期减少重复的工作增加生产力。
+</P>
+<P>
+您肯定已经采用了各种层次的重用性手段。从代码片段到代码集合的源代码级别的重用，从可重用小构件到较大的模块的动态链接技术层次的重用。
+有了这样一套插件框架您就可以将重用级别再向前推进一步，面向客户需求的重用。事实上，绝大数插件框架都是面向客户需求的重用，只不过实现程度不一样而已。
+只要使用的是在上一节提到的第三种插件机制，就可以重用以前开发的插件快速构建一个原型系统。然后对不满足用户需求的插件进行微调，新增的需求通过编写新的插件来满足。
+然而，此插件框架的优势并不止于此，其创建插件宿主程序的简易程度绝对能够让你惊愕。
+</P>
+<P>
+首先在IDE中新建一个WinForm应用程序项目，删除IDE生成的除Program.cs之外的代码文件。然后添加对AddIn.Core.dll的引用。再修改Main方法为：
+</P>
+<PRE>
+  	static void Main(string[] args)
+  	{
+  		AppFrame app = new AppFrame();
+  		app.Run();
+  	} 
+</PRE>
+<P>
+然后修改宿主程序的图标编译即可。
+</P>
+<P>
+本插件框架还有另外一个显著的优势——提供系统交互界面的部分作为一个插件提供并且能够很容易地被替换掉。
+有些时候我们和竞标对手的软件在功能和易用性上势均力敌，如果我们的软件有一个漂亮的交互界面肯定能大大增加夺标的概率。有时候我们的用户更加崇尚简洁，有时候我们的用户不愿意为更加华丽的界面付账，此时我们可以对基本的WinForm控件加以扩展使用。本人开发了一个免费开源的<A HREF="http://tr0217.blog.163.com/blog/static/360664802011279307476/">WinForm扩展控件集合</A>，它不排斥商业使用。使用此开源控件集再配合另外几个开源控件足以开发出专业程度媲美Visual Sutudio 2005的交互界面。
+</P>
+<A NAME="toc11"></A>
+<H2>更进一步的信息</H2>
+<A NAME="toc12"></A>
+<H3>它能够运行在那些平台上？</H3>
+<P>
+这可能是最容易回答的问题，也可能是最不容易回答的问题。它的核心部分纯粹使用C#语言开发，可以运行于.NET 2.0及以上的平台上，也可以运行于其它实现了.NET 2.0及更高版本的操作系统上。
+</P>
+<P>
+但是他到底能不能跨越操作系统这个平台，还需要根据具体情况来定。如果在这个系统中使用的所有插件都被实现为能够跨平台的那么装配出来的应用程序就是跨平台的。如果任何一个需要在这个系统使用的插件被实现成为平台相关的那么整个系统就是平台相关的。
+</P>
+<P>
+我所能够保证的是随插件框架发布的基础版本的UI插件是使用纯粹C#编写的，是可以跨平台的。
+</P>
+<A NAME="toc13"></A>
+<H3>有那些成功的应用案例？</H3>
+<P>
+至此，您或许想知道这个插件框架在实际使用中能够有什么样的表现。所以您会问，有哪些成功的案例？通过应用案例来考技术的实用性是一个非常重要的手段。当然有基于这个插件框架的成功案例——<A HREF="http://tr0217.blog.163.com/blog/static/360664802011019974271/">Mini Internet Explorer</A>，一个网页浏览器。
+</P>
+<P>
+到目前为止，整个插件框架的开发只是我一个人的表演，所以不可能选择一个陌生的应用领域来开发应用案例。如果这样的话需求确认和系统开发都将成为一个巨大的任务，而真正需要做的就是测试插件框架在易用性、稳定性、界面分离程度、界面的专业化程度。我选择使用该插件框架开发一个网页浏览器来检测其实用性。网页浏览器是每一个使用电脑的人每一天都在用的软件以至于它的需求确认是如此的容易——我只需要问我自己需要它具有哪些功能。此外，浏览器具有丰富的图形界面。
+</P>
+                    <center><IMG ALIGN="middle" SRC="./overview/images/full.png" BORDER="0" ALT=""></center>                                 
+<OL>
+<LI>浏览器的网址输入下拉框需要为浏览提供网址，想想如果所有提供给用户的功能只能通过点击按钮来调用将会是一种什么情况。
+<LI>需要向浏览器的网址输入下拉框添加最近访问的网址，这代表了选项类界面元素中的选项可以在系统运行过程中发生改变。Visual Studio的查找、撤销就是实例。
+<LI>浏览器的网址收藏工具条和菜单需要根据收藏夹的具体内容创建，这代表了界面元素能够在启动时根据具体情况被创建，而不是界面配置文件将界面描述为什么样就必须是什么样，改变不了了。这还为插件的插件提供了可能。
+<LI>浏览器需要一个进度条来指示页面打开进度，需要通过前进、后退按钮的可用性来指明当前用户数据的状态、用户下一步可进行的操作。
+</OL>
+
+<P></P>
+<P>
+完成了这些，首先就能够说明这套插件框架能够创建出专业化程度很高的应用系统。如果要完成这些浏览器插件和UI插件必须要有良好的交互，当然也就说明了本插件框架提供了优秀的插件间交换手段。
+</P>
+	<BLOCKQUOTE>
+	(<I>如果需要从更一般的层次了解一个插件框架应该具有的功能，请阅读<A HREF="http://tr0217.blog.163.com/">关于插件框架的一般性问题</A>一节</I>。)
+	</BLOCKQUOTE>
+<P></P>
+<A NAME="toc14"></A>
+<H3>需要付钱吗？从哪里可以获得？</H3>
+<P>
+<B>不需要，它是免费的，</B>如果您只使用我发布的基础版本。但是如果需要替换UI插件的话，您或许需要支付购买第三方界面组件的费用。如果您认为有必要让我为贵处封闭开发一套UI插件的话，您还需要支付劳务费用给我。但是我将会免费为您奉送重构了的插件框架；它的易用性、稳定性更高，UI插件的替换也更加容易。关于重构后的插件框架的结构请参考<A HREF="http://tr0217.blog.163.com/">第二部分  使用指南的第二章</A>。
+</P>
+<A NAME="toc15"></A>
+<H3>如何获得技术支持？</H3>
+<P>
+如果需要让我为您开发UI插件，请发邮件到<A HREF="mailto:tr0217@163.com">tr0217@163.com</A>。
+</P>
+<P>
+如果您只打算使用基础版本，可以发邮件到<A HREF="mailto:tr0217@163.com">tr0217@163.com</A>或者到<A HREF="http://tr0217.blog.163.com/">我的博客</A>上留言说明您遇到的问题。
+</P>
+<A NAME="toc16"></A>
+<H2>授权与责任声明</H2>
+<A NAME="toc17"></A>
+<H3>授权</H3>
+<P>
+本插件的基础版本尚未采纳任何其它软件发布协议。本人在在此声明：
+</P>
+<OL>
+<LI>基础版本完全免费，您可以获得任何使用自由。包括应用于商业项目和对此插件框架进行逆向工程。
+<LI>如果您对本插件框架进行修正并且再发布，请明确指明您发布的版本与原始版本的区别。
+<LI>如果您免费使用本插件框架，那么您有义务为改进此插件框架作出贡献。比如通过技术支持信息报告错误、分享您的扩展功能。
+<LI>本人不强制要求您需要在您的软件中明显声明您使用了本产品。但是如果您由于使用本产品的免费版本带来了问题而破坏我的名誉将是绝对不允许的。
+<LI>本人不保证不会为本软件的后续版本采纳更为严格的授权协议，但可以保证绝对保证该软件是源代码开放的自由软件。如果本人在后续版本中采纳了其它授权协议，那么您必须按照新采纳的授权协议使用本软件的后续版本。但是您也可以按照本授权声明使用本软件的当前版本。本软件的当前版本包括
+    <OL>
+    <LI>AddIn.Core.dll         
+    <LI>AddIn.Gui.dll         
+    <LI>AddIn.Config.exe      
+    <LI>WeifenLuo.WinFormsUI.Docking.dll 版本2.3.1.0 至 2.5.0.0都可以兼容
+    <LI>log4net.dll 版本号：1.2.10.0
+    </OL>
+</OL>
+
+	<BLOCKQUOTE>
+	<I>（这里的版本指的是文件版本。通常文件版本相同的不同程序集版本间都是兼容的）</I>
+	</BLOCKQUOTE>
+<P></P>
+<A NAME="toc18"></A>
+<H3>责任声明</H3>
+<P>
+由于基本版本准许免费使用，使用本插件框架带来的任何直接和间接问题本人概不负责。如果免费使用本插件框架的基础版本，本人不保证技术支持的及时性。
+</P>
+<P>
+如果您与我签订协议为贵方重构此插件框架和编写UI插件，那么本人也只能负限于插件框架核心部分和UI插件中由于本人实现所带来的有限责任。关于技术支持和其它责任及义务将会在协议中明确说明。
+</P>
+<P>
+此外，可以看出本插件框架的基础版本使用了<B>WeifenLuo.WinFormsUI.Docking.dll</B>和<B>log4net.dll</B>。这是两款开源软件，他们使用的协议分别为<A HREF="http://www.opensource.org/licenses/mit-license.php">The MIT License</A>和<A HREF="http://www.apache.org/licenses/">Apache License Version 2.0</A>
+</P>
+<P>
+这是两款非常友善的协议，都不排斥商业使用。
+</P>
+<A NAME="toc19"></A>
+<H2>关于插件框架的一般性问题</H2>
+<A NAME="toc20"></A>
+<H3>插件框架的基本任务</H3>
+<P>
+设计全插件框架时有几个非常基本的问题需要考虑。
+</P>
+<OL>
+<LI>插件应该怎样被装载。插件需要被主程序装载然后调用。
+<LI>是否需要实现界面模块和功能模块的分离，怎么实现。分离是为了让界面模块的更新不至于对功能模块的影响太大。
+<LI>怎么实现界面和功能的连接。很多功能都是通过界面上的操作调用的，所以连接也是个基本的问题。
+</OL>
+
+<P>
+关于连接，我们所考虑的当然不能只是怎么将没有参数的方法通过点击界面上的一个按钮调用起来，还需要考虑一些复杂的情形以使装配出来的应用程序符合合理的界面设计原则。
+</P>
+<A NAME="toc21"></A>
+<H3>不得不考虑的界面设计原则</H3>
+<P>
+设计插件框架时同样必须考虑的界面设计原则有：
+</P>
+<OL>
+<LI>如果系统需要针对登入的用户限制一些功能，最好的做法是将调用当前用户不可执行功能的界面元素的Visible属性设为false。（这并不是必须的）
+<LI>界面元素的Checked与Enabled的状态以及其它属性需要能够表示出用户当前的操作、当前用户数据所处的状态、用户下一步可进行的操作。
+                  <center><IMG ALIGN="middle" SRC="./overview/images/full2.png" BORDER="0" ALT=""></center>                     
+在上面的网页浏览器中，组合框中显示了当前页面的网址。这就是界面元素的属性表示了用户当前的操作——用户正在浏览网址为<A HREF="http://tr0217.blog.163.com/">http://tr0217.blog.163.com/</A>的网页。状态栏中的进度条已经消失了，说明当前页面下载完成了：这就是界面元素表示了当前用户数据状态的例子。浏览栏、状态栏、收藏栏都是可见的，同时相应的菜单项的Checked属性都为true：这也可以认为是界面元素表示了当前用户数据的状态。在上图中<I>在当前页面中打开新网址</I>的界面元素处于可用状态，这是由于当前有页面打开：这就是界面元素表示了用户下一步可进行的操作。
+<P></P>
+<LI>界面不应该单调乏味，如界面上只有按钮和菜单。单调乏味的界面不仅影响美观，还会影响易用性。在这个浏览器的界面上如果只有按钮和菜单的话，输入网址应该怎么办呢？弹出一个对话框吗？这复杂了用户的操作，显然不符合界面设计的原则。
+<P></P>
+如果提供丰富的界面，就会带来另外一些困难。某个界面元素调用的方法所需的参数需要另外一个界面元素提供。如上图所示，界面元素<IMG ALIGN="middle" SRC="./overview/images/go.png" BORDER="0" ALT=""> 调用的转到某个网址的方法的参数就需要它左边的组合框来提供。当然更多的情况是参数由调用者界面元素本身提供的，在组合框中输完网址后，按回车键也能够调用转到某个网址的方法。
+                  <center><IMG ALIGN="middle" SRC="./overview/images/search.png" BORDER="0" ALT=""></center>          
+还有些情形下需要提供不变的参数。如上图中设置当前搜索引擎的两个菜单项，他们的参数就是固定的，从上到下分别是：“<CODE>http://www.baidu.com/s?wd=</CODE>,百度”、“<CODE>http://www.google.com.hk/search?q=</CODE>,谷歌”。比如使用百度搜索“Plugin”这个关键字时的调用URL为“<CODE>http://www.baidu.com/s?wd=Plugin</CODE>”。 “,”之后的文本则是这个搜索引擎的公认名称。
+</OL>
+
+<P></P>
+<P>
+“<CODE>http://www.baidu.com/s?wd=</CODE>,百度”其实表示了两个参数，“,”是一个分隔符。设置当前搜索引擎的方法的原型为<CODE>Void SetSearchEngine(System.String, System.String)</CODE>，第一个参数表示搜索引擎的基本URL，第二参数表示搜索引擎的公认名称。这个参数用于更新状态栏中指示当前搜索引擎的文本框中显示的文字，如右图<IMG ALIGN="middle" SRC="./overview/images/searchengine.png" BORDER="0" ALT="">。（使用逗号作为参数分割符只是本插件框架的约定。）
+</P>
+<A NAME="toc22"></A>
+<H3>使用任何一款插件框架都需要注意的问题</H3>
+<P>
+为什么我们选择使用插件框架？
+</P>
+<P>
+第一回答就是我们需要更大程度地重用。是的，使用插件框架能够将重用提升到满足客户需求的程度。我们编写的的一个又一个插件的目标在于满足客户的需求。可重用程度提高了生产力也就提高了。
+</P>
+<P>
+插件框架带个我们的第二个好处就是可以灵活地定制、自由地扩展。我们可以删除以前开发的系统中不符合用户需求的插件，可以编写新的插件来满足用户不一样的需求。甚至用户也可以遵照插件框架的约定来对系统进行扩展。
+</P>
+<P>
+明白我的暗示了吗？“<B>遵照插件框架的约定</B>”这就是限制。插件框架在带来这么多好处的同时也带来了限制。所以使用插件框架时我们需要冷静，插件框架并不能取代其它重用手段。我们不能因为有了插件框架就终止了我们在其它重用手段上的努力。有了插件框架我们仍然需要其它层次的可重用性——代码片段、源码库，小二进制组件、功能完善的组件。
+</P>
+<P>
+这不是在哗众取宠。我已经见过了错误地使用插件框架的活生生的例子。由于他们在其它重用手段上停止了继续努力导致生产力不增反降。也或许他们从来没有评估过自己的生产力。
+</P>
+<P>
+还有另外一个很重要的问题需要注意。插件框架的目标在于什么？通过重用以前开发的插件快速生产出满足客户需求的应用系统。所以注册到插件框架中的几乎所有插件都在于满足客户一个或者多个功能需求。所以在设计插件时就需要注意，插件的接口必须从满足用户的需求上进行考虑。其次才是提供有限的和其它插件交互的接口以满足交互和扩展需求。
+</P>
+<P>
+通过上面的分析，我们得出了使用任何一款插件框架都需要注意的两个问题：
+</P>
+<OL>
+<LI><B>绝对不能放弃在其它复用手段上的努力。</B>
+<LI><B>设计插件时必须从满足用户需求上进行考虑。</B>
+</OL>
+
+<P></P>
+<A NAME="toc23"></A>
+<H3>插件框架还需要完成那些任务</H3>
+<P>
+如果之前提到的三个基本任务都被完成了，那么插件框架已经具有很高的实用价值了。装配出的系统界面友好，能够很容易地更换界面组件使得系统的界面绚丽美观。此时还有其他的问题需要考虑。
+</P>
+<P>
+每一款软件都不能说100%没有问题，当系统被部署后我们需要<B>日志系统来诊断和定位问题</B>。日志信息需要分不同的级别，可以输出到不同的目标（文件、控制台、数据库等）。
+</P>
+<P>
+此外这是一个插件结构的系统，所有人都可以开发插件注册到其中。我们无法保证每一个插件都能够正确的被加载运行，所以必须要保证<B>任何一个插件在加载和运行时出现的错误不会影响到系统的稳定性</B>。
+</P>
+<P>
+有时在一个系统中将会有一些功能很少被使用，但是客户又有这样的需求。在这些插件加载后，它提供的功能却很少被使用，让这些插件在系统一启动就加载是很低效的做法。如果直到系统退出它的功能仍然没有被使用，那它占据的内存就白费了，加载它所消耗的时间也白费了。解决这个问题的办法就是<B>延迟加载</B>，意思是不在系统启动时加载它，当这个插件提供的功能第一次被使用时加载。
+</P>
+<P>
+还有其它两个功能可以被提供。<B>动态加载（热加载）</B>——在系统运行中向系统中增加新的插件。<B>动态卸载（热卸载）</B>——在系统运行中卸载某个插件而不是等到系统退出时卸载。如果在系统运行中能够确定某个插件将不再使用就可以将其动态卸载。
+</P>
+<HR NOSHADE SIZE=5>
+<A NAME="toc24"></A>
+<H1>第二部分 使用指南</H1>
+<HR NOSHADE SIZE=1>
+<A NAME="toc25"></A>
+<H2>TR0217插件框架入门</H2>
+<A NAME="toc26"></A>
+<H3>TR0217插件框架简介</H3>
+<P>
+TR0217插件框架是运行.NET 2.0及更高版本上的WinForm及C/S架构的应用程序开发框架。首要目的在于让您能够更加简单地实现应用程序的模块化，并且将各个模块间的耦合性降到最低。这样一来应用程序的开发就像搭积木一样，将已开发的模块组合到一起产生一个应用系统。使用该框架开发的应用程序的定制能力也能像积木一样，可以轻松的去掉某些模块和增加模块。
+</P>
+<P>
+当模块组合到一起时需要一个交互界面来为用户提供功能。产生交互界面的功能也被此插件框架提供了，同样采用模块化的方式，使产生交互界面的模块能够很容易的被替换掉让系统拥有完全不同外观的交互界面。
+</P>
+<P>
+至此您或许仍然难以形象直观的把握这个插件框架。其实从表面上看这个插件框架其实是这样的。首先创建一个类库项目，在这个类库中至少包含一个外部可见的继承自<CODE>AddIn.Core.ServiceBase</CODE>的类（称其为服务），类的成员方法就是需要提供给用户的功能，当然首先需要添加对AddIn.Core.dll的引用。编译为dll文件，再使用插件注册工具将这个dll到系统中，然后在注册工具中创建界面元素（如按钮、菜单等）用来调用服务的成员方法。
+</P>
+<DL>
+<DT>注册到系统中的插件：</DT><DD>
+                    <center><IMG ALIGN="middle" SRC="./user_guide/images/cwe.png" BORDER="0" ALT=""></center>                    
+<P></P>
+<DT>创建界面元素调用服务的成员方法：</DT><DD>
+                    <center><IMG ALIGN="middle" SRC="./user_guide/images/cwe2.png" BORDER="0" ALT=""></center>                    
+</DL>
+
+<P></P>
+<A NAME="toc27"></A>
+<H3>从Hello, world! 开始</H3>
+<P>
+从Hello, world! 开始是学习软件开发技术的一个不朽传统。没必要标新立异，在这里一节里，我们将一步一步地使用此插件框架开发一个应用程序——在窗口中显示一句“Hello World!”。
+</P>
+<H4>建立宿主程序</H4>
+<P>
+首先启动Visual Studio，新建一个.NET项目，选择Windows窗体应用程序。这一步对于C#、VB、J#语言的使用者来说选择在左边的树形结构中选择<B>Windows</B>，然后在右侧选择<B>Windows应用程序</B>。C++语言的使用者需要选择<B>CLR</B>然后选择<B>Windows窗体应用程序</B>。
+                    <center><IMG ALIGN="middle" SRC="./user_guide/images/new.png" BORDER="0" ALT=""></center>                    
+</P>
+<P>
+接下来，<B>添加对AddIn.Core.dll的引用</B>。使用C#、VB、J#语言的使用者可以在相应项目的解决方案管理器中的引用上右击选择添加引用，从弹出的对话框中选择浏览标签，然后导航到AddIn.Core.dll，点击确定即可。
+                    <center><IMG ALIGN="middle" SRC="./user_guide/images/addrefcs.png" BORDER="0" ALT=""></center>                    
+C++的使用者可以在解决方案的根节点上右击选择“引用(<U>F</U>)...”。在弹出的对话框里点击“添加新引用(<U>N</U>)...”，接下来的操作与其它语言使用者相同。
+</P>
+<P>
+接下来，删除IDE生成<CODE>Form1</CODE>。不光是从解决方案中移出，文件也可以一并删除。
+</P>
+<P>
+对于C#语言的使用者来说，将Program.cs文件中的内容改为：
+</P>
+<PRE>
+  using System;
+  using System.Collections.Generic;
+  using System.Windows.Forms;
+  using AddIn.Core;
+  
+  namespace hello_cs
+  {
+      static class Program
+      {
+          /// &lt;summary&gt;
+          /// 应用程序的主入口点。
+          /// &lt;/summary&gt;
+          [STAThread]
+          static void Main(string[] args)
+          {
+              AppFrame app = new AppFrame();
+              app.Run();
+          }
+      }
+  }
+</PRE>
+<P>
+C++语言的使用者需要将源文件中以项目名称命名的文件内容改为：
+</P>
+<PRE>
+  #include "stdafx.h"
+  
+  using namespace System;
+  using namespace System::ComponentModel;
+  using namespace System::Collections;
+  using namespace System::Windows::Forms;
+  using namespace System::Data;
+  using namespace System::Drawing;
+  using namespace AddIn::Core;
+  
+  [STAThreadAttribute]
+  int main(array&lt;System::String ^&gt; ^args)
+  {
+  	AppFrame app;
+  	app.Run();
+  	return 0;
+  }
+</PRE>
+<P>
+接下生成解决方案，可以直接将项目配置改为Release。
+</P>
+	<BLOCKQUOTE>
+	（<I><B>我们玩个魔术吧！</B>将生成的exe文件拷贝到<A HREF="http://tr0217.blog.163.com/blog/static/360664802011019974271/">Mini Internet Explorer</A>的执行文件目录下，然后双击它。有什么反应？它变成了一个Mini Internet Explorer！</I>）
+	</BLOCKQUOTE>
+<P></P>
+<H4>编写一个插件，在对话框中显示Hello World！</H4>
+<P>
+在编写第一个插件前，您需要了解一下本插件框架的目录结构要求。
+                    <center><IMG ALIGN="middle" SRC="./user_guide/images/dir.png" BORDER="0" ALT=""></center>                    
+</P>
+<UL>
+<LI>AddIns文件夹用于放置注册到系统里的插件。并不强制这么做，您也可将自己编写的插件放置到其它地方；但是如果没有特殊的原因还是推荐将其放到AddIns中。如果插件过多可以再建子目录，将每个插件和相关的文件放置到各自的文件夹中。
+</UL>
+
+	<BLOCKQUOTE>
+	（<I>这么做还有另外一个问题需要考虑，您编写的插件所依赖的DLL文件对于系统来说会是不可见的从而会导致插件加载失败。解决方案将在本部分的下一章中给出。</I>）
+	</BLOCKQUOTE>
+<UL>
+<LI>Config文件夹，用于放置系统的插件列表文件和界面说明文件。<B>这是强制的</B>。
+<LI>Help文件夹，用于放置系统的帮助文档和其它说明文档。推荐这么做。
+<LI>Images文件夹，用于放置系统界面所需的图片资源，推荐采用png格式的图片。推荐非强制。
+<LI>Log文件，用于放置系统运行中的错误日志。日志的存放位置可以通过配置文件指定，所以这也是推荐非强制的。
+<LI>插件框架的核心文件AddIn.Core.dll、AddIn.Gui.dll、AddIn.Config.exe、宿主程序（Mini Internet Explorer.exe）以及AddIn.Gui.dll所依赖的第三方界面组件推荐放置到应用程序的根目录下。
+</UL>
+
+<P>
+接下来按照这个结构创建好应用程序的输出目录，也可以直接将发布版解压出来的文件夹直接拷贝到解决方案目录。然后修改项目的生成目录。
+                    <center><IMG ALIGN="middle" SRC="./user_guide/images/diru.png" BORDER="0" ALT=""></center>                    
+上图中的“..\output\”表示一个项对路径。关于项对路径的知识请自行到网络上搜索。至此，我们已经准备好编写第一个插件了。
+</P>
+<P>
+第一步，新建一个类库项目。在解决方案的根节点上右击，在弹出菜单里选择“添加(<U>D</U>)—新建项目(<U>N</U>)...”。
+修改新建项目的名称为hello，项目位置采用默认值；点击确定。然后删除hello中的类class1，样需要添加对AddIn.Core.dll的引用，修改生成目录为“..\output\AddIns\”。
+第二步，在新建的项目中添加一个类<CODE>hello</CODE>。类名可以自由指定。然后打开代码文件，添加对名称空间AddIn.Core的引用，让<CODE>hellp</CODE>继承自<CODE>AddIn.Core.ServiceBase</CODE>。再为类增加一个成员方法<CODE>SayHello()</CODE>。最终的代码如下：
+</P>
+<PRE>
+  using System;
+  using System.Collections.Generic;
+  using System.Text;
+  
+  using AddIn.Core;
+  using System.Windows.Forms;
+  
+  namespace hello
+  {
+      public class Hello : ServiceBase
+      {
+          public void SayHello()
+          {
+              MessageBox.Show("Hello, world!");
+          }
+      }
+  }
+</PRE>
+<P>
+然后编译。至此，一个简单的插件就算完成了。
+</P>
+<H4>将插件注册到系统中</H4>
+<P>
+启动AddIn.Config.exe，切换到Regist AddIns页。（如下图所示）
+</P>
+<P>
+                    <center><IMG ALIGN="middle" SRC="./user_guide/images/rega.png" BORDER="0" ALT=""></center>                    
+可以看到，AddIn.Gui.dll已经注册到其中了。如果AddIn.Gui.dll没有注册的话配置工具是无法启动的，因为AddIn.Config.exe也是一个插件宿主，系统需要AddIn.Gui.dll提供界面才能正常启动。
+</P>
+<P>
+点击Add New，弹出注册插件对话框。如下图所示，点击Path文本框右侧的小按钮打开插件。程序会自动将Name文本框填为插件Dll中第一个找到的继承自<CODE>AddIn.Core.ServiceBase</CODE>的类名。如果插件加载失败会弹出提示对话框。LazyLoad保留false即可。其它几项根据实际情况进行填写，也可以留空。点击确定即可完成注册。然后切换到Config UI页，配置用于调用<CODE>SayHello()</CODE>的界面元素。
+                    <center><IMG ALIGN="middle" SRC="./user_guide/images/confu.png" BORDER="0" ALT=""></center>                    
+在MenuStrip节点上右击，从弹出菜单上选择“New MenuItem”。然后展开MenuStrip节点，在刚才新建的MenuItem上右击，同样选择“New MenuItem”。配置工具能实时反映出界面配置的改变，如下图，配置工具的菜单栏已经有了刚才新建的两个菜单项。
+                    <center><IMG ALIGN="middle" SRC="./user_guide/images/confu2.png" BORDER="0" ALT=""></center>                    
+</P>
+<P>
+选中层次最深的MenuItem，修改其显示文字并将其与<CODE>SayHello()</CODE>方法连接起来。可以看到右侧的属性面板和Visual Studio 的属性面板差不多，操作方式也是一样的。修改Text属性为SayHello，即可将显示文本修改为SayHello。
+</P>
+<P>
+然后修改Service属性，这个属性表示为用户的提供功能的方法所属的服务类。从下列列表中选择<CODE>hello.Hello</CODE>。
+接下来修改Function属性，这个属性表示为用户提供功能的方法。从下拉列表中选择<CODE>Void SayHello()</CODE>。点击Save，退出程序；也可以以直接点击OK。
+                    <center><IMG ALIGN="middle" SRC="./user_guide/images/conm.png" BORDER="0" ALT=""></center>                    
+至此，这个插件已经成功注册到系统中了。然后启动hello_cs.exe。点击SayHello菜单，其运行效果如下图所示。
+                    <center><IMG ALIGN="middle" SRC="./user_guide/images/hello.png" BORDER="0" ALT=""></center>                    
+您也可以进行一些探索性学习。比如修改其它节点的属性看看对应用程序有何影响。
+</P>
+<A NAME="toc28"></A>
+<H3>显示在停靠窗口中的Hello, world!</H3>
+<P>
+这一节里我们一起实现一个稍微复杂的<I>hello world!</I>插件——将hello, world显示到停靠窗口里。
+</P>
+<P>
+打开上一节建立的hello_cs解决方案，添加一个名称为helloDock的类库项目。
+删除项目中的Class1.cs，添加对<I>AddIn.Core.dll</I>和<I>WeifenLuo.WinFormsUI.Docking.dll</I>的引用。
+在项目中添加一个窗体，然后修改HelloForm.cs，让它其继承自<CODE>AddIn.Core.DocFormBase</CODE>。表示从形式上约定<CODE>HelloForm</CODE>是一个文档窗口，关于文档窗口、工具窗口将在<I>TR0217插件框架应用进阶</I>一章讲述。
+从工具箱中脱出一个Label放到窗体上，在属性面板里修改显示文体为“Hello, world!”。
+</P>
+<P>
+接下来需要新建一个服务类，将其命名为HelloDock，用于将这个可停靠窗口停靠到主窗体中。
+为HelloDock也添加一个名称为SayHello的方法，不过需要不同的实现。为了将这个可停靠窗体停靠到主窗体上必须和AddIn.Gui交互。
+</P>
+<P>
+在AddIn.Core.dll中定义了界面服务的接口IUiService。为HelloDock增加一个IUiService成员用户保留获取的界面服务，这可以避免每次需要界面服务时都需要重新获取。
+这里有个问题不得不注意。假设传入的参数是没有问题的，如果取得的服务为null，说明了什么？是没有向系统注册相应插件，还注册了还没有加载，又或者加载失败。需要实现一种机制让这个问题的回答更加明确——那就是保证只有在加载失败或者没有向系统注册的情况下才会取得null值。所以需要在所有的插件都加载完成后再获取需要与之交互的服务。
+</P>
+<P>
+<CODE>AppFrame</CODE>类通过静态事件<CODE>FinishLoadAddIn</CODE>向外发布所有不需要延迟加载的插件都加载已加载完成。在插件服务类的构造函数中订阅这个事件，能够保证一定能够订阅到这个事件。
+</P>
+<P>
+获取界面插件的服务也很简单。首先调用<CODE>AppFrame</CODE>的静态方法<CODE>GetServiceCollection()</CODE>取得<CODE>IServiceCollection</CODE>。然后调用其成员方法<CODE>GetService&lt;T&gt;()</CODE>取得界面服务，传入的泛型参数就是需要获得的服务的接口。关键代码片断：
+</P>
+<PRE>
+          private IUiService _uiService;
+  
+          public HelloDock()
+          {
+              AppFrame.FinishLoadAddIn += new LoadAddInHandler(AppFrame_FinishLoadAddIn);
+          }
+  
+          void AppFrame_FinishLoadAddIn(LoadAddInEventArgs e)
+          {
+              _uiService = AppFrame.GetServiceCollection().GetService&lt;IUiService&gt;();
+          }
+</PRE>
+<P>
+接下来的事情就非常简单了，调用<CODE>_uiService</CODE>的方法将新建的<CODE>HelloFrom</CODE>停靠到主窗体上。代码如下：
+</P>
+<PRE>
+          public void SayHello()
+          {
+              HelloForm frm = new HelloForm();
+              _uiService.ShowDocForm(frm);
+          }
+</PRE>
+<P>
+使用注册工具，添加一个MenuItem，将HelloDock注册到系统中。其运行效果如下图所示：
+                    <center><IMG ALIGN="middle" SRC="./user_guide/images/HelloInDock.png" BORDER="0" ALT=""></center>                    
+</P>
+<A NAME="toc29"></A>
+<H3>事实上，我想说Hi, beauty!</H3>
+<P>
+或许比起“Hello, world!”您更想说“Hi, beauty!”。这一节我们编写一个插件用于在文档窗口中显示“Hi, beauty!”。如果仍然上一节一样，您肯定会不耐烦的。这个插件的目标是与上一节编写的插件交互，将文档窗体中的文字修改为“Hi, beauty!”。
+</P>
+<P>
+实现上一节的插件（HelloDock）时没有做任何需要和外部交互相关的考虑，即使在同一个程序集的另一个对象里也很难修改窗口中显示的文字。所以首先修改HelloDock，为其提供用于交互的接口。
+</P>
+<PRE>
+          public interface IHelloDock
+          {
+              void SayHello(string str);
+          }
+</PRE>
+<P>
+为了实现这个接口，还得为<CODE>HelloForm</CODE>增加一个Property用于修改label的显示文本。
+</P>
+<PRE>
+          public string Hello
+          {
+              get { return label1.Text; }
+              set { label1.Text = value; }
+          }
+  
+</PRE>
+<P>
+将<CODE>IHelloDock</CODE>实现为：
+</P>
+<PRE>
+          public void SayHello(string str)
+          {
+              HelloForm frm = new HelloForm();
+              frm.Hello = str;
+              _uiService.ShowDocForm(frm);
+          }
+</PRE>
+<P>
+接下来编写一个新插件HiDock，用于使用参数“Hi, beauty!”调用HelloDock提供的方法<CODE>void SayHello(string str)</CODE>来在停靠窗体中显示“Hi, beauty!”。为了同HelloDock交互，HiDock中必须保有指向HelloDock的引用，并且能够通过这个引用调用<CODE>void SayHello(string str)</CODE>方法。但是插件的目标就在于降低耦合性，使插件之间能够不直接引用而交互。此时就要借助.NET的基础特性来为我们提供的便利。可以通过一个对象的类型说明类——<CODE>Type</CODE>——来调用其成员方法。为了达到这个目的我们需要两个对象：
+</P>
+<PRE>
+          Type _helloType;//HeloDock的类型说明
+          ServiceBase _helloService;//指向HelloDock实例的引用
+  
+</PRE>
+<P>
+获取HelloDock服务的机制同在HelloDock中获取UI服务的机制一样，不过其方法应该实现为：
+</P>
+<PRE>
+          void AppFrame_FinishLoadAddIn(LoadAddInEventArgs e)
+          {
+              try
+              {
+                  //根据名称获取服务对象
+                  _helloService = e.ServiceCollection.GetService("helloDock.HelloDock");
+                  _helloType = _helloService.GetType();
+              }
+              catch { }
+          }
+</PRE>
+<P>
+编写一个成员方法用于完成这一节的目标。
+</P>
+<PRE>
+          public void SayHi()
+          {
+              //通过实例的类型和实例调用成员，即调用SayHello方法，传入的参数为"Hi, beauty!"
+              if (_helloType != null)
+                  _helloType.InvokeMember("SayHello", System.Reflection.BindingFlags.InvokeMethod, 
+                      null, _helloService, new object[] { "Hi, beauty!" });
+              else MessageBox.Show("未能获取helloDock.HelloDock服务，调用目标失败！");
+          }
+</PRE>
+<P>
+将这个插件注册到系统中，运行效果如下图所示。
+                    <center><IMG ALIGN="middle" SRC="./user_guide/images/SayHi.png" BORDER="0" ALT=""></center>                    
+</P>
+<A NAME="toc30"></A>
+<H3>我要问候任何一个想打招呼的对象</H3>
+<P>
+我要问候任何一个想打招呼的对象。这说明我们需要一个将某个对象作为参数的方法，这个方法能够产生问候语问候这个对象。喂，你有对象了吗？开个玩笑！就软件开发人员的理解，对象是一种客观存在，包括有形的实体（如人、猫、狗）、无形的概念或思想（如时间、马克思主义）。
+</P>
+<P>
+我们通过为HelloDock插件增加一个方法来完成这个目标，这样可以节省一些劳力。很简单直接将代码贴出来。
+</P>
+<PRE>
+          private string[] greetings = new string[] {"Hello, ","Hi, ", "Hey, " };
+          Random random = new Random(3);
+  
+          public void Greet(string str)
+          {
+              int i = random.Next(3);
+              HelloForm frm = new HelloForm();
+              frm.Hello = greetings[i] + str;
+              _uiService.ShowDocForm(frm);
+          }
+</PRE>
+<P>
+重新生成插件，使用配制工具将这个方法和一个能够提供输入的界面元素连接起来。此处的关键点是ParamProvider的值，它是这个界面元素的名称。
+                    <center><IMG ALIGN="middle" SRC="./user_guide/images/greet.png" BORDER="0" ALT=""></center>                    
+</P>
+<A NAME="toc31"></A>
+<H3>插件间的两种交互方式</H3>
+<P>
+在前面几个插件的实现中已经使用了两种插件间交互的方式。在HelloDock的实现中我们使用了基于接口的插件间交互的方式，获取界面服务（UIService）和调用界面服务都是通过接口进行的。
+</P>
+<PRE>
+  	_uiService = AppFrame.GetServiceCollection().GetService&lt;IUiService&gt;();
+</PRE>
+<P></P>
+<PRE>
+  	_uiService.ShowDocForm(frm);
+</PRE>
+<P></P>
+<P>
+在HiDock的实现中我们使用的是基于元数据和反射的方式，获取HelloDock和调用其<CODE>SayHello</CODE>方法都是用过类型名称进行的。
+</P>
+<PRE>
+           //根据名称获取服务对象
+           _helloService = e.ServiceCollection.GetService("helloDock.HelloDock");
+           _helloType = _helloService.GetType();
+</PRE>
+<P></P>
+<PRE>
+  	//通过实例的类型和实例调用成员，即调用SayHello方法，传入的参数为"Hi, beauty!"
+  	if (_helloType != null)
+  	    _helloType.InvokeMember("SayHello", System.Reflection.BindingFlags.InvokeMethod, 
+  	    null, _helloService, new object[] { "Hi, beauty!" });
+</PRE>
+<P></P>
+<P>
+这两种交互方式有各自的优势和缺陷，因而也有各自适用的情形。
+</P>
+<P>
+基于接口的交互方式有严格的限制，通过接口只能调用接口的成员方法；但是获取和调用服务的过程更加自然。基于反射和元数据的交互方式没有接口的限制，只要知道了名称和参数形式就可以获取和调用服务；但是获取和调用服务的过程不够自然，同时由于没有约束会导致接口稳定性问题。
+</P>
+<P>
+基于接口的交互方式适用于构建一个软件系统的基本功能插件。基本功能插件对外提供的接口必须要有很高的稳定性；并且基本功能插件之间、基本功能插件和其它插件之间需要大量的交互；基于接口的交互方式恰好能够满足这个需求。此时可以将各个功能插件的接口放入同一个单独的程序集中，所有基本功能模块和需要和基本功能模块交互的插件都引用此程序集。这样可以避免插件之间直接引用导致的高耦合性。对HelloDock插件来说就是新建一个类库项目，其中只包含接口<CODE>IHelloDock</CODE>。然后HelloDock引用这个类库使类型<CODE>IHelloDock</CODE>对其可见。
+</P>
+<P>
+由于本插件框架不依赖接口，所以对于一些非通用插件或者一些满足用户特殊需求的插件k可以不为其设计接口。基于元数据和反射的交互方式作为对基于接口的交互方式的一种补充，适用于需要和这些没有为其设计接口的插件交互或者需要调用插件接口之外的功能的情形。
+</P>
+<A NAME="toc32"></A>
+<H3>内容回顾</H3>
+<P>
+本章从<CODE>Hello, world!</CODE>开始循序渐进的讲解了如何编写插件。涉及到的主题有插件创建、注册插件、配置界面以调用服务类提供的方法、插件间的交互。
+</P>
+<UL>
+<LI>插件创建，这是最简单的一个主题。一个插件就是包含至少一个访问修饰为<CODE>public</CODE>的服务类的类库。新建一个类库项目，添加对AddIn.Core.dll的引用，增加一个公有的继承自<CODE>AddIn.Core.ServiceBase</CODE>的类，编译通过，一个插件就创建好了。
+<LI>注册插件。运行AddIn.Config.exe，在Regist AddIns页将插件文件成功添加到下方的列表中即可完成注册。成功添加的标志是列表前方的图片为<IMG ALIGN="middle" SRC="./user_guide/images/ok.png" BORDER="0" ALT="">。具体操做请参考<I>将插件注册到系统中</I>一节。
+<LI>配置界面以调用服务类提供的方法，为无参数的方法配置界面非常简单，为有参数的方法配置界面还必须给出参数或（和）参数由哪个界面元素提供。其实，本章并没有包含配置界面的所有内容。如需要，还应指明维护界面元素逻辑的事件；关于这个内容请参考下一章<I>怎么维护界面逻辑</I>一节。
+<LI>插件间的交互，有两种方式，依赖接口的和不依赖接口的。依赖接口的方式用于构建一个软件系统的基本功能插件，更深入的内容请参考<I>高级主题</I>的<I>如何建立完备的服务集合</I>一节。不依赖接口的方式作为依赖接口的方式的补充手段。
+</UL>
+
+<P></P>
+<P>
+本章还有另外一个内容，插件框架的目录结构，参考<I>从Hello, world! 开始</I>一节。更深入的内容请查看下一章第一节<I>规划应用程序的目录结构</I>。
+</P>
+<A NAME="toc33"></A>
+<H2>TR0217插件框架应用进阶</H2>
+<A NAME="toc34"></A>
+<H3>规划应用程序的目录结构</H3>
+<P>
+在上一章的第二节<I>从Hello, world! 开始</I>中已经对此插件框架的目录结构进行了介绍。所以这一节直接进入目录规划的主题。
+</P>
+<P>
+插件框架依赖的几个基本文件（AddIn.Core.dll、AddIn.Gui.dll、log4net.dll、WeifenLuo.WinFormsUI.Docking.dll、AddIn.Config.exe）的存放位置最好保持不变，放在应用程序的根目录下，即宿主目录下。此时和Mini Internet Explorer.exe文件放在同一个目录下。
+                    <center><IMG ALIGN="middle" SRC="./user_guide/images/dir2.png" BORDER="0" ALT=""></center>                    
+</P>
+<P>
+上图与上一章的第二节中的图片相比多了一个Tools文件夹。这里边放的是一些可以单独运行的小工具。这些工具是由<CODE>AddIn.Gui.UiService</CODE>的<CODE>Void Exexute(System.String)</CODE>进行调用的。这个方法的目的是执行某个路径下的应用程序。
+</P>
+<P>
+每一个插件单独放到AddIns目录下的一个文件夹里。
+                    <center><IMG ALIGN="middle" SRC="./user_guide/images/dir2.png" BORDER="0" ALT=""></center>                    
+一个插件需要的固定的图片资源可以放到其下的Images文件夹里。如果有可以加载到这个插件中运行的插件再新建一个文件存放之；如MyIE_Plugin，其下存放的是可以自当前打开的页面中执行以完成某些特殊功能的Javascript。调用插件的插件的界面元素需要的图片资源直接存放到子插件的目录下。如调用解除右键菜单限制的MenuItem左侧显示的图片就存放在插件MouseUnlock目录下。
+                    <center><IMG ALIGN="middle" SRC="./user_guide/images/Mun.png" BORDER="0" ALT=""></center>                    
+</P>
+<P>
+你或许会说一些插件并不是如此简单，只有一个dll文件。它很可能还需要引用其它dll文件。事实确实是这样，那么我们该如何处理呢。.NET程序启动时会首先到GAC里寻找需要的引用，然后是当前运行程序的目录，最后会查找App.Config文件中配制的目录。所以如果某些程序集只会被某个插件所引用，那么将这些程序集放到插件目录中，然后在配制文件夹中添加这个目录为引用目录。引用目录的配制节的形式为：
+</P>
+<PRE>
+  &lt;?xml version="1.0" encoding="utf-8" ?&gt;
+  &lt;configuration&gt;
+  	&lt;runtime&gt;
+  		&lt;assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1"&gt;
+  			&lt;probing privatePath=""/&gt;
+  		&lt;/assemblyBinding&gt;
+  	&lt;/runtime&gt;
+  &lt;/configuration&gt;
+</PRE>
+<P></P>
+<P>
+使用时只需要修改privatePath的值，如果有多个目录使用半角英文分号分隔。如果浏览器插件还需要引用一些只会被它使用程序集，那么把这些程序集放到MyIE目录下。然后将AddIns\MyIE增加为引用目录，即 privatePath="AddIns\MyIE"。
+</P>
+<P>
+插件运行中使用的不确定的资源，如浏览器的网站图标（FavoritesIcon），就单独存放到插件目录下的一个文件夹中。
+</P>
+<P>
+系统主要功能的帮助文档放到Help文件夹下。某个插件的帮助文档推荐放到插件的目录下，然后再重写插件服务的About方法时，给出交互界面将帮助文档显示出来。
+</P>
+<A NAME="toc35"></A>
+<H3>如何使用日志系统</H3>
+<P>
+本框架的日志系统采用的是开源日志系统——log4net。在此采用了将日志对象在配制文件中进行说明，然后在类中通过<CODE>log4net.LogManager.GetLogger</CODE>方法获取这个日志对象。如，在Log.Config中使用下面一节配制了一个日志对象，名称为"AddIn.Core"。
+</P>
+<PRE>
+  		&lt;logger name="AddIn.Core"&gt;
+  			&lt;level value="DEBUG"/&gt;
+  			&lt;appender-ref ref="CoreLogFileAppender" /&gt;
+  		&lt;/logger&gt;
+</PRE>
+<P>
+在AppFrame类中使用<CODE>GetLogger</CODE>方法通过日志名称获取了这个日志对象。
+</P>
+<PRE>
+  public static log4net.ILog FrameLogger = log4net.LogManager.GetLogger("AddIn.Core");
+</PRE>
+<P></P>
+<P>
+为了让您能够更好的使用日志系统，在此，对log4net进行一个简要的说明，更细致的消息请参考log4net的帮助。在下面列出几个log4net的汉语参考：
+</P>
+<UL>
+<LI><A HREF="http://www.cnblogs.com/dragon/archive/2005/03/24/124254.html">Log4Net使用指南</A>
+<LI><A HREF="http://blog.sina.com.cn/s/blog_4849e97e010004i5.html">日志系统Log4net的学习手记系列</A>
+<LI><A HREF="http://blog.csdn.net/Maths_bai/archive/2010/12/14/6075183.aspx">Log4net源码分析</A>
+</UL>
+
+<P></P>
+<P>
+在log4net中所有与日志有关的对象都配制在配制文件的<CODE>log4net</CODE>节。首先需要在<CODE>configSections</CODE>节对<CODE>log4net</CODE>节进行必要的说明。
+</P>
+<PRE>
+  	&lt;configSections&gt;
+  		&lt;section name="log4net" 
+                  type="log4net.Config.Log4NetConfigurationSectionHandler, 
+                  log4net-net-1.0" 
+  		/&gt;
+  	&lt;/configSections&gt;
+</PRE>
+<P>
+然后在<CODE>log4net</CODE>配制各种日志对象。
+</P>
+<PRE>
+  	&lt;log4net&gt;
+  		
+  		&lt;root&gt;
+  			&lt;level value="DEBUG" /&gt;
+  			&lt;appender-ref ref="ConsoleAppender" /&gt;
+  		&lt;/root&gt;
+  
+  		&lt;appender name="ConsoleAppender"  type="log4net.Appender.ConsoleAppender" &gt;
+  			&lt;layout type="log4net.Layout.PatternLayout"&gt;
+  				&lt;param name="ConversionPattern"  value="%d [%t] %-5p %c [%x] &amp;lt;%X{auth}&amp;gt;%n - %m%n" /&gt;
+  			&lt;/layout&gt;
+  		&lt;/appender&gt;
+  
+  		&lt;logger name="AddIn.Core"&gt;
+  			&lt;level value="WARN"/&gt;
+  			&lt;appender-ref ref="CoreLogFileAppender" /&gt;
+  		&lt;/logger&gt;
+  
+  		&lt;appender name="CoreLogFileAppender"  type="log4net.Appender.FileAppender" &gt;
+  			&lt;param name="File" value="Log\\Core.log" /&gt;
+  			&lt;param name="AppendToFile" value="false" /&gt;
+  			&lt;layout type="log4net.Layout.PatternLayout"&gt;
+  				&lt;param name="ConversionPattern"  value="%d [%t] %-5p %c [%x] &amp;lt;%X{auth}&amp;gt;%n - %m%n" /&gt;
+  			&lt;/layout&gt;
+  		&lt;/appender&gt;
+  		
+  	&lt;/log4net&gt;
+</PRE>
+<P></P>
+<P>
+log4net中的日志对象有：
+</P>
+<UL>
+<LI>logger，实现了ILog接口。通过调用logger的不同方法来记录不同级别的日志。logger拥有一个记录级别，如果需要记录的日志的级别低于这个logger的级别这个日志就不会被记录。如名称为"“AddIn.Core”的日志对象的级别为“WARN”，则调用Info和Debug方法就不能将日志信息输出到目标。
+<P></P>
+</UL>
+
+<TABLE CELLPADDING="4" BORDER="1">
+<TR>
+<TH>级别</TH>
+<TH>方法</TH>
+<TH>是否有效</TH>
+<TH>说明</TH>
+</TR>
+<TR>
+<TD>OFF</TD>
+<TD></TD>
+<TD></TD>
+<TD>不记录任何日志</TD>
+</TR>
+<TR>
+<TD>FATAL</TD>
+<TD>void Fatal(...);</TD>
+<TD>bool IsFatalEnabled;</TD>
+<TD>严重错误</TD>
+</TR>
+<TR>
+<TD>ERROR</TD>
+<TD>void Error(...);</TD>
+<TD>bool IsErrorEnabled;</TD>
+<TD>错误</TD>
+</TR>
+<TR>
+<TD>WARN</TD>
+<TD>void Warn(...);</TD>
+<TD>bool IsWarnEnabled;</TD>
+<TD>警告</TD>
+</TR>
+<TR>
+<TD>INFO</TD>
+<TD>void Info(...);</TD>
+<TD>bool IsInfoEnabled;</TD>
+<TD>消息</TD>
+</TR>
+<TR>
+<TD>DEBUG</TD>
+<TD>void Debug(...);</TD>
+<TD>bool IsDebugEnabled;</TD>
+<TD>调试消息</TD>
+</TR>
+<TR>
+<TD>ALL</TD>
+<TD></TD>
+<TD></TD>
+<TD>所有消息</TD>
+</TR>
+</TABLE>
+
+	<BLOCKQUOTE>
+	<I>（日志级别从上到下递减。）</I>
+	</BLOCKQUOTE>
+<P></P>
+<P>
+在Log.Config中可以看到<CODE>root</CODE>节的配制内容和<CODE>logger</CODE>节的内容很相似。其实<CODE>root</CODE>节也配制了个日志对象。由于在实际应用中，许多logger可能具有相同的特点，便将这些相同的特点配制进<CODE>root</CODE>节中，在<CODE>logger</CODE>节中就不用再配制了。在上面的配制文件中<CODE>root</CODE>拥有一个名称为“ConsoleAppender”的日志对象，则所有的日志都会拥有这么一个appender对象。<CODE>root</CODE>的日志级别为<CODE>DEBUG</CODE>，如果不现实指名logger的级别，则默认为<CODE>DEBUG</CODE>级别。
+</P>
+<UL>
+<LI>appender，定义了存储日志的目标和方式。一个logger对象可以包括多个appender对象。一个appender对象也可以被多个logger对象引用。logger实际上是通过appender对象将日志信息记录到目的地的。
+<P></P>
+appender对象可以通过单独的一节配制，如上面的配制文件中的“ConsoleAppender”。在日志节中通过appender-ref属性指名对其引用，如<CODE>&lt;appender-ref ref="ConsoleAppender" /&gt;</CODE>。
+<P></P>
+<LI>filter，有些时候需要对日志的过滤条件并不是低于某个级别的日志就不记录。所以就需要为appender对象指定一个filer对象来对日志进行过滤。在log4net.Filter的名字空间下已经有几个预定义的过滤器，完全满足日常需要，具体配制方法参考官方的使用手册。
+<P></P>
+<LI>layout，日志需要按一定的格式输出，所以appender对象还拥有一个layout对象。
+</UL>
+
+<P></P>
+<P>
+打开Mini Internet Explorer的Log.Config文件会发现其中多了两部分内容。
+</P>
+<PRE>
+  		&lt;logger name="MyIE.MyIEService"&gt;
+  			&lt;level value="ERROR"/&gt;
+  			&lt;appender-ref ref="MyIELogFileAppender" /&gt;
+  		&lt;/logger&gt;
+  
+  		&lt;appender name="MyIELogFileAppender"  type="log4net.Appender.FileAppender" &gt;
+  			&lt;param name="File" value="Log\\MyIE.log" /&gt;
+  			&lt;param name="AppendToFile" value="true" /&gt;
+  			&lt;layout type="log4net.Layout.PatternLayout"&gt;
+  				&lt;param name="ConversionPattern"  value="%d [%t] %-5p %c [%x] &amp;lt;%X{auth}&amp;gt;%n - %m%n" /&gt;
+  			&lt;/layout&gt;
+  		&lt;/appender&gt;
+</PRE>
+<P>
+在一个新的logger节定义了一个名称为<CODE>MyIE.MyIEService</CODE>的logger。这个logger对象使用了一个名称为“MyIELogFileAppender”的appender对象，其配制信息紧随其后。
+type属性说明这是一个文件类型的appender，将会把日志输出到文件。第二行使用value字段指明File的位置为"Log\\MyIE.log"。第三行指明日志的输出类型为追加到末尾，如果将value的值修改为false，系统每次启动都会清除上一次运行记录的日志。
+</P>
+	<BLOCKQUOTE>
+	（<I>以后的章节中将会以Mini Internet Explorer为例，从实际应用方面对此插件框架的使用进行讲解</I>）
+	</BLOCKQUOTE>
+<P></P>
+<A NAME="toc36"></A>
+<H3>设计插件的接口</H3>
+<P>
+这个插件框架的目标是快速创建可定制的应用系统，注册到系统中的插件的目标在于满足用户的需求，而不是提供开发应用系统的基础功能组件。所以从上至下的插件开发过程是合适的，即首先需要提供给用户的功能和用户的交互方式确定下来。
+</P>
+<P>
+基础功能是什么呢？它是不需要用户直接调用从而应该对用户隐藏的功能。比如，为了开发多语言版本的系统，通常需要文本字典功能，用于将用户关键字映射为各种语言的版本，提供字典功能的组件就不应该设计为插件。这样做的好处有很多。
+</P>
+<UL>
+<LI>首先，可复用性提高了；这种组件非常有可能用到不使用此框架开发的系统 。
+<LI>第二，减少用户破坏系统配置的可能性；用这个插件框架开发的系统是允许用户定制的，如果注册到系统中的与用户需求无关的插件越多，用户错误地订制系统的几率就越大。
+</UL>
+
+<P></P>
+<P>
+所以设计在本框架中使用的插件的第一指导原则就是尽量不考虑将基础功能设计为插件（其实使用Sharpdevelop之类的插件框架也一样）。当然在设计插件接口时也不要加入一些提供基础功能的接口。唯一的特例就是，这些基础功能不可能在别的地方重用，而是为需要注册到这个系统中的全部或者绝大多数插件提供基础服务时，才能将这些功能设计为基础插件。提供届面服务的AddIn.Gui.dll插件便是这种情形。
+</P>
+<P>
+第二个指导原则，相关性强的一系列功能应该作为同一个类的成员方法，用于更新调用这些功能的界面元素状态的事件（将在下一章详细讲解）也应该包含在这个类中。插件的目标在于满足用户需求，所以在设计插件的接口时应该从用户的需求入手。设计时不仅要考虑到需要向用户提供的功能，还要考虑到功能之间的相关性和流程性。相关性和流程性就是通过更新界面元素状态体现出来的。
+</P>
+<P>
+下面以这个浏览器为例进行说明。
+</P>
+<P>
+首先需要分析用户对于浏览器的功能需求。当然，浏览器的第一功能就是浏览某个网址。接下来就是与浏览网页有关的一系列功能：当用户向前浏览后可以后退，后退之后可以前进；有些时候需要刷新和停止某个页面；有时候需要在页面中查找某个关键字。
+</P>
+<P>
+由此便可以设计出浏览器最基本的接口。接下来要考虑这些功能之间的关联性——完成某个功能的先决条件和功能完成后的后续结果。只有向前浏览之后才可以后退——向前浏览便是后退的先决条件，可以后退便是向前浏览的后续结果。这种相关性便需要用事件来完成，这些事件最终会被插件框架订阅用来更新调用这些功能的界面元素的状态。
+</P>
+<P>
+考虑到这个一个标签式多文档界面的插件框架，当然也会实现为一个标签式的多页浏览器。还需要一些与页面有关的基本功能。如，关闭当前页面，关闭所有页面，关闭所有非当前页面，恢复最近关闭的页面等。
+</P>
+<P>
+综合所有常用的需求，以及我们对浏览器一些其它需求，比如解除右键菜单，清除页面上的飞行广告，让页面变成某种适合阅读的颜色，将页面内容保存为图片，截取页面上某部分内容为图片等。我们设计出了Mini Internet Explorer中的MyIE插件的接口。
+</P>
+<P>
+到此为止仍然让我们疑惑的或许就是下面这些事件了。这就是用来维护界面逻辑的事件，将在下一章详细讲解。
+</P>
+<PRE>
+          //用于页面关闭后维护界面逻辑的事件
+          event AddIn.Core.UpdateUiElemHandler UpdateClose;
+          //用于页面下载完成后更新界面逻辑
+          event AddIn.Core.UpdateUiElemHandler UpdateComplete;
+          //用于确认是否可以进行后退操作，以更新完成后退功能的界面元素的状态
+          event AddIn.Core.UpdateUiElemHandler UpdateGoBack;
+          //用于确认是否可以进行前进操作，以更新完成前进功能的界面元素的状态
+          event AddIn.Core.UpdateUiElemHandler UpdateGoForward;
+          ……
+</PRE>
+<P></P>
+<A NAME="toc37"></A>
+<H3>怎么维护界面逻辑</H3>
+<P>
+上一节设计出的插件的接口中除了UpdateUiElemHandler，其它的都好理解。虽然前文已经指明插件框架靠订阅这些事件来更新界面元素的状态，但是插件怎么得知需要更新界面元素至什么状态。
+</P>
+<P>
+界面元素的状态在第一章的第三节已经有所提及。它包括界面元素的Enabled、Checked、Visible属性，界面上显示的文字，选项界面元素（如：ListBox、ComboBox）的选择项或者选择索引，能提供数值的界面元素（如：ProgressBar）的数值等。这些都是可以用来指示系统当前所处的状态和用户下一步可进行的操作。
+</P>
+<P>
+UpdateUiElemHandler的原型如下：
+</P>
+<PRE>
+      public delegate void UpdateUiElemHandler(object sender, UpdateUiElemEventArgs e);
+  
+      public class UpdateUiElemEventArgs : EventArgs
+      {
+          private bool _checked;
+          private bool _enabled;
+          private bool _visible;
+          private int _count;
+          private int _maximum;
+          private string _text;
+          private object _value;
+      }
+</PRE>
+<P></P>
+<P>
+值得注意的是UpdateUiElemHandler的最后一个参数——UpdateUiElemEventArgs的实例。正是这个实例将界面元素需处于的状态传递给插件框架的。插件框架对这个类的各个成员有标准的理解，所以在编写方法时如果需要更新界面状态就要按插件框架的理解为它的实例赋值。
+</P>
+<UL>
+<LI>Checked——用于设置界面元素十分应该处于选中状态。
+<LI>Enabled——用于设置界面元素的可用性。
+<LI>Visible——用于设置界面元素的可见性。
+<LI>Count——用于更新界面元素的数值属性。
+<LI>Maximum——用于确认界面元素数值属性的最值。
+<LI>Text——用于更新显示在界面上的文本。
+<LI>Value——用于更新各种界面元素的各种其它值。也用来设置Combox或者其它选项类控件的选定值，或者选项类控件中添加值。
+</UL>
+
+<P></P>
+<P>
+在这个浏览器中将前进和后退的按钮的UpdateEevent分别设置为UpdateGoForward和UpdateGoBack，初始状态都设置为false。
+当在当前页面中向前浏览后，需要发布UpdateGoBack事件将参数的Enabled字段设置为true；向后浏览后需要进行类似的操作。
+当切换页面后需要发布UpdateGoForward和UpdateGoBack事件，用于让启用和停用前进和后退按钮以指示在当前页面中是否可进行前进和后退操作。当然在发布这些事件时Checked应为false，Visible应该为true。
+</P>
+<P>
+在状态栏中的一个进度条的UpdateEvent设置UpdateProgress，用于指示当前页面的打开进度。当当前页面的下载进度发生变化时发布UpdateProgress事件，将参数的Count设置为当前的进度值，Maximum设置为下载完成时的进度值，Visible、Enabled、Checked保留默认值，分别为true，true，false。框架在设置ProgressBar的进度值使用的计算公式为Count*ProgressBarMaximum/Maximum。
+</P>
+<P>
+状态栏中还有一个文本框，其Enabled的属性始终都是false。其显示出来的文字用于指示当前使用的默认搜索引擎。它的更新事件为UpdateSearchEngine。当默认搜索引擎发生变化时，发布此事件，将Text字段设置为当前默认搜索引擎的名称，Enabled字段设置为false。
+</P>
+<P>
+对于输入网址的组合框，不仅要更新其显示的文字，有时还要想其下拉列表中添加历史访问记录。在此种情况下本框架约定：
+</P>
+	<BLOCKQUOTE>
+	如果参数的Text成员不等于null或Empty，首先将选项类控件的显示文本设置为Text，并且约定不引发SelectedIndexChanged事件。对于ComboBox来说，如果Text不等于null就将ComboBox的显示文本设置为Text。当Value成员也不为null时，就将Value对象插入到选项类控件成员容器的第一个位置。对于ComboBox 来说，就是将Value插入到Items的索引为0的位置。此时会检查选项类控件的子项目是否多于Maximum个，如果多于Maximum就从最后移出一个，对于ComboBox，就是移出Items的最后一项。
+	</BLOCKQUOTE>
+<P></P>
+	<BLOCKQUOTE>
+	否则，首先判断Count是否是一个合适的SelectedIndex。如果是将选项类控件的选择索引设置为Count，此时引发SelectedIndexChanged事件。如果不是一个合适的SelectedIndex则测试Value是否是null，如果不为null，就将选项类控件的选择项设置为value。如果替换了本框架的UI 插件，且本UI组件的选项类控件的选择项对象比较大，请不要使用Value更新选择项。
+	</BLOCKQUOTE>
+<P></P>
+<A NAME="toc38"></A>
+<H3>文档窗体、工具窗体和对话框</H3>
+<P>
+所有功能强大的应用程序中都有三种窗体——对话框、文档窗体、工具窗体。
+</P>
+<P>
+对话框是一种非常简单的窗体，都以模态弹出，即对话框弹出时在当前应用程序中只能在对话框上进行操作。
+对话框的作用是让用户做出简单的选择或者提供一些必要的输入。
+比如，在用户退出程序时如果有没有保存的改变，应该弹出对话框询问用户是否保存。打印文档时弹出对话框让用户输入打印的页码范围、份数，选择打印机等。在.NET环境中，已经提供多种进行基本操作的对话框，这些对话框运行时会和系统的风格保持一致。
+</P>
+<P>
+文档窗体是用来表现用户数据的，它最明显的特征是可以拥有多个实例，单文档应用系统除外。
+大多数情况下，文档窗体需要以一定的布局显示到应用程序主窗体内部。
+对于插件框架来说，就是文档窗体的显示需要框架的管理。所以插件提供了DocFormBase这样一个文档窗口基类。使用此插件框架时所有文档窗体都需要继承自此类。
+此类不仅提供用于管理文档窗口布局的基本功能，还自动获取配置给某类文档窗口的弹出菜单。
+对于某个窗口一般需要两种文档菜单，一个在右击标题栏时弹出，用于控制整个文档，如关闭、保存等；另一个在右击文档内容时弹出用于对文档内容进行编辑。
+DocFormBase提供了两个property用于获取配置到窗口标题栏和客户区的右键菜单。
+</P>
+<PRE>
+          public ContextMenuStrip ContextMenuStripCaption
+          {
+              get { return _contextMenuStripCaption; }
+          }
+  
+          public ContextMenuStrip ContextMenuStripClient
+          {
+              get { return _contextMenuStripClient; }
+          }
+</PRE>
+<P></P>
+<P>
+所以将右键菜单指定给某个窗体时一定要指明所属位置。如下图，这个右键菜单指定给页面文档的标题栏。
+                    <center><IMG ALIGN="middle" SRC="./user_guide/images/cms.png" BORDER="0" ALT=""></center>                   
+</P>
+<P>
+工具窗口用来控制用户数据或者提供其它与操作文档不冲突的功能，即不需要以模态形式显示，比如Visual Studio中的工具栏和解决方案管理器。
+工具窗口的特性是只有一个实例或者至少让用户感觉只有一个实例。肯定不能让用户点击一次“显示工具栏”菜单就新显示一个工具栏。单是为了内存使用效率，也最好让工具窗口只有一个实例。
+工具窗口一般有两种类型，第一种就像Visual Studio的工具栏，需要停靠到主窗体中。这中工具窗口需要插件框架来管理其显示。另一种像对话框一样是弹出窗口，但是不是模态的，这种工具窗口不需要插件管理器显示。在本框架中只提供了第一种工具窗口的基类ToolWinBase。它同样可以自动获得配置给本类工具窗口的弹出菜单，当然也提供了同样的用于获得弹出菜单的property。
+</P>
+<A NAME="toc39"></A>
+<H3>创建文档模型实现文档窗口</H3>
+<P>
+建立好需要处理的文档的模型，然后新建一个窗体或者类让其继承自DocFormBase。在文档窗体中实现一些方法用于将文档对象显示出来，并且提供一些浏览功能。这样一个文档窗口就算完工了。
+</P>
+<P>
+事实上，现在绝大多数组件产品对于文档对象都提供了对应的控件来显示浏览甚至是编辑，就像WebBrowser控件一样。仅仅将他们拖放到新建的文档窗口上，Dock属性设为Fill。运行时，将文档对象和控件关联起来，控件立刻就能显示出文档对象，并能提供浏览、编辑等功能。
+</P>
+<P>
+对于那些自定义的文档对象，也希望你能够编写这样的控件。这样做能够实现更高级的重用性，对程序的模块划分也更加明确，维护起来也更加容易。
+</P>
+<P>
+创建好文档窗口后仍然有些问题需要考虑。界面元素需要指示的指示当前文档内容的状态。当切换文档窗口后，需要获得新激活的窗口关联的文档的内容的状态。所以在多文档系统中每一个文档窗口还要记录文档内容的状态，如果文档对象没有记录的话。
+</P>
+<P>
+首先需要分析的是有那些状态是需要记录。对网页来说，页面的下载进度，是否可以前进或者后退，当前的地址就是必须记录的状态。对于其它文档来说还需要记录文档内容与打开时相比是否改变了，是否有操作可以撤销，是否有操作可以重做，剪贴板上是否有内容可粘贴，是否需要指示文档中选中项的格式等信息，需要在状态栏显示的文本以及一些其它的自定义信息等。
+</P>
+<P>
+在Mini Internet Explorer中将一个扩展后的WebBrowser拖放到继承自DocFormBase的窗体（PageForm）内就完成了页面窗口。
+由于WebBrowser的Progress和Complete存在不一致性，所以要在PageForm中实现了两个Property用于确认当前框架是否下载完成，以及当前框架的下载进度，用于分别更新表示进度的ProgressBar的可见性和进度值。
+</P>
+<PRE>
+          public bool Complete
+          {
+              get { return _complete; }
+          }
+  
+          public int Progress
+          {
+              get { return _progress; }
+          }
+</PRE>
+<P></P>
+<P>
+此外，还须要将WebBrowser的一些表示页面状态改变的事件发布出来。有两种方式可以选择，第一种直接通过属性取得WebBrowser，然后直接订阅WebBrowser的事件；另一种就是将在PageForm中订阅WebBrowser的事件再重新发布。推荐以第一种方式进行，如果要对状态进行预处理则采用第二种方式。 
+</P>
+<A NAME="toc40"></A>
+<H3>何时发布更新界面事件</H3>
+<P>
+通常插件向用户提供的某些功能完成后，必然会导致文档中的数据发生改变。所以首要的发布更新界面事件的时机就是在完成用户功能的方法退出时。
+</P>
+<P>
+当然有些时候并非只有显式的通过界面元素实现的功能才会导致文档数据的改变。用来显示、浏览、编辑用户数据的控件可能实现了一些右键菜单功能或者快捷键，这些操作同样会导致文档数据的改变。
+对于优秀的此类控件都会在文档数据的不同改变时发布相应事件。所以在打开或者新建一个新文档的方法完成时，应该订阅这些文档的数据改变事件以便在数据改变时发布更新界面事件。
+</P>
+<P>
+这便引发了一个问题，手动调用提供给用户的功能后通常也会导致控件发布数据改变事件。如果一次数据改变发布两次界面更新事件是很低效的做法。使用本插件框架时应该详细思考并作出协调。
+其实并非只有使用本插件框架时需要注意这个问题，采用普通方式编写程序时也需要注意这个问题。
+</P>
+<P>
+由于界面元素始终要表示的是当前文档的状态，所以在文档窗口激活或者失活时需要发布更新界面的所有事件。如果系统支持一种文档类型，则可以只在文档窗口激活或失活时发布事件。如果系统支持多种类型的文档就需要在激活和失活时都发布这些事件。这是由于，如果有多种文档类型，当新激活的文档类型和原来的活动文档类型不同时，需要改变的界面元素很可能和激活同类型文档时不同。而表示原来文档状态的界面元素应该处于不可用状态。
+</P>
+<P>
+推荐的做法是在激活和失活时都发布更新界面事件。插件框架是灵活的，非常有可能加入另外一个插件就会引入一种新的文档类型。
+</P>
+<P>
+这些问题其实在使用普通方式编写WinForm应用程序时也应该注意。在下一节会涉及到另外一个主题，多线程与界面元素。其中也有部分关于发布更新界面事件的注意事项。
+</P>
+<A NAME="toc41"></A>
+<H3>和AddIn.Gui交互，创建收藏菜单和收藏工具条</H3>
+<P>
+系统的运行界面并非被界面说明文件完全限制给此插件框架带来了更大的灵活性。对这个浏览器来说，就是可以根据实际情况创建收藏菜单和收藏工具条。
+</P>
+<P>
+首先需要在界面上配置好收藏菜单和收藏工具条。在IE插件中获取UI服务之后立即通过唯一名称或者路径获取对它们的引用。
+</P>
+<PRE>
+              _services = AppFrame.GetServiceCollection();
+              _uiService = (IUiService)_services.GetService("AddIn.Gui.UiService");
+              _uiService.MainForm.WindowState = FormWindowState.Maximized;
+  
+              _favoritesMenu = _uiService.GetToolStripItem("MenuStrip/收藏(&amp;B)/") as ToolStripMenuItem;
+              _favoritesMenu.DropDownItems.Add(new ToolStripSeparator());
+              _tsmi = _favoritesMenu;
+              _favoritesStrip = _uiService.GetToolStrip("ts1", true);
+</PRE>
+<P></P>
+<P>
+由于同时需要对收藏夹的结构创建收藏菜单、收藏工具条、收藏夹工具栏中的树形结构。所以有必要新建一个类<CODE>FavoritesAgent</CODE>用于对收藏夹结构进行代理和管理。
+为了减少对收藏夹树的遍历次数同时为了降低耦合性，让<CODE>FavoritesAgent</CODE>在初始化收藏夹树的时候发布事件，然后按照需要订阅这个事件创建收藏菜单、收藏工具条
+。收藏夹菜单和收藏夹工具条的树形结构中子节点都需要添加到父节点的节点容器中，如下图，代表各个大牛博客网址的MenuItem需要添加到代表代表“大牛的博客”的文件夹的MenuItem的<CODE>DropDownItems</CODE>中。
+                    <center><IMG ALIGN="middle" SRC="./user_guide/images/favorite.png" BORDER="0" ALT=""></center>                    
+</P>
+<P>
+所以子节点在创建之前父节点必须已经被创建了，也就是<CODE>FavoritesAgent</CODE>中加载父节点加载事件必须在子节点加载之前；因而<CODE>FavoritesAgent</CODE>中加载收藏夹树时应该采用先根遍历的方式。请注意下面的代码，文件夹的处理放在链接文件之前。由于收藏夹中文件夹和链接文件的层次不同在收藏工具条中要使用不同的界面元素代表，所以发布事件时还需将<CODE>_level</CODE>信息一并发送出去。
+</P>
+<PRE>
+          int _level = 0;
+          private void ProcessFavoritesDir(FavoritesDir favoritesDir)
+          {
+              _level++;
+  
+              foreach (string dir in Directory.GetDirectories(favoritesDir.Path))
+              {
+                  FavoritesDir fDir = new FavoritesDir();
+                  fDir.Path = dir;
+                  favoritesDir.FavoritesDirList.Add(fDir);
+                  if (FavoritesAgent.OnAddFavoritesItem != null)
+                  {
+                      FavoritesEventArgs arg = new FavoritesEventArgs(_level, fDir, null);
+                      FavoritesAgent.OnAddFavoritesItem(this, arg);
+                  }
+                  this.ProcessFavoritesDir(fDir);
+              }
+  
+              foreach (string file in Directory.GetFiles(favoritesDir.Path))
+              {
+                  if (file.EndsWith(".url", true, null))
+                  {
+                      UrlFile urlFile = new UrlFile();
+                      urlFile.FromFile(file);
+                      favoritesDir.UrlFileList.Add(urlFile);
+                      if (FavoritesAgent.OnAddFavoritesItem != null)
+                      {
+                          FavoritesEventArgs arg = new FavoritesEventArgs(_level, null, urlFile);
+                          FavoritesAgent.OnAddFavoritesItem(this, arg);
+                      }
+                  }
+              }
+              _level--;
+          }
+</PRE>
+<P></P>
+<P>
+接下来就是订阅事件创建收藏夹菜单和收藏工具条了。同样由于子节点需要放入父节点的容器中，所以在处理子节点时能够获取对树节点的引用。下面以收藏工具条为例说明如何编写处理<CODE>OnProcessFavoritesStrip</CODE>事件的代码。下面那个level表示当前处理的层次的父层。对其的更新放在创建收藏菜单的代码中，查看源码可以看到其方法的最后一句是<CODE>_level2 = e.Level;</CODE>。
+</P>
+<PRE>
+          int _level2 = 0;
+          ToolStripDropDownItem _tsddi;
+          void FavoritesAgent_OnProcessFavoritesStrip(object sender, FavoritesEventArgs e)
+          {
+                  ToolStripItem tsi = null;
+                  ToolStripItemCollection tsic = null;
+  
+                  if (e.Level == 1)
+                  {
+                      if (e.UrlFile != null)
+                      {
+                          tsi = this.CreateToolStripButton(e.UrlFile);
+                      }
+                      else
+                      {
+                          tsi = this.CreateToolStripDropDownButton(e.FavoritesDir);
+                      }
+                      tsic = _favoritesStrip.Items;
+                  }
+                  else
+                  {
+                      this.ResetTsi(e.Level, _level2);
+                      if (e.UrlFile != null)
+                      {
+                          tsi = this.CreateToolStripMenuItem(e.UrlFile);
+                      }
+                      else
+                      {
+                          tsi = this.CreateToolStripMenuItem(e.FavoritesDir);
+                      }
+  
+                      tsic = (_tsi as  ToolStripDropDownItem).DropDownItems;
+                  }
+  
+                  tsic.Add(tsi);
+                  _tsi = tsi;
+  
+                  _level2 = e.Level;
+          }
+</PRE>
+<P></P>
+<P>
+声明一个<CODE>ToolStripDropDownItem</CODE>类型的成员<CODE>_tsddi</CODE>用于保留在创建收藏夹工具条菜单项时当前父界面元素的引用。在事件信息中，如果<CODE>e.UrlFile != null</CODE>说明当前加载的是链接文件，否则就是收藏夹下面的文件夹。由于是先根遍历，所以首先处理的肯定是文件夹；否则，只能说明收藏夹下面没有其它的文件夹。
+根据约定收藏夹下的第一层文件夹的level为1，所以首先执行的是最外层else块的<CODE>if (e.Level == 1)</CODE>子块。结果是将代表这个文件夹的<CODE>ToolStripDropDownButton</CODE>添加到收藏工具条中，且使<CODE>_tsddi</CODE>指向它。
+接下开始解析这个文件下的文件夹，执行的是最外层else块的else子块，此时<CODE>e.Level</CODE>显然大于0。执行的结果是将代表这个文件夹的<CODE>ToolStripMenuItem</CODE>添加到<CODE>_tsddi</CODE>中，即添加到代表上层文件夹的界面元素的子元素集合中，然后将<CODE>_tsddi</CODE>指向这个<CODE>ToolStripMenuItem</CODE>。
+如此往复只到某个文件夹下全是链接文件或者什么都没有，然后开始回到上一层开始开始处理下一个文件夹，就这样处理完所有收藏夹中的内容。
+</P>
+<A NAME="toc42"></A>
+<H2>高级主题</H2>
+<A NAME="toc43"></A>
+<H3>创建带有Splash Screen和登陆窗体的宿主</H3>
+<P>
+假如使用该框架编写的系统包含很多插件，那么系统启动时加载这些插件会耗费一些时间。这样一来，当用户双击后需要等待较长的时间系统主界面才能显示出来，这是很差的用户体验；显示出一个Splash Screen将系统目前正在进行的工作告知用户，能够让用户感觉到的等待时间减少，从而提高了用户体验。
+</P>
+<P>
+有时需要对使用系统的用户进行限制，就不得不首先弹出一个登陆窗口来验证用户的身份。等到主窗口加载完成后再来验证用户的身份，是很不划算的；假如用户等待至系统启动完成后，失败地通过一次身份验证后发现忘记了口令将会是一件比较郁闷的事情，当然这也是个仁者见仁智者见智的事情。但是在这个插件框架里，如果有登录窗口的话，登录窗口将会首先弹出，如果有SplashScreen接着弹出；因为登录是在一个单独的线程里执行的，在等待用户登录的过程中可以在后台完成插件的加载；从而减少了SplashScreen的保持时间，有时候SplashScreen只用保持设定的最短时间就可以了。
+</P>
+<H4>创建登录窗口</H4>
+<P>
+如果您实际动手编写过一个宿主或者细心查看过随本文档所附带的示例代码，就会发现AppFrame类拥有两个Property——<CODE>LoginDialog</CODE>和<CODE>SplashScreen</CODE>；<CODE>LoginDialog</CODE>就是登录窗口。
+</P>
+<P>
+在宿主工程中创建一个窗体，让其实现接口<CODE>ILoginDialog</CODE>。从窗口编辑器中打开这个窗口，制作好登录窗口的外观。<CODE>ILoginDialog</CODE>有一个<CODE>ShowDialog</CODE>方法其返回值为bool，这个方法只有在窗口关闭后才返回，返回值表示用户是否确认登录。所以应该为窗口提供一个确认（或者OK以及其它能够表示这个意思的）按钮，并且让这个按钮的返回值是<B>DialogResult.OK</B>。在实现接口的<CODE>ShowDialog</CODE>方法中调用<CODE>base.ShowDialog()</CODE>，并判断其返回值是否是<B>DialogResult.OK</B>。
+</P>
+<PRE>
+  	public new bool ShowDialog()
+  	{
+  	    bool ret = (DialogResult.OK == base.ShowDialog());
+  	    return ret;
+  	}
+</PRE>
+<P></P>
+<P>
+在<CODE>ShowDialog</CODE>返回之前需要将其bool属性<CODE>Valid</CODE>设置为用户通是否过了验证。验证用户权限和这个过程可以放在确认按钮的消息处理函数中进行，如果验证过程过长可以在另外一个线程里进行。此时可以将确认按钮的DialogResult设置为None，点击确认后新开一个线程用于处理验证过程，验证过程结束后需指定对话框的返回值，并将验证结果赋值给<CODE>Valid</CODE>，下面是其实现代码。
+</P>
+<PRE>
+          private void btnOK_Click(object sender, EventArgs e)
+          {
+              btnOK.Enabled = false;
+              _LoginThread = new Thread(new ThreadStart(Login));
+              _LoginThread.Start();
+          }
+  
+          private void Login()
+          {
+              Thread.Sleep(5000);//验证用户过程,并将验证结果赋值给_valid
+              this.Invoke(new MethodInvoker(delegate() { this.DialogResult = DialogResult.OK;}));
+          }
+</PRE>
+<P></P>
+<H4>创建SplashScreen</H4>
+<P>
+实例化一个实现了<CODE>ISplashScreen</CODE>的类，并在类中完成SplashScreen的功能，将其赋给<CODE>AppFrame</CODE>的Property——<CODE>SplashScreen</CODE>，即可完成SplashScreen功能。还可以通过为<CODE>AppFrame</CODE>对象的<CODE>SplashInterval</CODE>属性赋值来指示SplashScreen最少展示的时间，其单位是毫秒。
+</P>
+<P>
+在宿主工程中创建一个窗体，从窗口编辑器中打开这个窗体，制作好外观。让其实现接口<CODE>ISplashScreen</CODE>。其实现代码如下。<CODE>SetInfo</CODE>用来在界面上显示系统启动中需要显示的一些信息，告诉用户系统当前正在干什么比现实一个静态的窗口要有好的多。其它两个就是显示SplashScreen和关闭SplashScreen，通过调用窗口的<CODE>ShowDialog</CODE>和<CODE>Close</CODE>方法对其进行了简单的实现。值得注意的是其中采用线程安全的调用方式，因为在<CODE>AppFrame</CODE>里SplashScreen是放在另外一个线程里使用的。
+</P>
+<PRE>
+          public void SetInfo(string info)
+          {
+              try
+              {
+                  this.Invoke(new MethodInvoker(delegate() { this.label1.Text = info; }));
+              }
+              catch
+              { }
+          }
+  
+          public void CloseSplash()
+          {
+              this.Invoke(new MethodInvoker(this.Close));
+          }
+  
+          public void ShowSplash()
+          {
+              this.ShowDialog();
+          }
+</PRE>
+<P></P>
+<P>
+此时通过编写简单如下的语句就能简单得实现登录窗口和SplashScreen。注册事件在SplashScreen上显示消息的方法可以参考在随文档的示例代码。
+</P>
+<PRE>
+          [STAThread]
+          static void Main(string[] args)
+          {
+  
+              AppFrame app = new AppFrame();
+              app.LoginDialog = new LoginDialog();
+              app.SplashScreen = new SplashWin();
+              app.SplashInterval = 8000;
+              app.Run();
+          }
+</PRE>
+<P></P>
+<A NAME="toc44"></A>
+<H3>界面逻辑维护与多线程</H3>
+<P>
+在这个插件框架里闪屏和登陆窗口在一个线程里运行，所有的插件的服务方法都在主线程（UI线程）里运行，所以服务方法应该在不影响用户体验的时间范围内；那么遇到繁重的任务就需在服务方法里启动一个线程单独执行。有些用于操作文档对象的控件本身具有多线程的特性。比如ESRI、SuperMap的GIS基础平台软件中的三维场景控件，用于在三维中显示地理对象。它的每一个实例都使用一个线程来处理对象的渲染。那么每一个文档对象都运行在一个独立的线程当中。
+</P>
+<P>
+每个编写过.NET平台多线程的程序都应该知道，WinForm的控件是不能在非创建这些控件的线程中使用的。如果在多个线程里都触发了更新界面的事件，这样就会产生竞争访问界面元素的情形。
+</P>
+<P>
+所以如果存在多线程，发布界面元素状态事件时一定要判断发布了这个事件后界面逻辑是否合理，此外还需要考虑效率问题。
+</P>
+<P>
+对于包含多线程的文档操作控件，在直接订阅控件的事件里发布更新界面元素状态事件时一定要首先判断发布这个事件的文档窗体是否是当前文档窗体。
+</P>
+<P>
+在本浏览器插件中就有这种情况。其代码如下：
+</P>
+<PRE>
+          void page_StatusTextChanged(object sender, EventArgs e)
+          {
+              PageForm page = sender as PageForm;
+  
+              if (!page.IsActivated)
+                  return;
+  
+              if (UpdateStatus != null)
+              {
+                  UpdateUiElemEventArgs arg = new UpdateUiElemEventArgs();
+                  arg.Text = page.WebBrowser.StatusText;
+                  UpdateStatus(this, arg);
+              }
+          }
+  
+          void page_ProgressChanged(object sender, WebBrowserProgressChangedEventArgs e)
+          {
+              PageForm page = sender as PageForm;
+  
+              if (!page.IsActivated)
+                  return;
+  
+              if (UpdateProgress != null)
+              {
+                  UpdateUiElemEventArgs arg = new UpdateUiElemEventArgs();
+                  arg.Count = page.Progress;
+                  arg.Maximum = 100;
+                  arg.Visible = page.Progress &lt; 100;
+                  UpdateProgress(this, arg);
+              }
+     }
+</PRE>
+<P></P>
+<P>
+由于本插件框架提供了灵活的插件之间的交互方式，用户可以获取UI 插件并取得界面元素的引用。如果用户需要直接操作界面元素，多线程运行时界面逻辑问题需要自己解决。如果调用UI插件的方法时，则不用考虑多线程问题。
+</P>
+<A NAME="toc45"></A>
+<H3>如何建立完备的服务集合</H3>
+<P>
+这是一个企业级用户的命题。某个企业或某个部门通常会专注于软件的某一应用领域。随着时间的推移，当然会有很多积累。此时可以抽调人力对这些积累进行分析，从中提取出绝大多数用户都会需要的功能，将其按照相关性组织成多个插件。让这些插件构成基础服务集合，为其创建一个接口定义程序集。所有用户的特殊需求都可以实现新的插件独立完成或者与基础服务集合交互完成。
+</P>
+<P>
+每一个基础服务插件都需要引用接口定义程序集，以使接口对于所有需要交互插件是可见的。通过调用取得的服务列表的获取服务的泛型方法取得需要与之交互的服务类实例。其原型为：
+</P>
+<PRE>
+  	public T GetService&lt;T&gt;() where T : class;
+</PRE>
+<P></P>
+<P>
+实际上应该将T约束为接口的，但是好像目前没有这类语法支持。使用时将接口类型参数传入即可获得相应的服务类实例。为什么就一定能够获取呢？本插件框架还隐含了另外一个约定，在一个插件列表中，每一个服务接口只能有一个实现类，因为接口的每一个方法定义了唯一需要提供给用户的功能。而不是像SharpDevelop一样接口定义了一个抽象的Run方法用来完成功能。
+</P>
+<P>
+请注意，无论使用那种交互方式都不能在需要交互的时候去获取服务交互完成就将获取到的服务丢掉。凡是需要和本插件交互的插件，都应该为之声明一个成员，当接收到<CODE>FinishLoadAddIn</CODE>消息时，将其指向<CODE>从ServiceCollection</CODE>中获取的服务类的实例。下面是HelloDock程序中获取界面服务的代码。
+</P>
+<PRE>
+          private IUiService _uiService;
+  
+          public HelloDock()
+          {
+              AppFrame.FinishLoadAddIn += new LoadAddInHandler(AppFrame_FinishLoadAddIn);
+          }
+  
+          void AppFrame_FinishLoadAddIn(LoadAddInEventArgs e)
+          {
+              _uiService = AppFrame.GetServiceCollection().GetService&lt;IUiService&gt;();
+          }
+</PRE>
+<P></P>
+<P>
+事实上界面服务并不需要获取，因为它是如此普遍的被需要以至于需要让其作为<B>ServiceBase</B>的成员。
+</P>
+<PRE>
+      public abstract class ServiceBase
+      {
+          public ServiceBase();
+  
+          public IUiService UiService { get; }
+  
+          public virtual void About();
+          public virtual void Config();
+      }
+</PRE>
+<P></P>
+<P>
+如果一个插件和另外一个插件的交互很少，那就说明需要重新设计。对于良好的插件设计的效果是，插件之间的交互不多不少，如果太多则应该考虑他们是否应该放到一个服务中，如果太少则考虑是否将需要交互的方法从该服务中分离出去。
+</P>
+<A NAME="toc46"></A>
+<H3>使用混淆器对插件进行版权保护时的注意事项</H3>
+<P>
+开发这个系统时，我就希望它非常开放的，在授权声明中已经指出您有任何使用的自由。所以您可以在商业软件中使用该插件框架而不用公开代码，并且可以对编译结果进行加密以保护知识产权。
+</P>
+<P>
+由于宿主通过注册的插件服务的类名实例化服务，并且通过接口或者方法名调用服务类提供的方法。所以使用混淆器时必须注意：
+</P>
+ <UL>
+ <LI>服务类的类名不得改变；
+ <LI>服务类的共有方法名不得改变；
+ <LI>服务类中用来更新界面的事件名不得改变。
+ </UL>
+
+<A NAME="toc47"></A>
+<H3>深入到此插件框架的内部实现</H3>
+<H4>一些基本概念</H4>
+ <UL>
+ <LI>服务（Service）——提供一系列功能的对象。在这个插件框架中所有的服务类都必须继承自<CODE>ServiceBase</CODE>类。
+ <LI>插件（AddIn）——至少包含一个访问控制级别为<CODE>public</CODE>的服务类的程序集。
+ <LI>插件解析器（AddInParser）——插件解析器，用于解析插件配置文本并在需要的时候根据配置对服务类进行实例化。
+ <LI>服务集合（ServiceCollection）——所有服务类的实例（即服务）都包含在这个集合里。一个应用程序只有一个服务集合的实例，可以通过<CODE>AppFrame</CODE>类的静态属性获取。服务集合提供了一系列方法用于获取服务。
+ <LI>插件宿主应用程序（AppFrame）——在应用程序入口方法里，实例化一个<CODE>AppFrame</CODE>，调用其<CODE>Run</CODE>方法既可以创建一个插件宿主应用程序。
+ </UL>
+
+<H4>启动过程</H4>
+<P>
+首先一个<CODE>AppFrame</CODE>的实例被创建，然后进入<CODE>Run</CODE>方法执行。在<CODE>Run</CODE>方法里会创建一个闪屏线程，用于弹出登录对话框和显示SplashScreen。同时，在主线程里<CODE>ServiceCollection</CODE>通过<CODE>AddInParser</CODE>将所有插件信息解析出来，创建服务类的实例并将实例放到<CODE>ServiceCollection</CODE>的内部容器中；然后从<CODE>ServiceCollection</CODE>中获取UI服务，将主窗体加载出来；在主线程里等待闪屏线程结束，然后调用<CODE>Application.Run</CODE>方法将主窗体显示出来，启动应用程序。UI服务在加载主窗体时根据界面配置文件完成界面元素和服务提供的功能之间的连接。
+</P>
+<H4>系统结构图</H4>
+                    <center><IMG ALIGN="middle" SRC="./user_guide/images/class.png" BORDER="0" ALT=""></center>                   
+<P>
+本插件框架只定义了一个扩展点——<CODE>IUiService</CODE>。使用该插件框架开发系统时，需要针对系统需要提供的功能自定义出所有的扩展点，然后在插件中实现。比如使用该框架开发Mini Internet Explorer的时候，就是定义了一个IMyIE接口。开发插件对系统的功能进行扩展的时候，可以将扩展功能定义为接口，也可以不定义接口。扩展功能需要和已有插件进行交互时，通过<CODE>ServiceCollection</CODE>获取已有插件。
+</P>
+<A NAME="toc48"></A>
+<H3>如何替换UI插件</H3>
+<P>
+UI插件的开发和一般插件开发一模一样，首先创建一个类库项目，然后添加对AddIn.Core.dll的引用。新建一个类命名为MyUiService，继承自ServiceBase，实现IUiService接口。在AddIn.Core.dll中只需要使用<CODE>LoadMainForm</CODE>方法，因此只要事实上实现了<CODE>LoadMainForm</CODE>，插件框架就可以使用了。下面是一个非常简单的演示实现。
+</P>
+<PRE>
+          public System.Windows.Forms.Form LoadMainForm()
+          {
+              return _mainForm = new Form1();
+          }
+  
+          public System.Windows.Forms.Form MainForm
+          {
+              get { return _mainForm; }
+          }
+  
+</PRE>
+<P></P>
+<P>
+然后手动修改插件配置文件的内容为：
+</P>
+<PRE>
+  &lt;?xml version="1.0" encoding="utf-8"?&gt;
+  &lt;AddIns&gt;
+    &lt;AddIn name="MyGui.MyUiService" author="" version="0.0.0.0" copyright="" url="" lazyload="False"&gt;
+      &lt;path&gt;.\MyGui.dll&lt;/path&gt;
+      &lt;description&gt;
+      &lt;/description&gt;
+    &lt;/AddIn&gt;
+  &lt;/AddIns&gt;
+</PRE>
+<P></P>
+<P>
+编译之后，将所有有关文件集中到一起，将StartUp.exe添加进来。
+                    <center><IMG ALIGN="middle" SRC="./user_guide/images/mygui.jpg" BORDER="0" ALT=""></center>                   
+</P>
+<P>
+然后执行StartUp.exe，即可将主窗体显示出来。
+                    <center><IMG ALIGN="middle" SRC="./user_guide/images/form1.png" BORDER="0" ALT=""></center>                   
+</P>
+<P>
+其它的功能可以自由实现，比如界面定制、插件注册功能等。如果包含界面定制功能，界面的描述文件格式也可以完全自定义。
+</P>
+<HR NOSHADE SIZE=5>
+<A NAME="toc49"></A>
+<H1>第三部分 编程参考</H1>
+<HR NOSHADE SIZE=1>
+<A NAME="toc50"></A>
+<H2>AppFrame</H2>
+<P>
+插件宿主应用程序类，实例化该类运行其<CODE>Run</CODE>方法就可以创建一个宿主应用程序。一个宿主应用程序只能实例化一个该类。
+</P>
+<A NAME="toc51"></A>
+<H3>属性</H3>
+ <UL>
+ <LI>static AppFrame Instance { get; }
+ </UL>
+
+<P>
+获取<CODE>AppFrame</CODE>的实例。
+</P>
+ <UL>
+ <LI>UInt16 Authority { get; }
+ </UL>
+
+<P>
+获取运行程序的用户的权限级别。默认值为0，权限级别由框架从登录窗口获得，数值的具体权限含义由您自定义。如果某界面元素的Authority大于<CODE>AppFrame</CODE>的Authority值，那么这个界面元素就不会显示。
+</P>
+ <UL>
+ <LI>Form MainForm { get; }
+ </UL>
+
+<P>
+获取应用程序的主窗体。
+</P>
+ <UL>
+ <LI>public string[] Args { get; set;}
+ </UL>
+
+<P>
+设置应用程序运行的参数。设置应用程序的参数应该在调用<CODE>Run</CODE>方法直接进行。
+</P>
+ <UL>
+ <LI>ILoginDialog LoginDialog { get; set;}
+ </UL>
+
+<P>
+获取和设置登录对话框。登录对话框的实现方式参考<B>高级主题</B>一章的<B>创建带有Splash Screen和登陆窗体的宿主</B>节。
+</P>
+ <UL>
+ <LI>ISplashScreen SplashScreen { get; set;}
+ </UL>
+
+<P>
+获取和设置闪屏对象。闪屏的实现方式参考<B>高级主题</B>一章的<B>创建带有Splash Screen和登陆窗体的宿主</B>节。
+</P>
+ <UL>
+ <LI>UInt16 SplashInterval { get; set;}
+ </UL>
+
+<P>
+获取和设置闪屏最少显示时间。单位毫秒。
+</P>
+ <UL>
+ <LI>static IServiceCollection ServiceCollection { get; }
+ </UL>
+
+<P>
+获取服务列表。
+</P>
+ <UL>
+ <LI>static log4net.ILog FrameLogger  { get; }
+ </UL>
+
+<P>
+获取日志对象。
+</P>
+<A NAME="toc52"></A>
+<H3>方法</H3>
+ <UL>
+ <LI>static AppFrame GetInstance()
+ </UL>
+
+<P>
+获取<CODE>AppFrame</CODE>的实例。
+</P>
+ <UL>
+ <LI>static ServiceCollection GetServiceCollection()
+ </UL>
+
+<P>
+获取插件列表。通过该插件列表对象可以获取插件系统中加载的插件所提供的服务对象。
+</P>
+ <UL>
+ <LI>void Run()
+ </UL>
+
+<P>
+开始运行插件宿主应用程序。
+</P>
+ <UL>
+ <LI>void RunConfig()
+ </UL>
+
+<P>
+开始运行插件配置工具。
+</P>
+<A NAME="toc53"></A>
+<H3>事件</H3>
+ <UL>
+ <LI>static event LoadAddInHandler AfterLoadOneAddIn
+ </UL>
+
+<P>
+每个插件加载完成后会触发该事件。参数为<CODE>LoadAddInEventArgs</CODE>。一般用于在SplashScreen上显示提示信息。
+</P>
+ <UL>
+ <LI>static event LoadAddInHandler BeforeLoadOneAddIn
+ </UL>
+
+<P>
+每个插件加载前会触发该事件。参数为<CODE>LoadAddInEventArgs</CODE>。一般用于在SplashScreen上显示提示信息。
+</P>
+ <UL>
+ <LI>static event LoadAddInHandler FinishLoadAddIn
+ <P></P>
+所有插件都加载完成后会触发该事件。参数为<CODE>LoadAddInEventArgs</CODE>。可用于在SplashScreen上显示提示信息和在插件中获取需要与之交互的服务。
+ <LI>static event LoadMainFormHandler BeforeLoadMainForm
+ </UL>
+
+<P>
+主窗口加载前会触发该事件。参数为<CODE>LoadMainFormEventArgs</CODE>。一般用于在SplashScreen上显示提示信息。
+</P>
+ <UL>
+ <LI>static event LoadMainFormHandler AfterLoadMainForm
+ </UL>
+
+<P>
+主窗口加载结束后会触发该事件。参数为<CODE>LoadMainFormEventArgs</CODE>。可用于在SplashScreen上显示提示信息和用于在主窗体加载完成后立即显示初始界面。
+</P>
+<A NAME="toc54"></A>
+<H2>ServiceCollection/IServiceCollection</H2>
+<A NAME="toc55"></A>
+<H3>属性</H3>
+ <UL>
+ <LI>System.Collections.Generic.List&lt;AddInParser&gt; AddInParserList { get; }
+ </UL>
+
+<P>
+获取插件信息列表。本插件框架规定向系统注册插件的功能在界面插件中实现，本属性用于实现向系统注册插件。将新增加的插件描述对象<CODE>AddInParser</CODE>插入到该列表中，然后调用<CODE>SaveConfig</CODE>将列表存储一下就可以将插件注册到系统中。
+</P>
+ <UL>
+ <LI>System.Collections.Generic.Dictionary&lt;string, ServiceBase&gt; Services { get; }
+ </UL>
+
+<P>
+获取插件服务列表。向系统注册插件时还需要指定，插件提供的某个功能由哪个界面元素触发。本属性用于从插件服务类中反射出实现功能的方法，然后绑定到具体的界面元素上。
+</P>
+<A NAME="toc56"></A>
+<H3>方法</H3>
+ <UL>
+ <LI>ServiceBase GetService(string name)
+ </UL>
+
+<P>
+根据注册的服务名获取服务。
+</P>
+ <UL>
+ <LI>T GetService&lt;T&gt;() where T : class
+ </UL>
+
+<P>
+根据指定类型获取服务。
+</P>
+ <UL>
+ <LI>void Load()
+ </UL>
+
+<P>
+加载所有插件。
+</P>
+ <UL>
+ <LI>void SaveConfig(string configPath)
+ </UL>
+
+<P>
+保存插件配置文件。
+</P>
+<A NAME="toc57"></A>
+<H3>事件</H3>
+ <UL>
+ <LI>event LoadAddInHandler AfterLoadOneAddIn
+ </UL>
+
+<P>
+每个插件加载完成后会触发该事件。参数为<CODE>LoadAddInEventArgs</CODE>。一般用于在SplashScreen上显示提示信息，不直接使用这个事件而是使用<CODE>AppFrame</CODE>的同名事件。
+</P>
+  <UL>
+  <LI>event LoadAddInHandler BeforLoadeOneAddIn
+  </UL>
+
+<P>
+每个插件加载前会触发该事件。参数为<CODE>LoadAddInEventArgs</CODE>。一般用于在SplashScreen上显示提示信息，不直接使用这个事件而是使用<CODE>AppFrame</CODE>的同名事件。
+</P>
+<A NAME="toc58"></A>
+<H2>UiService/IUiService</H2>
+<A NAME="toc59"></A>
+<H3>属性</H3>
+ <UL>
+ <LI>System.Windows.Forms.Form MainForm { get; }
+ </UL>
+
+<P>
+获取应用程序的主窗体。
+</P>
+<A NAME="toc60"></A>
+<H3>方法</H3>
+ <UL>
+ <LI>void Execute(string exe,string parameter)
+ </UL>
+
+<P>
+执行一个外部程序，exe表示外部程序的路径，可以使相对路径；parameter外部程序运行的参数。
+</P>
+ <UL>
+ <LI>void Exexute(string exe)
+ </UL>
+
+<P>
+不用参数运行一个外部程序。相当于给方法<CODE>void Execute(string exe,string parameter)</CODE>传入的parameter为<CODE>null</CODE>。
+</P>
+ <UL>
+ <LI>void Exit()
+ </UL>
+
+<P>
+退出程序。
+</P>
+ <UL>
+ <LI>void Config()
+ </UL>
+
+<P>
+配置本插件。
+</P>
+ <UL>
+ <LI>System.Windows.Forms.ContextMenuStrip GetContextMenuStrip(string str, bool byform);
+ </UL>
+
+<P>
+获取右键菜单。如果byfrom为true，表示通过窗口类型名称获取；如果为false表示通过右键菜单的Text属性获取。
+</P>
+ <UL>
+ <LI>System.Windows.Forms.StatusStrip GetStatusStrip(string str);
+ </UL>
+
+<P>
+根据状态栏的Text属性获取状态栏。str状态栏的Text值。
+</P>
+ <UL>
+ <LI>System.Windows.Forms.ToolStrip GetToolStrip(string str, bool byname);
+ </UL>
+
+<P>
+获取工具栏。如果byname为true，表示根据工具条的<CODE>Name</CODE>属性获取；否则更具工具条的<CODE>Text</CODE>属性获取。
+</P>
+ <UL>
+ <LI>System.Windows.Forms.ToolStripItem GetToolStripItem(string path)
+ </UL>
+
+<P>
+获取工具条项目。容纳在工具条和状态栏上的按钮等控件都是工具条项。path表示工具条项目的路径，为以斜杠分割的从最上层UI项目一直展开到本UI项目的<CODE>Text</CODE>属性值，如<I>MenuStrip/收藏(&amp;B)/</I>。
+</P>
+ <UL>
+ <LI>System.Windows.Forms.Form LoadMainForm()
+ </UL>
+
+<P>
+根据UI配置载入主窗体。
+</P>
+ <UL>
+ <LI>void ModifyAddIns()
+ </UL>
+
+<P>
+向系统中注册插件和配置界面。
+</P>
+ <UL>
+ <LI>void SetStatusStripVisible(bool visible, string name)
+ </UL>
+
+<P>
+设置<CODE>Name</CODE>为name的状态栏的可见性。
+</P>
+ <UL>
+ <LI>void SetToolStripVisible(bool visible, string name)
+ </UL>
+
+<P>
+设置<CODE>Name</CODE>为name的工具条的可见性。
+</P>
+ <UL>
+ <LI>void ShowDocForm(System.Windows.Forms.Form docForm)
+ </UL>
+
+<P>
+显示文档窗体。
+</P>
+ <UL>
+ <LI>void ShowToolWin(System.Windows.Forms.Form toolWin, System.Windows.Forms.DockStyle dockStyle)
+ </UL>
+
+<P>
+显示工具窗体并指定显示的方式。
+</P>
+<A NAME="toc61"></A>
+<H2>AddInParser</H2>
+<P>
+插件列表描述对象，用于从插件列表配置文件中某个插件配置节点解析出有关该插件的一些信息。
+</P>
+<A NAME="toc62"></A>
+<H3>属性</H3>
+ <UL>
+ <LI>System.Reflection.Assembly Assembly { get; set; }
+ </UL>
+
+<P>
+获取和设置该插件描述对象所代表的插件的程序集对象。
+</P>
+ <UL>
+ <LI>string Author { get; set; }
+ </UL>
+
+<P>
+获取和设置作者。
+</P>
+ <UL>
+ <LI>string Copyright { get; set; }
+ </UL>
+
+<P>
+获取和设置版权描述信息。
+</P>
+ <UL>
+ <LI>string Description { get; set; }
+ </UL>
+
+<P>
+获取和设置插件描述信息。
+</P>
+ <UL>
+ <LI>bool Lazyload { get; set; }
+ </UL>
+
+<P>
+获取和设置是否延迟加载该插件。
+</P>
+ <UL>
+ <LI>string Name { get; set; }
+ </UL>
+
+<P>
+获取和设置插件服务类的名称。
+</P>
+ <UL>
+ <LI>string Path { get; set; }
+ </UL>
+
+<P>
+获取和设置插件存放的路径，可以使相对路径。
+</P>
+ <UL>
+ <LI>ServiceBase Service { get; }
+ </UL>
+
+<P>
+获取该插件描述对象所代表的插件的服务类。
+</P>
+ <UL>
+ <LI>string Url { get; set; }
+ </UL>
+
+<P>
+获取和设置该提供该插件更详细描述信息的网址。
+</P>
+ <UL>
+ <LI>bool Valid { get; }
+ <P></P>
+获取和设置该插件是否是有效的。
+ <LI>string Version { get; set; }
+ </UL>
+
+<P>
+获取设置该插件的版本号。
+</P>
+<A NAME="toc63"></A>
+<H3>方法</H3>
+ <UL>
+ <LI>ServiceBase GetService()
+ </UL>
+
+<P>
+获取该插件描述对象所代表的插件的服务类。
+</P>
+<A NAME="toc64"></A>
+<H2>ILoginDialog</H2>
+<A NAME="toc65"></A>
+<H3>属性</H3>
+ <UL>
+ <LI>ushort Authority { get; }
+ </UL>
+
+<P>
+成功登录后<CODE>AppFrame</CODE>通过该字段获取登录的用户的权限值。数值的实际权限含义由用户自定义。如果某界面元素的Authority大于<CODE>AppFrame</CODE>的Authority值，那么这个界面元素就不会显示。通过<CODE>AppFrame</CODE>的<CODE>Authority</CODE>属性获取登录到系统的用户的权限值。
+</P>
+ <UL>
+ <LI>bool Valid { get; }
+ </UL>
+
+<P>
+登录对话框关闭后<CODE>AppFrame</CODE>通过该字段获取用户是否通过认证。如果通过认证，使该字段为true；如果该字段为false应程序将会退出。
+</P>
+<A NAME="toc66"></A>
+<H3>方法</H3>
+ <UL>
+ <LI>bool ShowDialog()
+ </UL>
+
+<P>
+显示登录对话框。对话框关闭后返回true表示用户确定登录，返回false表示用户取消登录。如果返回了false应程序将会退出。
+</P>
+<A NAME="toc67"></A>
+<H2>ISplashScreen</H2>
+<A NAME="toc68"></A>
+<H3>方法</H3>
+ <UL>
+ <LI>void SetInfo(string info)
+ </UL>
+
+<P>
+在splashscreen上显示文本。<CODE>AppFrame</CODE>会在splashscreen线程显示SplashScreen，在其它线程里调用该方法显示提示，请确保实现时考虑到了线程安全性。
+</P>
+ <UL>
+ <LI>void ShowSplash()
+ </UL>
+
+<P>
+显示splashscreen。<CODE>AppFrame</CODE>会在splashscreen线程中调用该方法显示SplashScreen，在SplashScreen关闭之前该方法不得返回，调用<CODE>CloseSplash</CODE>方法后该方法返回，结束显示splashscreen。
+</P>
+ <UL>
+ <LI>void CloseSplash()
+ </UL>
+
+<P>
+关闭splashscreen。<CODE>AppFrame</CODE>会在主线程中调用该方法，请确保实现时考虑到了线程安全性。调用该方法后splashscreen结束显示，<CODE>ShowSplash</CODE>方法返回。
+</P>
+<A NAME="toc69"></A>
+<H2>LoadAddInEventArgs</H2>
+<A NAME="toc70"></A>
+<H3>属性</H3>
+ <UL>
+ <LI>IServiceCollection ServiceCollection { get; }
+ </UL>
+
+<P>
+获取服务列表。
+</P>
+ <UL>
+ <LI>AddInParser AddInParser { get; }
+ </UL>
+
+<P>
+获取当前加载完成的插件的配置信息。
+</P>
+<A NAME="toc71"></A>
+<H2>LoadMainFormEventArgs</H2>
+<A NAME="toc72"></A>
+<H3>属性</H3>
+ <UL>
+ <LI>string[] Args { get; }
+ </UL>
+
+<P>
+获取应用程序的执行的参数。如果在某个插件中需要使用该参数，则通过该参数获得。
+</P>
+ <UL>
+ <LI>IUiService UiService  { get; }
+ </UL>
+
+<P>
+获取界面服务。
+</P>
+ <UL>
+ <LI>Form MainForm  { get; }
+ </UL>
+
+<P>
+获取应用程序的主窗体。
+</P>
+<A NAME="toc73"></A>
+<H2>UpdateUiElemEventArgs</H2>
+<A NAME="toc74"></A>
+<H3>属性</H3>
+ <UL>
+ <LI>bool Checked { get; set; }
+ </UL>
+
+<P>
+插件框架会使用该属性设置界面元素的<CODE>Checked</CODE>属性。
+</P>
+ <UL>
+ <LI>public bool Enabled  { get; set; }
+ </UL>
+
+<P>
+插件框架会使用该属性设置界面元素的<CODE>Enabled</CODE>属性。
+</P>
+ <UL>
+ <LI>bool Visible   { get; set; }
+ </UL>
+
+<P>
+插件框架会使用该属性设置界面元素的<CODE>Enabled</CODE>属性。
+</P>
+ <UL>
+ <LI>int Count   { get; set; }
+ </UL>
+
+<P>
+插件框架会使用该属性设置进度条类界面元素的进度值，或者设置滑块控件指示的值，或者选项控件的选项索引。注意当ComboBox控件的选项索引改变时，将会导致选项索引改变事件触发。一般选项索引改变事件也会用来调用服务方法完成功能。
+</P>
+ <UL>
+ <LI>int Maximum   { get; set; }
+ </UL>
+
+<P>
+当使用<CODE>Count</CODE>属性设置进度条和滑动条界面元素的值时，需要使用该值指定最大进行值和滑动条的最大值（滑动条最小值为0）。如果该属性取其默认值0，则框架自动采用上次的提供的最大值。
+</P>
+ <UL>
+ <LI>string Text   { get; set; }
+ </UL>
+
+<P>
+插件框架会使用该属性设置界面元素的<CODE>Text</CODE>属性。
+</P>
+ <UL>
+ <LI>object Value   { get; set; }
+ </UL>
+
+<P>
+插件框架使用该属性值设置选项类界面元素的选择项。注意，设置选项类界面元素的选择项时优先使用<CODE>Count</CODE>属性。如果要使用该属性，则将Count属性值设置为小于0的值。
+</P>
+<HR NOSHADE SIZE=5>
+<A NAME="toc75"></A>
+<H1>附录</H1>
+<HR NOSHADE SIZE=1>
+<A NAME="toc76"></A>
+<H2>推荐的第三方界面组件</H2>
+<P>
+其实我没有需要推荐的界面组件。
+下面是我对界面组件库的风格一致性和性能的要求：
+</P>
+<OL>
+<LI>窗口的滚动条、listView等控件的滚动条风格要和界面风格协调；这个Janus做不到，DotNetBar要做到还比较麻烦。
+<P></P>
+<LI>如果窗口作为多文档子窗口使用，最小化后的风格仍然需要和正常的结果一致；这个Janus也做不到，DotNetBar也做不到。
+<P></P>
+<LI>绝对不能闪烁；这个DotNetBar做不到。
+<P></P>
+<LI>内存消耗不能有增无减；这个东日的那个IrisSkin2做不到，在随便两个风格间来回换内存就不断增加。
+<P></P>
+<LI>提供了和整体风格一致的Messagebox、OpenfileDialog、SaveFileDialog；这个除了用IrisSkin2方式进行换肤的界面组件库外，在我所测试过的界面组件库中几乎没有能够做到的。
+</OL>
+
+<P>
+如果需要推荐，那就是《<A HREF="http://tr0217.blog.163.com/blog/static/360664802011279307476/">开源.NET WinForm控件集1.20</A>》。这是对基本控件进行扩展而来的界面组件库，和操作系统的界面风格一致性很高；开发的应用程序界面的整体风格一致性也很高；性能当然也很不错。将这套界面组件搭配其介绍文档中推荐的其它开源界面组件使用，完全能够制作出高度专业的界面。
+</P>
+<HR NOSHADE SIZE=5>
+
+<!-- html code generated by txt2tags 2.3 (http://txt2tags.sf.net) -->
+<!-- cmdline: txt2tags -t html -\-toc D:/Code/tr0217/Doc/How_to_use_TR0217_Addin_system.t2t -->
+</BODY></HTML>

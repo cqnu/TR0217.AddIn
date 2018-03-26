@@ -1,0 +1,89 @@
+<script language="JavaScript">
+var VS_tempX,VS_tempY;
+var VS_mInterval;
+var VS_compat=(document.compatMode && document.compatMode!="BackCompat")? document.documentElement : document.body;
+if(document.getElementById("VS_alertArea")!=null)
+{
+	VS_exit();
+}
+var VS_span=document.createElement("span");
+VS_span.innerHTML="<div id='VS_alertArea' title='ViewSelection 网友修改版 （单击移动）&#10"+document.location+"' style='BACKGROUND-COLOR:#dddddd;WIDTH:240px;LINE-HEIGHT:100%;Z-INDEX:999;BORDER:solid 1px #888888;POSITION:absolute;TOP:200;LEFT:200;FONT-SIZE:13px;DISPLAY:inline;'><label id='VS_label' onclick='VS_dragState();' style='BACKGROUND-COLOR:transparent;COLOR:#000000;POSITION:relative;TOP:0px;LEFT:0px;WIDTH:240px;TEXT-ALIGN:center;FONT-SIZE:13px;DISPLAY:block;'>ViewSelection<hr /></label><a id='VS_close' target='_self' href='javascript:VS_exit();' style='POSITION:absolute;LEFT:227px;TOP:0px;COLOR:#000000;TEXT-ALIGN:center;'>×</a><textarea id='VS_codeText' title='' style='WIDTH:240px;HEIGHT:150px;'>拖选网页</textarea>"
+//+"input type='submit' onclick='doDocument(document);' value='查看' />"
++"</div>";
+document.body.insertBefore(VS_span);
+VS_span.id="VS_frame";
+VS_tempX=0;
+VS_tempY=0;
+document.attachEvent("onmousemove",VS_onMoving);
+doDocument(document);
+VS_scrolling();
+function doDocument(doc)
+{
+	try
+	{
+		if (doc.selection.createRange().htmlText.length)
+		{
+			showPrompt(doc.selection.createRange().htmlText);
+			return;
+		}
+		var frs=doc.frames;
+		if (frs != null && frs.length>0)
+		{
+		    for (var i=0; i < frs.length; i++)
+		    {
+		    	doDocument(frs[i].document);
+		    }
+		}
+	}catch(e){}	
+}
+function VS_dragState()
+{
+	if(document.all.VS_alertArea.style.cursor!="move")
+	{
+		window.clearTimeout(VS_mInterval);
+		document.all.VS_alertArea.style.cursor="move";
+		VS_tempX=event.clientX;
+		VS_tempY=event.clientY;
+	}
+	else
+	{
+		document.all.VS_alertArea.style.cursor='';
+		VS_tempX=VS_compat.scrollLeft;
+		VS_tempY=VS_compat.scrollTop;
+		VS_scrolling();
+	}
+}
+function VS_onMoving()
+{
+	if(document.all.VS_alertArea.style.cursor=="move")
+	{
+		document.all.VS_alertArea.style.pixelLeft+=event.clientX-VS_tempX;
+		document.all.VS_alertArea.style.pixelTop+=event.clientY-VS_tempY;
+		VS_tempX=event.clientX;
+		VS_tempY=event.clientY;
+	}
+	else
+	{
+		if(document.activeElement!=document.getElementById("VS_codeText"))
+			doDocument(document);
+	}
+}
+function VS_scrolling()
+{
+	document.all.VS_alertArea.style.pixelLeft+=VS_compat.scrollLeft-VS_tempX;
+	VS_tempX=VS_compat.scrollLeft;
+	document.all.VS_alertArea.style.pixelTop+=VS_compat.scrollTop-VS_tempY;
+	VS_tempY=VS_compat.scrollTop;
+	VS_mInterval=window.setTimeout("VS_scrolling()",25);
+}
+function VS_exit()
+{
+	window.clearTimeout(VS_mInterval);
+	document.detachEvent("onmousemove",VS_onMoving);
+	document.body.removeChild(document.getElementById("VS_frame"));
+}
+function showPrompt(str)
+{
+	document.getElementById("VS_codeText").value=str;
+}
+</script>

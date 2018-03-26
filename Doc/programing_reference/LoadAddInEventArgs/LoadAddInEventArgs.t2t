@@ -1,0 +1,15 @@
+
+==LoadAddInEventArgs==
+===属性===
+
+ - IServiceCollection ServiceCollection { get; }
+
+
+
+获取服务列表。
+
+ - AddInParser AddInParser { get; }
+
+
+
+获取当前加载完成的插件的配置信息。

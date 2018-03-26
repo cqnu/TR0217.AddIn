@@ -1,0 +1,15 @@
+<script language="JavaScript">
+var AllImages = document.images;
+if (AllImages != null)
+{
+	var bestWidth = window.screen.availWidth * 0.96;
+	for (i=0; i < AllImages.length; i++)
+	{
+		if (AllImages[i].width > bestWidth) 
+		{
+			AllImages[i].height = AllImages[i].height*(bestWidth/AllImages[i].width);
+			AllImages[i].width = bestWidth;
+		}
+	}
+}
+</script>

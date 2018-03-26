@@ -1,0 +1,12 @@
+由于项目配置中没有将依赖项目拷贝到输出目录，所以您需要手动拷贝
+
+[CoreLib]
+插件框架的核心部分需要依赖
+WeifenLuo.WinFormsUI.Docking.dll
+log4net.dll
+
+为了使CoreLib中的核心部分能够运行起来将上述文件从Dependencies中拷贝到其中。
+
+[Mini Internet Explorer]
+Mini Internet Explorer需要依赖插件框架核心部分，需要将CoreLib拷贝到Mini Internet Explorer下。
+提供浏览器功能的MyIE.dll不依赖其他组件。

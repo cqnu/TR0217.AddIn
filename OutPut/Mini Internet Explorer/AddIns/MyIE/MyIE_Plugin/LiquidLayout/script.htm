@@ -1,0 +1,30 @@
+<script language="javascript">
+
+var cTHD=10;
+
+setTimeout('removeHidden(self,\'font\');removeHidden(self,\'span\')',0);
+function removeHidden(t,obj){
+	var HT=t.document.getElementsByTagName(obj);
+	for(var i=HT.length-1; i>=0; i--){
+		if(HT[i].currentStyle.display=='none'||HT[i].currentStyle.visibility=='hidden') HT[i].removeNode(true);
+		else{
+			var z=HT[i];
+			var y=HT[i].currentStyle.color;
+			var yR=parseInt(y.substr(1,2),16);
+			var yG=parseInt(y.substr(3,2),16);
+			var yB=parseInt(y.substr(5,2),16);
+			while(z.parentElement.tagName!='BODY'){
+				var x=z.parentElement.currentStyle.backgroundColor;
+				if(x==y||((parseInt(x.substr(1,2),16)-yR<=cTHD)&&(parseInt(x.substr(3,2),16)-yG<=cTHD)&&(parseInt(x.substr(5,2),16)-yB<=cTHD))){
+					HT[i].removeNode(true);
+					break;
+				}
+				else if(x!='transparent') break;
+				else z=z.parentElement;
+			}
+		}
+	}
+	for(var j=0; j<=t.frames.length-1; j++) {try{removeHidden(t.frames[j],obj)} catch(e){}}
+}
+</script>
+

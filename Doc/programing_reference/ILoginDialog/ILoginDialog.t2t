@@ -1,0 +1,19 @@
+
+==ILoginDialog==
+===属性===
+
+ - ushort Authority { get; }
+
+
+成功登录后``AppFrame``通过该字段获取登录的用户的权限值。数值的实际权限含义由用户自定义。如果某界面元素的Authority大于``AppFrame``的Authority值，那么这个界面元素就不会显示。通过``AppFrame``的``Authority``属性获取登录到系统的用户的权限值。
+ - bool Valid { get; }
+
+
+登录对话框关闭后``AppFrame``通过该字段获取用户是否通过认证。如果通过认证，使该字段为true；如果该字段为false应程序将会退出。
+
+===方法===
+
+ - bool ShowDialog()
+
+
+显示登录对话框。对话框关闭后返回true表示用户确定登录，返回false表示用户取消登录。如果返回了false应程序将会退出。

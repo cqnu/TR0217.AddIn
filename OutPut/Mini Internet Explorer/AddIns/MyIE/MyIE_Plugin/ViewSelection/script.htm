@@ -1,0 +1,22 @@
+<script language="JavaScript"> 
+function doDocument(doc)
+{
+	try
+	{
+		if (doc.selection.createRange().htmlText.length)
+		{
+			prompt("Selection Area Code:",doc.selection.createRange().htmlText);
+			return;
+		}
+		var frs=doc.frames;
+		if (frs != null && frs.length>0)
+		{
+		    for (var i=0; i < frs.length; i++)
+		    {
+		    	doDocument(frs[i].document);
+		    }
+		}
+	}catch(e){}	
+}
+doDocument(document);
+</script>

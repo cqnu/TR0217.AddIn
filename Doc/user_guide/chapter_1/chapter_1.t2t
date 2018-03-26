@@ -1,0 +1,314 @@
+
+==TR0217插件框架入门==
+===TR0217插件框架简介===
+
+TR0217插件框架是运行.NET 2.0及更高版本上的WinForm及C/S架构的应用程序开发框架。首要目的在于让您能够更加简单地实现应用程序的模块化，并且将各个模块间的耦合性降到最低。这样一来应用程序的开发就像搭积木一样，将已开发的模块组合到一起产生一个应用系统。使用该框架开发的应用程序的定制能力也能像积木一样，可以轻松的去掉某些模块和增加模块。
+
+当模块组合到一起时需要一个交互界面来为用户提供功能。产生交互界面的功能也被此插件框架提供了，同样采用模块化的方式，使产生交互界面的模块能够很容易的被替换掉让系统拥有完全不同外观的交互界面。
+
+至此您或许仍然难以形象直观的把握这个插件框架。其实从表面上看这个插件框架其实是这样的。首先创建一个类库项目，在这个类库中至少包含一个外部可见的继承自``AddIn.Core.ServiceBase``的类（称其为服务），类的成员方法就是需要提供给用户的功能，当然首先需要添加对AddIn.Core.dll的引用。编译为dll文件，再使用插件注册工具将这个dll到系统中，然后在注册工具中创建界面元素（如按钮、菜单等）用来调用服务的成员方法。
+
+: 注册到系统中的插件：
+                    [./user_guide/images/cwe.png]                    
+
+: 创建界面元素调用服务的成员方法：
+                    [./user_guide/images/cwe2.png]                    
+:
+
+===从Hello, world! 开始===
+
+从Hello, world! 开始是学习软件开发技术的一个不朽传统。没必要标新立异，在这里一节里，我们将一步一步地使用此插件框架开发一个应用程序——在窗口中显示一句“Hello World!”。
+
+====建立宿主程序====
+
+首先启动Visual Studio，新建一个.NET项目，选择Windows窗体应用程序。这一步对于C#、VB、J#语言的使用者来说选择在左边的树形结构中选择**Windows**，然后在右侧选择**Windows应用程序**。C++语言的使用者需要选择**CLR**然后选择**Windows窗体应用程序**。
+                    [./user_guide/images/new.png]                    
+
+接下来，**添加对AddIn.Core.dll的引用**。使用C#、VB、J#语言的使用者可以在相应项目的解决方案管理器中的引用上右击选择添加引用，从弹出的对话框中选择浏览标签，然后导航到AddIn.Core.dll，点击确定即可。
+                    [./user_guide/images/addrefcs.png]                    
+C++的使用者可以在解决方案的根节点上右击选择“引用(__F__)...”。在弹出的对话框里点击“添加新引用(__N__)...”，接下来的操作与其它语言使用者相同。
+
+接下来，删除IDE生成``Form1``。不光是从解决方案中移出，文件也可以一并删除。
+
+对于C#语言的使用者来说，将Program.cs文件中的内容改为：
+```
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+using AddIn.Core;
+
+namespace hello_cs
+{
+    static class Program
+    {
+        /// <summary>
+        /// 应用程序的主入口点。
+        /// </summary>
+        [STAThread]
+        static void Main(string[] args)
+        {
+            AppFrame app = new AppFrame();
+            app.Run();
+        }
+    }
+}
+```
+C++语言的使用者需要将源文件中以项目名称命名的文件内容改为：
+```
+#include "stdafx.h"
+
+using namespace System;
+using namespace System::ComponentModel;
+using namespace System::Collections;
+using namespace System::Windows::Forms;
+using namespace System::Data;
+using namespace System::Drawing;
+using namespace AddIn::Core;
+
+[STAThreadAttribute]
+int main(array<System::String ^> ^args)
+{
+	AppFrame app;
+	app.Run();
+	return 0;
+}
+```
+接下生成解决方案，可以直接将项目配置改为Release。
+	（//**我们玩个魔术吧！**将生成的exe文件拷贝到[Mini Internet Explorer  http://tr0217.blog.163.com/blog/static/360664802011019974271/]的执行文件目录下，然后双击它。有什么反应？它变成了一个Mini Internet Explorer！//）
+
+====编写一个插件，在对话框中显示Hello World！====
+
+在编写第一个插件前，您需要了解一下本插件框架的目录结构要求。
+                    [./user_guide/images/dir.png]                    
+- AddIns文件夹用于放置注册到系统里的插件。并不强制这么做，您也可将自己编写的插件放置到其它地方；但是如果没有特殊的原因还是推荐将其放到AddIns中。如果插件过多可以再建子目录，将每个插件和相关的文件放置到各自的文件夹中。
+	（//这么做还有另外一个问题需要考虑，您编写的插件所依赖的DLL文件对于系统来说会是不可见的从而会导致插件加载失败。解决方案将在本部分的下一章中给出。//）
+- Config文件夹，用于放置系统的插件列表文件和界面说明文件。**这是强制的**。
+- Help文件夹，用于放置系统的帮助文档和其它说明文档。推荐这么做。
+- Images文件夹，用于放置系统界面所需的图片资源，推荐采用png格式的图片。推荐非强制。
+- Log文件，用于放置系统运行中的错误日志。日志的存放位置可以通过配置文件指定，所以这也是推荐非强制的。
+- 插件框架的核心文件AddIn.Core.dll、AddIn.Gui.dll、AddIn.Config.exe、宿主程序（Mini Internet Explorer.exe）以及AddIn.Gui.dll所依赖的第三方界面组件推荐放置到应用程序的根目录下。
+
+
+接下来按照这个结构创建好应用程序的输出目录，也可以直接将发布版解压出来的文件夹直接拷贝到解决方案目录。然后修改项目的生成目录。
+                    [./user_guide/images/diru.png]                    
+上图中的“..\output\”表示一个项对路径。关于项对路径的知识请自行到网络上搜索。至此，我们已经准备好编写第一个插件了。
+
+第一步，新建一个类库项目。在解决方案的根节点上右击，在弹出菜单里选择“添加(__D__)—新建项目(__N__)...”。
+修改新建项目的名称为hello，项目位置采用默认值；点击确定。然后删除hello中的类class1，样需要添加对AddIn.Core.dll的引用，修改生成目录为“..\output\AddIns\”。
+第二步，在新建的项目中添加一个类``hello``。类名可以自由指定。然后打开代码文件，添加对名称空间AddIn.Core的引用，让``hellp``继承自``AddIn.Core.ServiceBase``。再为类增加一个成员方法``SayHello()``。最终的代码如下：
+```
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+using AddIn.Core;
+using System.Windows.Forms;
+
+namespace hello
+{
+    public class Hello : ServiceBase
+    {
+        public void SayHello()
+        {
+            MessageBox.Show("Hello, world!");
+        }
+    }
+}
+```
+然后编译。至此，一个简单的插件就算完成了。
+
+====将插件注册到系统中====
+
+启动AddIn.Config.exe，切换到Regist AddIns页。（如下图所示）
+
+                    [./user_guide/images/rega.png]                    
+可以看到，AddIn.Gui.dll已经注册到其中了。如果AddIn.Gui.dll没有注册的话配置工具是无法启动的，因为AddIn.Config.exe也是一个插件宿主，系统需要AddIn.Gui.dll提供界面才能正常启动。
+
+点击Add New，弹出注册插件对话框。如下图所示，点击Path文本框右侧的小按钮打开插件。程序会自动将Name文本框填为插件Dll中第一个找到的继承自``AddIn.Core.ServiceBase``的类名。如果插件加载失败会弹出提示对话框。LazyLoad保留false即可。其它几项根据实际情况进行填写，也可以留空。点击确定即可完成注册。然后切换到Config UI页，配置用于调用``SayHello()``的界面元素。
+                    [./user_guide/images/confu.png]                    
+在MenuStrip节点上右击，从弹出菜单上选择“New MenuItem”。然后展开MenuStrip节点，在刚才新建的MenuItem上右击，同样选择“New MenuItem”。配置工具能实时反映出界面配置的改变，如下图，配置工具的菜单栏已经有了刚才新建的两个菜单项。
+                    [./user_guide/images/confu2.png]                    
+
+选中层次最深的MenuItem，修改其显示文字并将其与``SayHello()``方法连接起来。可以看到右侧的属性面板和Visual Studio 的属性面板差不多，操作方式也是一样的。修改Text属性为SayHello，即可将显示文本修改为SayHello。
+
+然后修改Service属性，这个属性表示为用户的提供功能的方法所属的服务类。从下列列表中选择``hello.Hello``。
+接下来修改Function属性，这个属性表示为用户提供功能的方法。从下拉列表中选择``Void SayHello()``。点击Save，退出程序；也可以以直接点击OK。
+                    [./user_guide/images/conm.png]                    
+至此，这个插件已经成功注册到系统中了。然后启动hello_cs.exe。点击SayHello菜单，其运行效果如下图所示。
+                    [./user_guide/images/hello.png]                    
+您也可以进行一些探索性学习。比如修改其它节点的属性看看对应用程序有何影响。
+
+===显示在停靠窗口中的Hello, world! ===
+
+这一节里我们一起实现一个稍微复杂的//hello world!//插件——将hello, world显示到停靠窗口里。
+
+打开上一节建立的hello_cs解决方案，添加一个名称为helloDock的类库项目。
+删除项目中的Class1.cs，添加对//AddIn.Core.dll//和//WeifenLuo.WinFormsUI.Docking.dll//的引用。
+在项目中添加一个窗体，然后修改HelloForm.cs，让它其继承自``AddIn.Core.DocFormBase``。表示从形式上约定``HelloForm``是一个文档窗口，关于文档窗口、工具窗口将在//TR0217插件框架应用进阶//一章讲述。
+从工具箱中脱出一个Label放到窗体上，在属性面板里修改显示文体为“Hello, world!”。
+
+接下来需要新建一个服务类，将其命名为HelloDock，用于将这个可停靠窗口停靠到主窗体中。
+为HelloDock也添加一个名称为SayHello的方法，不过需要不同的实现。为了将这个可停靠窗体停靠到主窗体上必须和AddIn.Gui交互。
+
+在AddIn.Core.dll中定义了界面服务的接口IUiService。为HelloDock增加一个IUiService成员用户保留获取的界面服务，这可以避免每次需要界面服务时都需要重新获取。
+这里有个问题不得不注意。假设传入的参数是没有问题的，如果取得的服务为null，说明了什么？是没有向系统注册相应插件，还注册了还没有加载，又或者加载失败。需要实现一种机制让这个问题的回答更加明确——那就是保证只有在加载失败或者没有向系统注册的情况下才会取得null值。所以需要在所有的插件都加载完成后再获取需要与之交互的服务。
+
+``AppFrame``类通过静态事件``FinishLoadAddIn``向外发布所有不需要延迟加载的插件都加载已加载完成。在插件服务类的构造函数中订阅这个事件，能够保证一定能够订阅到这个事件。
+
+获取界面插件的服务也很简单。首先调用``AppFrame``的静态方法``GetServiceCollection()``取得``IServiceCollection``。然后调用其成员方法``GetService<T>()``取得界面服务，传入的泛型参数就是需要获得的服务的接口。关键代码片断：
+
+```
+        private IUiService _uiService;
+
+        public HelloDock()
+        {
+            AppFrame.FinishLoadAddIn += new LoadAddInHandler(AppFrame_FinishLoadAddIn);
+        }
+
+        void AppFrame_FinishLoadAddIn(LoadAddInEventArgs e)
+        {
+            _uiService = AppFrame.GetServiceCollection().GetService<IUiService>();
+        }
+```
+接下来的事情就非常简单了，调用``_uiService``的方法将新建的``HelloFrom``停靠到主窗体上。代码如下：
+```
+        public void SayHello()
+        {
+            HelloForm frm = new HelloForm();
+            _uiService.ShowDocForm(frm);
+        }
+```
+使用注册工具，添加一个MenuItem，将HelloDock注册到系统中。其运行效果如下图所示：
+                    [./user_guide/images/HelloInDock.png]                    
+
+
+===事实上，我想说Hi, beauty! ===
+
+或许比起“Hello, world!”您更想说“Hi, beauty!”。这一节我们编写一个插件用于在文档窗口中显示“Hi, beauty!”。如果仍然上一节一样，您肯定会不耐烦的。这个插件的目标是与上一节编写的插件交互，将文档窗体中的文字修改为“Hi, beauty!”。
+
+实现上一节的插件（HelloDock）时没有做任何需要和外部交互相关的考虑，即使在同一个程序集的另一个对象里也很难修改窗口中显示的文字。所以首先修改HelloDock，为其提供用于交互的接口。
+```
+        public interface IHelloDock
+        {
+            void SayHello(string str);
+        }
+```
+为了实现这个接口，还得为``HelloForm``增加一个Property用于修改label的显示文本。
+```
+        public string Hello
+        {
+            get { return label1.Text; }
+            set { label1.Text = value; }
+        }
+
+```
+将``IHelloDock``实现为：
+```
+        public void SayHello(string str)
+        {
+            HelloForm frm = new HelloForm();
+            frm.Hello = str;
+            _uiService.ShowDocForm(frm);
+        }
+```
+接下来编写一个新插件HiDock，用于使用参数“Hi, beauty!”调用HelloDock提供的方法``void SayHello(string str)``来在停靠窗体中显示“Hi, beauty!”。为了同HelloDock交互，HiDock中必须保有指向HelloDock的引用，并且能够通过这个引用调用``void SayHello(string str)``方法。但是插件的目标就在于降低耦合性，使插件之间能够不直接引用而交互。此时就要借助.NET的基础特性来为我们提供的便利。可以通过一个对象的类型说明类——``Type``——来调用其成员方法。为了达到这个目的我们需要两个对象：
+```
+        Type _helloType;//HeloDock的类型说明
+        ServiceBase _helloService;//指向HelloDock实例的引用
+
+```
+获取HelloDock服务的机制同在HelloDock中获取UI服务的机制一样，不过其方法应该实现为：
+```
+        void AppFrame_FinishLoadAddIn(LoadAddInEventArgs e)
+        {
+            try
+            {
+                //根据名称获取服务对象
+                _helloService = e.ServiceCollection.GetService("helloDock.HelloDock");
+                _helloType = _helloService.GetType();
+            }
+            catch { }
+        }
+```
+编写一个成员方法用于完成这一节的目标。
+```
+        public void SayHi()
+        {
+            //通过实例的类型和实例调用成员，即调用SayHello方法，传入的参数为"Hi, beauty!"
+            if (_helloType != null)
+                _helloType.InvokeMember("SayHello", System.Reflection.BindingFlags.InvokeMethod, 
+                    null, _helloService, new object[] { "Hi, beauty!" });
+            else MessageBox.Show("未能获取helloDock.HelloDock服务，调用目标失败！");
+        }
+```
+将这个插件注册到系统中，运行效果如下图所示。
+                    [./user_guide/images/SayHi.png]                    
+
+===我要问候任何一个想打招呼的对象===
+
+我要问候任何一个想打招呼的对象。这说明我们需要一个将某个对象作为参数的方法，这个方法能够产生问候语问候这个对象。喂，你有对象了吗？开个玩笑！就软件开发人员的理解，对象是一种客观存在，包括有形的实体（如人、猫、狗）、无形的概念或思想（如时间、马克思主义）。
+
+
+我们通过为HelloDock插件增加一个方法来完成这个目标，这样可以节省一些劳力。很简单直接将代码贴出来。
+```
+        private string[] greetings = new string[] {"Hello, ","Hi, ", "Hey, " };
+        Random random = new Random(3);
+
+        public void Greet(string str)
+        {
+            int i = random.Next(3);
+            HelloForm frm = new HelloForm();
+            frm.Hello = greetings[i] + str;
+            _uiService.ShowDocForm(frm);
+        }
+```
+重新生成插件，使用配制工具将这个方法和一个能够提供输入的界面元素连接起来。此处的关键点是ParamProvider的值，它是这个界面元素的名称。
+                    [./user_guide/images/greet.png]                    
+
+
+===插件间的两种交互方式===
+
+在前面几个插件的实现中已经使用了两种插件间交互的方式。在HelloDock的实现中我们使用了基于接口的插件间交互的方式，获取界面服务（UIService）和调用界面服务都是通过接口进行的。
+```
+	_uiService = AppFrame.GetServiceCollection().GetService<IUiService>();
+```
+
+```
+	_uiService.ShowDocForm(frm);
+```
+
+在HiDock的实现中我们使用的是基于元数据和反射的方式，获取HelloDock和调用其``SayHello``方法都是用过类型名称进行的。
+```
+         //根据名称获取服务对象
+         _helloService = e.ServiceCollection.GetService("helloDock.HelloDock");
+         _helloType = _helloService.GetType();
+```
+
+```
+	//通过实例的类型和实例调用成员，即调用SayHello方法，传入的参数为"Hi, beauty!"
+	if (_helloType != null)
+	    _helloType.InvokeMember("SayHello", System.Reflection.BindingFlags.InvokeMethod, 
+	    null, _helloService, new object[] { "Hi, beauty!" });
+```
+
+这两种交互方式有各自的优势和缺陷，因而也有各自适用的情形。
+
+基于接口的交互方式有严格的限制，通过接口只能调用接口的成员方法；但是获取和调用服务的过程更加自然。基于反射和元数据的交互方式没有接口的限制，只要知道了名称和参数形式就可以获取和调用服务；但是获取和调用服务的过程不够自然，同时由于没有约束会导致接口稳定性问题。
+
+基于接口的交互方式适用于构建一个软件系统的基本功能插件。基本功能插件对外提供的接口必须要有很高的稳定性；并且基本功能插件之间、基本功能插件和其它插件之间需要大量的交互；基于接口的交互方式恰好能够满足这个需求。此时可以将各个功能插件的接口放入同一个单独的程序集中，所有基本功能模块和需要和基本功能模块交互的插件都引用此程序集。这样可以避免插件之间直接引用导致的高耦合性。对HelloDock插件来说就是新建一个类库项目，其中只包含接口``IHelloDock``。然后HelloDock引用这个类库使类型``IHelloDock``对其可见。
+
+由于本插件框架不依赖接口，所以对于一些非通用插件或者一些满足用户特殊需求的插件k可以不为其设计接口。基于元数据和反射的交互方式作为对基于接口的交互方式的一种补充，适用于需要和这些没有为其设计接口的插件交互或者需要调用插件接口之外的功能的情形。
+
+===内容回顾=== 
+
+本章从``Hello, world!``开始循序渐进的讲解了如何编写插件。涉及到的主题有插件创建、注册插件、配置界面以调用服务类提供的方法、插件间的交互。
+
+- 插件创建，这是最简单的一个主题。一个插件就是包含至少一个访问修饰为``public``的服务类的类库。新建一个类库项目，添加对AddIn.Core.dll的引用，增加一个公有的继承自``AddIn.Core.ServiceBase``的类，编译通过，一个插件就创建好了。
+- 注册插件。运行AddIn.Config.exe，在Regist AddIns页将插件文件成功添加到下方的列表中即可完成注册。成功添加的标志是列表前方的图片为[./user_guide/images/ok.png]。具体操做请参考//将插件注册到系统中//一节。
+- 配置界面以调用服务类提供的方法，为无参数的方法配置界面非常简单，为有参数的方法配置界面还必须给出参数或（和）参数由哪个界面元素提供。其实，本章并没有包含配置界面的所有内容。如需要，还应指明维护界面元素逻辑的事件；关于这个内容请参考下一章//怎么维护界面逻辑//一节。
+- 插件间的交互，有两种方式，依赖接口的和不依赖接口的。依赖接口的方式用于构建一个软件系统的基本功能插件，更深入的内容请参考//高级主题//的//如何建立完备的服务集合//一节。不依赖接口的方式作为依赖接口的方式的补充手段。
+-
+
+本章还有另外一个内容，插件框架的目录结构，参考//从Hello, world! 开始//一节。更深入的内容请查看下一章第一节//规划应用程序的目录结构//。
+
+
