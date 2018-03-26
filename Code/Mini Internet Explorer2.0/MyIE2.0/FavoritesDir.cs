@@ -229,13 +229,16 @@ namespace MyIE
         internal FavoritesAgent()
         {
             _favoritesDir.Path = System.Environment.GetFolderPath(Environment.SpecialFolder.Favorites);
-
-            this.ProcessFavoritesDir(_favoritesDir);
         }
 
         int _level = 0;
-        private void ProcessFavoritesDir(FavoritesDir favoritesDir)
+        public void ProcessFavoritesDir(FavoritesDir favoritesDir)
         {
+            if (favoritesDir == null)
+            {
+                favoritesDir = _favoritesDir;
+            }
+
             _level++;
 
             foreach (string dir in Directory.GetDirectories(favoritesDir.Path))

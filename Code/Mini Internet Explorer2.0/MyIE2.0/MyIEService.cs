@@ -259,6 +259,8 @@ namespace MyIE
 
             _uiService.MainForm.TopLevel = true;
             _uiService.MainForm.FormClosing += new FormClosingEventHandler(MainForm_FormClosing);
+
+            _favoritesAgent.ProcessFavoritesDir(null);
         }
 
         //◊¢»Î ’≤ÿº–≤Àµ•¿∏
