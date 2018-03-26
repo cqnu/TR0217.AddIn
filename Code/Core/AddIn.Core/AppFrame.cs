@@ -11,7 +11,7 @@ namespace AddIn.Core
     public class AppFrame
     {
         private static AppFrame _appFrame = null;
-        private static bool _fireEvent = true;
+        
         private static log4net.ILog _frameLogger = log4net.LogManager.GetLogger("AddIn.Core");
         private static ServiceCollection _addInCollection = new ServiceCollection();
 
@@ -28,6 +28,7 @@ namespace AddIn.Core
 
         private System.Threading.Timer _timer;
 
+        public static bool FireEvent = true;
         public static event StartUpHandler   StartUp;
         public static event LoadAddInHandler AfterLoadOneAddIn;
         public static event LoadAddInHandler BeforeLoadOneAddIn;
@@ -49,14 +50,6 @@ namespace AddIn.Core
         {
             if (_appFrame == null)
                 new AppFrame();
-            return _appFrame;
-        }
-
-        public static AppFrame GetInstance(bool fireEvent)
-        {
-            if (_appFrame == null)
-                new AppFrame();
-            _fireEvent = fireEvent;
             return _appFrame;
         }
 
@@ -132,13 +125,13 @@ namespace AddIn.Core
 
         private void _addInCollection_AfterLoadOneAddIn(LoadAddInEventArgs e)
         {
-            if (_fireEvent && AfterLoadOneAddIn != null)
+            if (FireEvent && AfterLoadOneAddIn != null)
                 AfterLoadOneAddIn(e);
         }
 
         private void _addInCollection_BeforLoadeOneAddIn(LoadAddInEventArgs e)
         {
-            if (_fireEvent && BeforeLoadOneAddIn != null)
+            if (FireEvent && BeforeLoadOneAddIn != null)
                 BeforeLoadOneAddIn(e);
         }
 
@@ -183,7 +176,7 @@ namespace AddIn.Core
         private bool LoadServices(bool splash = true)
         {
             _addInCollection.LoadBaseServices();
-            if (_fireEvent && StartUp != null)
+            if (FireEvent && StartUp != null)
             {
                 StartUpEventArgs arg = new StartUpEventArgs(_addInCollection);
                 StartUp(arg);
@@ -220,7 +213,7 @@ namespace AddIn.Core
 
                 try
                 {
-                    if (_fireEvent && FinishLoadAddIn != null)
+                    if (FireEvent && FinishLoadAddIn != null)
                         FinishLoadAddIn(new LoadAddInEventArgs(null, _addInCollection));
                 }
                 catch (System.Exception e)
@@ -263,7 +256,7 @@ namespace AddIn.Core
         {
             try
             {
-                if (_fireEvent && BeforeLoadMainForm != null)
+                if (FireEvent && BeforeLoadMainForm != null)
                     BeforeLoadMainForm(new LoadMainFormEventArgs(null, uiService, _args));
             }
             catch (Exception e)
@@ -279,7 +272,7 @@ namespace AddIn.Core
 
                 try
                 {
-                    if (_fireEvent && AfterLoadMainForm != null)
+                    if (FireEvent && AfterLoadMainForm != null)
                         AfterLoadMainForm(new LoadMainFormEventArgs(_mainForm, uiService, _args));
                 }
                 catch (System.Exception e)

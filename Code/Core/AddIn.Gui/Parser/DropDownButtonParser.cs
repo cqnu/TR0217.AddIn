@@ -129,9 +129,10 @@ namespace AddIn.Gui.Parser
             base.ParseSubItems((this.UiElem as ToolStripDropDownButton).DropDownItems, n,_text);
         }
 
-        public override XmlNode ToXmlNode(XmlDocument doc)
+        public override XmlElement ToXmlNode(XmlDocument doc, string name = null)
         {
-            XmlElement elem = base.ToXml(doc, "dropDownButton");
+            XmlElement elem = base.ToXmlNode(doc, "dropDownButton");
+
             elem.SetAttribute("displayStyle", _displayStyle.ToString());
 
             XmlElement elemService = doc.CreateElement("image");

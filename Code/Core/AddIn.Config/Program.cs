@@ -15,15 +15,25 @@ namespace AddInConfig
         [STAThread]
         static void Main()
         {
-            AddInParser ap = new AddInParser();
-            ap.Name = ConfigurationManager.AppSettings["service"];
-            ap.Path = ConfigurationManager.AppSettings["addin"];
-            IUiService uiService = ap.GetService() as IUiService;
-            uiService.InitialUiServiceInfo(ap);
-            AppFrame app = AppFrame.GetInstance(false);
-            AppFrame.ServiceCollection.AddInParserList.Add(ap);
-            AppFrame.ServiceCollection.Services.Add(ap.Name, ap.GetService());
+
+            AppFrame app = AppFrame.GetInstance();
+            AppFrame.StartUp += new StartUpHandler(AppFrame_StartUp);
             app.RunConfig();
+        }
+
+        static void AppFrame_StartUp(StartUpEventArgs e)
+        {
+            IUiService ui = e.ServiceCollection.GetService<IUiService>();
+            if (ui == null)
+            {
+                AddInParser ap = new AddInParser();
+                ap.Name = ConfigurationManager.AppSettings["service"];
+                ap.Path = ConfigurationManager.AppSettings["addin"];
+                IUiService uiService = ap.GetService() as IUiService;
+                uiService.InitialUiServiceInfo(ap);
+                AppFrame.ServiceCollection.BaseServiceParserList.Add(ap);
+                AppFrame.ServiceCollection.Services.Add(ap.Name, ap.GetService());
+            }
         }
     }
 }

@@ -127,9 +127,10 @@ namespace AddIn.Gui.Parser
             base.ParseSubItems((this.UiElem as ToolStripSplitButton).DropDownItems, n,_text);
         }
 
-        public override XmlNode ToXmlNode(XmlDocument doc)
+        public override XmlElement ToXmlNode(XmlDocument doc, string name = null)
         {
-            XmlElement elem = base.ToXml(doc, "splitButton");
+            XmlElement elem = base.ToXmlNode(doc, "splitButton");
+
             elem.SetAttribute("displayStyle", _displayStyle.ToString());
 
             XmlElement elemService = doc.CreateElement("image");

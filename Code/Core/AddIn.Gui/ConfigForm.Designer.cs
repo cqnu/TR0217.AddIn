@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             this.btnOK = new System.Windows.Forms.Button();
-            this.btnStart = new System.Windows.Forms.Button();
-            this.btnStop = new System.Windows.Forms.Button();
             this.btnConfig = new System.Windows.Forms.Button();
             this.btnAbout = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -49,30 +47,10 @@
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             // 
-            // btnStart
-            // 
-            this.btnStart.Enabled = false;
-            this.btnStart.Location = new System.Drawing.Point(322, 26);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(75, 23);
-            this.btnStart.TabIndex = 2;
-            this.btnStart.Text = "Start";
-            this.btnStart.UseVisualStyleBackColor = true;
-            // 
-            // btnStop
-            // 
-            this.btnStop.Enabled = false;
-            this.btnStop.Location = new System.Drawing.Point(322, 70);
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(75, 23);
-            this.btnStop.TabIndex = 3;
-            this.btnStop.Text = "Stop";
-            this.btnStop.UseVisualStyleBackColor = true;
-            // 
             // btnConfig
             // 
             this.btnConfig.Enabled = false;
-            this.btnConfig.Location = new System.Drawing.Point(322, 117);
+            this.btnConfig.Location = new System.Drawing.Point(322, 25);
             this.btnConfig.Name = "btnConfig";
             this.btnConfig.Size = new System.Drawing.Size(75, 23);
             this.btnConfig.TabIndex = 4;
@@ -83,7 +61,7 @@
             // btnAbout
             // 
             this.btnAbout.Enabled = false;
-            this.btnAbout.Location = new System.Drawing.Point(322, 164);
+            this.btnAbout.Location = new System.Drawing.Point(322, 72);
             this.btnAbout.Name = "btnAbout";
             this.btnAbout.Size = new System.Drawing.Size(75, 23);
             this.btnAbout.TabIndex = 5;
@@ -108,10 +86,10 @@
             this.lstService.ItemHeight = 12;
             this.lstService.Location = new System.Drawing.Point(3, 17);
             this.lstService.Name = "lstService";
-            this.lstService.Size = new System.Drawing.Size(305, 196);
+            this.lstService.Size = new System.Drawing.Size(305, 198);
             this.lstService.TabIndex = 2;
-            this.lstService.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lstService_MouseDoubleClick);
             this.lstService.SelectedIndexChanged += new System.EventHandler(this.lstService_SelectedIndexChanged);
+            this.lstService.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lstService_MouseDoubleClick);
             // 
             // groupBox2
             // 
@@ -128,10 +106,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(409, 278);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.btnStart);
             this.Controls.Add(this.btnAbout);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnConfig);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -150,8 +126,6 @@
         #endregion
 
         private System.Windows.Forms.Button btnOK;
-        private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Button btnConfig;
         private System.Windows.Forms.Button btnAbout;
         private System.Windows.Forms.GroupBox groupBox1;

@@ -94,21 +94,9 @@ namespace AddIn.Gui.Parser
             mse.ResumeLayout(false);
         }
 
-        public override XmlNode ToXmlNode(XmlDocument doc)
+        public override XmlElement ToXmlNode(XmlDocument doc, string name = null)
         {
-            XmlElement elem = doc.CreateElement("menuStrip");
-            elem.SetAttribute("name", Name);
-            elem.SetAttribute("text", _text);
-            elem.SetAttribute("visible", _visible.ToString());
-            elem.SetAttribute("enabled", _enabled.ToString());
-
-            XmlElement elemService = doc.CreateElement("service");
-            elemService.InnerText = _service;
-            elem.AppendChild(elemService);
-
-            XmlElement elemUpdateEvent = doc.CreateElement("updateEvent");
-            elemUpdateEvent.InnerText = _updateEvent;
-            elem.AppendChild(elemUpdateEvent);
+            XmlElement elem = base.ToXmlNode(doc, "menuStrip");
 
             XmlElement elemSubElem = doc.CreateElement("subItems");
             foreach (UiElemParser up in base.UiElemParserList)

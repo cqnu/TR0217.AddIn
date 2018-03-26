@@ -37,13 +37,9 @@ namespace AddIn.Gui.Parser
             return uep;
         }
 
-        public override XmlNode ToXmlNode(XmlDocument doc)
+        public override XmlElement ToXmlNode(XmlDocument doc, string name = null)
         {
-            XmlElement elem = doc.CreateElement("comboBoxItem");
-            elem.SetAttribute("name", Name);
-            elem.SetAttribute("text",_text);
-
-            return elem;
+            return base.ToXmlNode(doc,"comboBoxItem");
         }
     }
 
@@ -264,9 +260,10 @@ namespace AddIn.Gui.Parser
 
         }
 
-        public override XmlNode ToXmlNode(XmlDocument doc)
+        public override XmlElement ToXmlNode(XmlDocument doc, string name = null)
         {
-            XmlElement elem = base.ToXml(doc, "comboBox");
+            XmlElement elem = base.ToXmlNode(doc, "comboBox");
+
             elem.SetAttribute("width", _width.ToString());
             elem.SetAttribute("dropDownWidth", _dropDownWidth.ToString());
             elem.SetAttribute("dropDownHeight", _dropDownHeight.ToString());

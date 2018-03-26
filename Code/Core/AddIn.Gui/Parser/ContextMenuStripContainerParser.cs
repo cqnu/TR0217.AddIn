@@ -31,6 +31,7 @@ namespace AddIn.Gui.Parser
 
         public override void FromXmlNode(XmlNode node)
         {
+            base.FromXmlNode(node);
             XmlNode n1 = UiElemParser.FindChildXmlNode(node, "subItems");
             foreach (XmlNode n2 in n1.ChildNodes)
             {
@@ -41,9 +42,9 @@ namespace AddIn.Gui.Parser
             }
         }
 
-        public override XmlNode ToXmlNode(XmlDocument doc)
+        public override XmlElement ToXmlNode(XmlDocument doc, string name = null)
         {
-            XmlElement elem = doc.CreateElement("contextMenus");
+            XmlElement elem = base.ToXmlNode(doc,"contextMenus");
 
             XmlElement elemSubElem = doc.CreateElement("subItems");
             foreach (UiElemParser up in base.UiElemParserList)

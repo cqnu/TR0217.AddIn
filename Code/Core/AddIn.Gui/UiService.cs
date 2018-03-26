@@ -74,7 +74,7 @@ namespace AddIn.Gui
         public void InitialUiServiceInfo(AddInParser ap)
         {
             ap.Lazyload = false;
-            ap.IsBaseService = false;
+            ap.IsBaseService = true;
             ap.Version = "1.5.0.0";
             ap.Url = "http://tr0217.blog.163.com/";
             ap.Author = "tr0217";

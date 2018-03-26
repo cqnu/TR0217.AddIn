@@ -170,9 +170,10 @@ namespace AddIn.Gui.Parser
             base.ParseSubItems((this.UiElem as ToolStripMenuItem).DropDownItems, n,_text);
         }
 
-        public override XmlNode ToXmlNode(XmlDocument doc)
+        public override XmlElement ToXmlNode(XmlDocument doc, string name = null)
         {
-            XmlElement elem = base.ToXml(doc, "menuItem");
+            XmlElement elem = base.ToXmlNode(doc, "menuItem");
+
             elem.SetAttribute("shortcut", _shortcutKeys.ToString());
             elem.SetAttribute("checked", _checked.ToString());
             elem.SetAttribute("checkOnClick", _checkOnClick.ToString());

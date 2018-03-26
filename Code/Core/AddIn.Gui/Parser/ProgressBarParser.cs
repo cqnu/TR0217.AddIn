@@ -118,9 +118,10 @@ namespace AddIn.Gui.Parser
             _uiElem = this.CreateUiElem();
         }
 
-        public override XmlNode ToXmlNode(XmlDocument doc)
+        public override XmlElement ToXmlNode(XmlDocument doc, string name = null)
         {
-            XmlElement elem = base.ToXml(doc, "progressBar");
+            XmlElement elem = base.ToXmlNode(doc, "progressBar");
+
             elem.SetAttribute("width", _width.ToString());
             elem.SetAttribute("maxmum", _maxmum.ToString());
             elem.SetAttribute("minimum", _minimun.ToString());

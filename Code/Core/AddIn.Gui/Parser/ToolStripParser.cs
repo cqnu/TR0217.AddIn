@@ -77,12 +77,6 @@ namespace AddIn.Gui.Parser
                 _location = (ToolStripLocation)Enum.Parse(typeof(ToolStripLocation), elem.GetAttribute("location"));
                 _joined = bool.Parse(elem.GetAttribute("joined"));
 
-                XmlNode n1 = UiElemParser.FindChildXmlNode(node, "service");
-                _service = n1.InnerText;
-
-                XmlNode n2 = UiElemParser.FindChildXmlNode(node, "updateEvent");
-                _updateEvent = n2.InnerText;
-
             }
             catch { }
 
@@ -104,24 +98,12 @@ namespace AddIn.Gui.Parser
             tsw.ToolStrip.ResumeLayout(false);
         }
 
-        public override XmlNode ToXmlNode(XmlDocument doc)
+        public override XmlElement ToXmlNode(XmlDocument doc, string name = null)
         {
-            XmlElement elem = doc.CreateElement("toolStrip");
-            elem.SetAttribute("name", Name);
-            elem.SetAttribute("text", _text);
-            elem.SetAttribute("visible", _visible.ToString());
-            elem.SetAttribute("enabled", _enabled.ToString());
+            XmlElement elem = base.ToXmlNode(doc, "menuStrip");
+
             elem.SetAttribute("joined", _joined.ToString());
             elem.SetAttribute("location", _location.ToString());
-
-            XmlElement elemService = doc.CreateElement("service");
-            elemService.InnerText = _service;
-            elem.AppendChild(elemService);
-
-            XmlElement elemUpdateEvent = doc.CreateElement("updateEvent");
-            elemUpdateEvent.InnerText = _updateEvent;
-            elem.AppendChild(elemUpdateEvent);
-
 
             XmlElement elemSubElem = doc.CreateElement("subItems");
             foreach (UiElemParser up in base.UiElemParserList)

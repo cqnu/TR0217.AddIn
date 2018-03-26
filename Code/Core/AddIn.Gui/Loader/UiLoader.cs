@@ -310,6 +310,8 @@ namespace AddIn.Gui.Loader
                     {
                         RegistUiStateHandler(uip, service);
 
+                        InjectUiElem(uip, service);
+
                         //if the uiElem can raise event.
                         if (uip is CmdParser)
                             this.RegistUiFunctionEvent(uip as CmdParser, service, uiElemParserList);
@@ -324,86 +326,137 @@ namespace AddIn.Gui.Loader
             }
         }
 
+        private void InjectUiElem(UiElemParser uip, ServiceBase service)
+        {
+            if (string.IsNullOrEmpty(uip.Injector))
+                return;
+
+            Type type = service.GetType();
+            MethodInfo[] mis = type.GetMethods(BindingFlags.Instance | BindingFlags.Public);
+            ParameterInfo[] pis = null;
+            MethodInfo mi = null;
+            foreach (MethodInfo m in mis)
+            {
+                if (m.ToString() == uip.Injector)
+                {
+                    pis = m.GetParameters();
+                    mi = m;
+                    break;
+                }
+            }
+
+            if (mi == null)
+            {
+                AppFrame.FrameLogger.Error("显示名称为 “" + uip.Text + "” 的界面元素所依赖的服务 " + uip.Service + " 中不存在方法 " + uip.Injector);
+                return;
+            }
+
+            if (pis.Length != 1)
+            {
+                AppFrame.FrameLogger.Error("服务 " + uip.Service + " 的成员方法 " + uip.Injector + "未能为注入界面元素" + uip.Text + " 提供数量相符的参数！");
+                return;
+            }
+
+            object[] paras = new object[pis.Length];
+            try
+            {                
+                paras[0] = Convert.ChangeType(uip.UiElem, pis[0].ParameterType);
+            }
+            catch (Exception e)
+            {
+                AppFrame.FrameLogger.Error("服务 " + uip.Service + " 的成员方法 " + uip.Injector + "未能为注入界面元素" + uip.Text + " 提供类型相符的参数！", e);
+            }
+
+            try
+            {
+                mi.Invoke(service, paras);
+            }
+            catch (System.Exception ex)
+            {
+                AppFrame.FrameLogger.Error(ex.Message, ex);
+            }
+        }
+
         private void RegistUiFunctionEvent(CmdParser cp, ServiceBase service, List<UiElemParser> uiElemParserList)
         {
-            if (cp.Function != string.Empty)
+            if (string.IsNullOrEmpty(cp.Function))
+                return;
+
+            //get info to prepare parameters and to create eventhandler.
+            Type type = service.GetType();
+            MethodInfo[] mis = type.GetMethods(BindingFlags.Instance | BindingFlags.Public);
+            ParameterInfo[] pis = null;
+            MethodInfo mi = null;
+            foreach (MethodInfo m in mis)
             {
-                //get info to prepare parameters and to create eventhandler.
-                Type type = service.GetType();
-                MethodInfo[] mis = type.GetMethods(BindingFlags.Instance | BindingFlags.Public);
-                ParameterInfo[] pis = null;
-                MethodInfo mi = null;
-                foreach (MethodInfo m in mis)
+                if (m.ToString() == cp.Function)
                 {
-                    if (m.ToString() == cp.Function)
+                    pis = m.GetParameters();
+                    mi = m;
+                    break;
+                }
+            }
+
+            if (mi == null)
+            {
+                AppFrame.FrameLogger.Error("显示名称为 “" + cp.Text + "” 的界面元素所调用的服务 " + cp.Service + " 中不存在方法 " + cp.Function);
+                return;
+            }
+
+            ArrayList parameters = null;
+
+            if (cp.Parameter != string.Empty)
+            {
+                parameters = PrepareParams(pis, cp);
+            }
+
+            EventHandler handler = null;
+            string key = cp.Function + cp.Parameter + cp.ParamProvider;
+            if (_eventHandler.ContainsKey(key))
+            {
+                handler = _eventHandler[key];
+            }
+            else
+            {
+                handler = CreateFuncEventHandler(service, mi, parameters, pis, cp, uiElemParserList);
+                _eventHandler.Add(key, handler);
+            }
+
+            switch (cp.UiElemType)
+            {
+                case UiElemType.ComboBox:
+                    ToolStripWatermarkComboBox tscb = cp.UiElem as ToolStripWatermarkComboBox;
+                    if (handler != null)
                     {
-                        pis = m.GetParameters();
-                        mi = m;
-                        break;
-                    }
-                }
-
-                if (pis == null)
-                {
-                    AppFrame.FrameLogger.Error("显示名称为 “" + cp.Text + "” 的界面元素所调用的服务 " + cp.Service + " 中不存在方法 " + cp.Function);
-                    return;
-                }
-
-                ArrayList parameters = null;
-
-                if (cp.Parameter != string.Empty)
-                {
-                    parameters = PrepareParams(pis, cp);
-                }
-
-                EventHandler handler = null;
-                string key = cp.Function + cp.Parameter + cp.ParamProvider;
-                if (_eventHandler.ContainsKey(key))
-                {
-                    handler = _eventHandler[key];
-                }
-                else
-                {
-                    handler = CreateFuncEventHandler(service, mi, parameters, pis, cp, uiElemParserList);
-                    _eventHandler.Add(key, handler);
-                }
-
-                switch (cp.UiElemType)
-                {
-                    case UiElemType.ComboBox:
-                        ToolStripWatermarkComboBox tscb = cp.UiElem as ToolStripWatermarkComboBox;
-                        if (handler != null)
+                        tscb.SelectedIndexChanged += handler;
+                        tscb.KeyDown += delegate(object sender, KeyEventArgs e)
                         {
-                            tscb.SelectedIndexChanged += handler;
-                            tscb.KeyDown += delegate(object sender, KeyEventArgs e)
-                            {
-                                if (e.KeyCode == Keys.Enter)
-                                    handler(tscb, new EventArgs());
-                            };
-                        }
-                        break;
-                    case UiElemType.TextBox:
-                        ToolStripWatermarkTextBox tstb = cp.UiElem as ToolStripWatermarkTextBox;
-                        if (handler != null)
-                            tstb.KeyDown += delegate(object sender, KeyEventArgs e)
-                            {
-                                if (e.KeyCode == Keys.Enter)
-                                    handler(tstb, new EventArgs());
-                            };
-                        break;
-                    case UiElemType.ProgressBar:
-                        break;
-                    case UiElemType.SplitButton:
-                        ToolStripSplitButton tssb = cp.UiElem as ToolStripSplitButton;
-                        if (handler != null)
-                            tssb.ButtonClick += handler;
-                        break;
-                    default:
-                        ToolStripItem tsi = cp.UiElem as ToolStripItem;
-                        if (handler != null)
-                            tsi.Click += handler;
-                        break;
-                }
+                            if (e.KeyCode == Keys.Enter)
+                                handler(tscb, new EventArgs());
+                        };
+                    }
+                    break;
+                case UiElemType.TextBox:
+                    ToolStripWatermarkTextBox tstb = cp.UiElem as ToolStripWatermarkTextBox;
+                    if (handler != null)
+                        tstb.KeyDown += delegate(object sender, KeyEventArgs e)
+                        {
+                            if (e.KeyCode == Keys.Enter)
+                                handler(tstb, new EventArgs());
+                        };
+                    break;
+                case UiElemType.ProgressBar:
+                    break;
+                case UiElemType.SplitButton:
+                    ToolStripSplitButton tssb = cp.UiElem as ToolStripSplitButton;
+                    if (handler != null)
+                        tssb.ButtonClick += handler;
+                    break;
+                default:
+                    ToolStripItem tsi = cp.UiElem as ToolStripItem;
+                    if (handler != null)
+                        tsi.Click += handler;
+                    break;
             }
         }
 
@@ -564,6 +617,7 @@ namespace AddIn.Gui.Loader
                 bool b = true;
                 if (cp.ParamProvider != string.Empty)
                 {
+                    //一般优先使用某个元素前面元素得参数
                     for (int i = index; i > -1; i--)
                     {
                         if (uiElemParserList[i].Name == cp.ParamProvider)
@@ -574,6 +628,7 @@ namespace AddIn.Gui.Loader
                         }
                     }
 
+                    //在优先使用范围内没有找到
                     if (b)//if did not find in the first traverse.
                     {
                         for (int i = index + 1; i < uiElemParserList.Count; i++)
@@ -589,9 +644,9 @@ namespace AddIn.Gui.Loader
 
                 object[] paras = new object[pis.Length];
 
-                if (providerIndex == -1)
+                if (providerIndex == -1)//没有提供动态参数得界面元素
                 {
-                    if (parameters == null)
+                    if (parameters == null || parameters.Count < pis.Length)
                     {
                         AppFrame.FrameLogger.Error("在界面元素 “"+ cp.Text + "” 中未能为服务 " + cp.Service + " 的成员方法 " + cp.Function + " 提供足够的参数！");
                         return null;//记录日志参数不足
@@ -612,7 +667,7 @@ namespace AddIn.Gui.Loader
                         };
                     }
                 }
-                else
+                else //有提供动态参数得界面元素
                 {
                     if (pis.Length > 1)
                     {
@@ -727,8 +782,8 @@ namespace AddIn.Gui.Loader
             }
             catch (Exception e)
             {
-                AppFrame.FrameLogger.Error("在界面元素" + cp.Text + "中为服务" + cp.Service + "的成员方法" + cp.Function + "提供足够的参数无法解析！", e);
-                MessageBox.Show("在界面元素" + cp.Text + "中为服务" + cp.Service + "的成员方法" + cp.Function + "提供足够的参数无法解析！");
+                AppFrame.FrameLogger.Error("在界面元素" + cp.Text + "中为服务" + cp.Service + "的成员方法" + cp.Function + "提供的参数无法解析！", e);
+                MessageBox.Show("在界面元素" + cp.Text + "中为服务" + cp.Service + "的成员方法" + cp.Function + "提供的参数无法解析！");
             }
 
 

@@ -41,13 +41,9 @@ namespace AddIn.Gui.Parser
             _uiElem = this.CreateUiElem();
         }
 
-        public override XmlNode ToXmlNode(XmlDocument doc)
+        public override XmlElement ToXmlNode(XmlDocument doc, string name = null)
         {
-            XmlElement elem = doc.CreateElement("separator");
-            elem.SetAttribute("name", Name);
-            elem.SetAttribute("text", _text);
-
-            return elem;
+            return base.ToXmlNode(doc, "separator");
         }
 
         protected override object CreateUiElem()

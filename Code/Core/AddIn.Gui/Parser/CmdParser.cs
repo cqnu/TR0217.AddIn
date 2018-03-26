@@ -30,11 +30,8 @@ namespace AddIn.Gui.Parser
             XmlElement elem = node as XmlElement;
             try
             {
-                Name = elem.GetAttribute("name");
-                _text = elem.GetAttribute("text");
+                base.FromXmlNode(node);
                 _autoSize = bool.Parse(elem.GetAttribute("_autoSize"));
-                _enabled = bool.Parse(elem.GetAttribute("enabled"));
-                _visible = bool.Parse(elem.GetAttribute("visible"));
                 _alignment = (ToolStripItemAlignment)Enum.Parse(typeof(ToolStripItemAlignment), elem.GetAttribute("alignment"));
             }
             catch { }
@@ -66,34 +63,25 @@ namespace AddIn.Gui.Parser
             }
         }
 
-        public XmlElement ToXml(XmlDocument doc, string name)
+        public override XmlElement ToXmlNode(XmlDocument doc, string name = null)
         {
-            XmlElement elem = doc.CreateElement(name);
-            elem.SetAttribute("name", Name);
-            elem.SetAttribute("text", _text);
-            elem.SetAttribute("enabled", _enabled.ToString());
-            elem.SetAttribute("visible", _visible.ToString());
+            XmlElement elem = base.ToXmlNode(doc, name);
+
             elem.SetAttribute("alignment", _alignment.ToString());
             elem.SetAttribute("autoSize", _autoSize.ToString());
 
-            XmlElement elemService = doc.CreateElement("service");
-            elemService.InnerText = _service;
             XmlElement elemFunction = doc.CreateElement("function");
             elemFunction.InnerText = _function;
             XmlElement elemParamProvider = doc.CreateElement("paramProvider");
             elemParamProvider.InnerText = _paramProvider;
             XmlElement elemParameter = doc.CreateElement("parameter");
             elemParameter.InnerText = _parameter;
-            XmlElement elemUpdateEvent = doc.CreateElement("updateEvent");
-            elemUpdateEvent.InnerText = _updateEvent;
             XmlElement elemToolTipText = doc.CreateElement("toolTipText");
             elemToolTipText.InnerText = _toolTipText;
 
-            elem.AppendChild(elemService);
             elem.AppendChild(elemFunction);
             elem.AppendChild(elemParamProvider);
             elem.AppendChild(elemParameter);
-            elem.AppendChild(elemUpdateEvent);
             elem.AppendChild(elemToolTipText);
 
             return elem;

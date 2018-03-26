@@ -143,9 +143,10 @@ namespace AddIn.Gui.Parser
             _uiElem = this.CreateUiElem();
         }
 
-        public override XmlNode ToXmlNode(XmlDocument doc)
+        public override XmlElement ToXmlNode(XmlDocument doc, string name = null)
         {
-            XmlElement elem = base.ToXml(doc, "label");
+            XmlElement elem = base.ToXmlNode(doc, "label");
+
             elem.SetAttribute("textAlign", _textAlign.ToString());
             elem.SetAttribute("imageAlign", _imageAlign.ToString());
 

@@ -45,11 +45,6 @@ namespace AddIn.Gui.Parser
             }
             catch { }
 
-            XmlNode n1 = UiElemParser.FindChildXmlNode(node, "service");
-            _service = n1.InnerText;
-            XmlNode n2 = UiElemParser.FindChildXmlNode(node, "updateEvent");
-            _updateEvent = n2.InnerText;
-
             _uiElem = this.CreateUiElem();
             XmlNode n = UiElemParser.FindChildXmlNode(node, "subItems");
             ContextMenuStrip cms = this.UiElem as ContextMenuStrip;
@@ -58,18 +53,9 @@ namespace AddIn.Gui.Parser
             //cms.ResumeLayout();
         }
 
-        public override XmlNode ToXmlNode(XmlDocument doc)
+        public override XmlElement ToXmlNode(XmlDocument doc, string name = null)
         {
-            XmlElement elem = doc.CreateElement("contextMenuStrip");
-            elem.SetAttribute("name", Name);
-            elem.SetAttribute("text", _text);
-            XmlElement elemService = doc.CreateElement("service");
-            elemService.InnerText = _service;
-            elem.AppendChild(elemService);
-
-            XmlElement elemUpdateEvent = doc.CreateElement("updateEvent");
-            elemUpdateEvent.InnerText = _updateEvent;
-            elem.AppendChild(elemUpdateEvent);
+            XmlElement elem = base.ToXmlNode(doc, "contextMenuStrip");
 
             XmlElement elemSubElem = doc.CreateElement("subItems");
             foreach (UiElemParser up in base.UiElemParserList)

@@ -95,6 +95,18 @@ namespace AddIn.Gui.Parser
             set { _updateEvent = value; }
         }
 
+        protected string _injector = string.Empty;
+
+        //[CategoryAttribute("行为关联")]
+        //[ DescriptionAttribute("插件类提供的以该UI元素为参数的方法，通常用于在插件加载完毕后用于将该UI元素注入插件服务。")]
+        [CategoryAttribute("Action related")]
+        [DescriptionAttribute("Method that takes this uiElem as parameter, it usually used to inject the uiElem into an AddIn service.")]
+        [TypeConverter(typeof(MethodConverter))]
+        public virtual string Injector
+        {
+            get { return _injector; }
+            set { _injector = value; }
+        }
 
         //[CategoryAttribute("基本属性")]
         //[DescriptionAttribute("显示在控件上的文本。在界面配置页面里，作为TreeNode的标签。")]
@@ -143,17 +155,47 @@ namespace AddIn.Gui.Parser
             try
             {
                 XmlElement elem = node as XmlElement;
-                _name = elem.GetAttribute("name");
+                Name = elem.GetAttribute("name");
                 _text = elem.GetAttribute("text");
                 _enabled = bool.Parse(elem.GetAttribute("enabled"));
                 _visible = bool.Parse(elem.GetAttribute("visible"));
+
+                XmlNode n1 = UiElemParser.FindChildXmlNode(node, "service");
+                _service = n1.InnerText;
+
+                XmlNode n2 = UiElemParser.FindChildXmlNode(node, "updateEvent");
+                _updateEvent = n2.InnerText;
+
+                XmlNode n3 = UiElemParser.FindChildXmlNode(node, "injector");
+                _injector = n3.InnerText;
             }
             catch { }
         }
 
-        virtual public XmlNode ToXmlNode(System.Xml.XmlDocument doc)
+        virtual public XmlElement ToXmlNode(System.Xml.XmlDocument doc, string name = null)
         {
-            return null;
+            if(name == null)
+                return null;
+
+            XmlElement elem = doc.CreateElement(name);
+            elem.SetAttribute("name", Name);
+            elem.SetAttribute("text", _text);
+            elem.SetAttribute("visible", _visible.ToString());
+            elem.SetAttribute("enabled", _enabled.ToString());
+
+            XmlElement elemService = doc.CreateElement("service");
+            elemService.InnerText = _service;
+            elem.AppendChild(elemService);
+
+            XmlElement elemUpdateEvent = doc.CreateElement("updateEvent");
+            elemUpdateEvent.InnerText = _updateEvent;
+            elem.AppendChild(elemUpdateEvent);
+
+            XmlElement elemInjector = doc.CreateElement("injector");
+            elemInjector.InnerText = _injector;
+            elem.AppendChild(elemInjector);
+
+            return elem;
         }
 
         virtual protected object CreateUiElem()

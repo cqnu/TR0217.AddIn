@@ -890,6 +890,7 @@ namespace AddIn.Gui
             if (_servicesModified)
             {
                 _serviceCollection.SaveAddInConfig();
+                _serviceCollection.SaveBaseServiceConfig();
             }
             btnSave.Enabled = false;
             _servicesModified = false;
@@ -905,6 +906,7 @@ namespace AddIn.Gui
             if (_servicesModified)
             {
                 _serviceCollection.SaveAddInConfig();
+                _serviceCollection.SaveBaseServiceConfig();
             }
             btnSave.Enabled = false;
             _uiLoaderModified = false;

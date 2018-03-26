@@ -142,9 +142,10 @@ namespace AddIn.Gui.Parser
             _uiElem = this.CreateUiElem();
         }
 
-        public override XmlNode ToXmlNode(XmlDocument doc)
+        public override XmlElement ToXmlNode(XmlDocument doc, string name = null)
         {
-            XmlElement elem = base.ToXml(doc, "button");
+            XmlElement elem = base.ToXmlNode(doc, "button");
+
             elem.SetAttribute("displayStyle", _displayStyle.ToString());
             elem.SetAttribute("checked", _checked.ToString());
             elem.SetAttribute("checkOnClick", _checkOnClick.ToString());

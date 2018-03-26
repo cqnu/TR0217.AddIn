@@ -54,7 +54,7 @@ namespace AddIn.Core
         {
             if (!File.Exists(_baseServiceConfigPath) || !ReadConfigFile(_baseServiceConfigFile, _baseServiceConfigPath))
             {
-                InitialBaseServicesConfig();
+                InitialBaseServiceConfig();
             }
 
             foreach (XmlNode n in _baseServiceConfigFile.DocumentElement.ChildNodes)
@@ -81,7 +81,7 @@ namespace AddIn.Core
         {
             if (!File.Exists(_addInConfigPath) || !ReadConfigFile(_addInConfigFile,_addInConfigPath))
             {
-                InitialConfig();
+                InitialAddInConfig();
             }
 
             foreach (XmlNode n in _addInConfigFile.DocumentElement.ChildNodes)
@@ -106,13 +106,13 @@ namespace AddIn.Core
             }
         }
 
-        private void InitialBaseServicesConfig()
+        private void InitialBaseServiceConfig()
         {
             _baseServiceConfigFile.LoadXml(Resources.BaseServices);
             SaveConfigFile(_baseServiceConfigFile, _baseServiceConfigPath);
         }
 
-        private void InitialConfig()
+        private void InitialAddInConfig()
         {
             _addInConfigFile.LoadXml(Resources.AddIns);
             SaveConfigFile(_addInConfigFile, _addInConfigPath);
