@@ -93,14 +93,14 @@ namespace AddIn.Gui.Parser
             XmlNode n = UiElemParser.FindChildXmlNode(node, "subItems");
 
             ToolStripWrapper tsw = this.UiElem as ToolStripWrapper;
-            tsw.ToolStrip.SuspendLayout();
-            base.ParseSubItems(tsw.ToolStrip.Items, n, _text);
-            tsw.ToolStrip.ResumeLayout(false);
+            tsw.SuspendLayout();
+            base.ParseSubItems(tsw.Items, n, _text);
+            tsw.ResumeLayout(false);
         }
 
         public override XmlElement ToXmlNode(XmlDocument doc, string name = null)
         {
-            XmlElement elem = base.ToXmlNode(doc, "menuStrip");
+            XmlElement elem = base.ToXmlNode(doc, "toolStrip");
 
             elem.SetAttribute("joined", _joined.ToString());
             elem.SetAttribute("location", _location.ToString());
@@ -117,15 +117,13 @@ namespace AddIn.Gui.Parser
 
         protected override object CreateUiElem()
         {
-            ToolStrip tsmi = new ToolStrip();
             ToolStripWrapper tsw = new ToolStripWrapper();
-            tsw.ToolStrip = tsmi;
             tsw.Location = _location;
             tsw.Joined = _joined;
-            tsmi.Text = _text;
-            tsmi.Name = Name;
-            tsmi.Visible = _visible;
-            tsmi.Enabled = _enabled;
+            tsw.Text = _text;
+            tsw.Name = Name;
+            tsw.Visible = _visible;
+            tsw.Enabled = _enabled;
 
             return tsw;
         }

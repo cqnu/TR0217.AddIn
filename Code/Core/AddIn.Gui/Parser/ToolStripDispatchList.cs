@@ -40,19 +40,19 @@ namespace AddIn.Gui.Parser
                 if (ts.Joined)
                 {
                     if (tsp.Controls.Count == 0)
-                        tsp.Join(ts.ToolStrip, tsp.Rows.Length);
+                        tsp.Join(ts as ToolStrip, tsp.Rows.Length);
                     else
                     {
                         ToolStripPanelRow row = tsp.Rows[tsp.Rows.Length - 1];
                         ToolStrip toolStrip = row.Controls[row.Controls.Length - 1] as ToolStrip;
-                        tsp.Join(ts.ToolStrip,
+                        tsp.Join(ts as ToolStrip,
                             toolStrip.Bounds.Right,
                             toolStrip.Bounds.Top);
                     }
                 }
                 else
                 {
-                    tsp.Join(ts.ToolStrip, tsp.Rows.Length);
+                    tsp.Join(ts as ToolStrip, tsp.Rows.Length);
                 }
             }
 
@@ -72,10 +72,10 @@ namespace AddIn.Gui.Parser
             ToolStripWrapper ts = value as ToolStripWrapper;
             if (ts != null)
             {
-                return _toolStripContainer.LeftToolStripPanel.Contains(ts.ToolStrip)
-                    || _toolStripContainer.RightToolStripPanel.Contains(ts.ToolStrip)
-                    || _toolStripContainer.BottomToolStripPanel.Contains(ts.ToolStrip)
-                    || _toolStripContainer.TopToolStripPanel.Contains(ts.ToolStrip);
+                return _toolStripContainer.LeftToolStripPanel.Contains(ts as ToolStrip)
+                    || _toolStripContainer.RightToolStripPanel.Contains(ts as ToolStrip)
+                    || _toolStripContainer.BottomToolStripPanel.Contains(ts as ToolStrip)
+                    || _toolStripContainer.TopToolStripPanel.Contains(ts as ToolStrip);
             }
 
             return false;
@@ -106,14 +106,14 @@ namespace AddIn.Gui.Parser
             ToolStripWrapper ts = value as ToolStripWrapper;
             if (ts != null)
             {
-                if (_toolStripContainer.LeftToolStripPanel.Contains(ts.ToolStrip))
-                    _toolStripContainer.LeftToolStripPanel.Controls.Remove(ts.ToolStrip);
-                else if (_toolStripContainer.RightToolStripPanel.Contains(ts.ToolStrip))
-                    _toolStripContainer.RightToolStripPanel.Controls.Remove(ts.ToolStrip);
-                else if (_toolStripContainer.BottomToolStripPanel.Contains(ts.ToolStrip))
-                    _toolStripContainer.BottomToolStripPanel.Controls.Remove(ts.ToolStrip);
-                else if (_toolStripContainer.TopToolStripPanel.Contains(ts.ToolStrip))
-                    _toolStripContainer.TopToolStripPanel.Controls.Remove(ts.ToolStrip);
+                if (_toolStripContainer.LeftToolStripPanel.Contains(ts as ToolStrip))
+                    _toolStripContainer.LeftToolStripPanel.Controls.Remove(ts as ToolStrip);
+                else if (_toolStripContainer.RightToolStripPanel.Contains(ts as ToolStrip))
+                    _toolStripContainer.RightToolStripPanel.Controls.Remove(ts as ToolStrip);
+                else if (_toolStripContainer.BottomToolStripPanel.Contains(ts as ToolStrip))
+                    _toolStripContainer.BottomToolStripPanel.Controls.Remove(ts as ToolStrip);
+                else if (_toolStripContainer.TopToolStripPanel.Contains(ts as ToolStrip))
+                    _toolStripContainer.TopToolStripPanel.Controls.Remove(ts as ToolStrip);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 namespace MyIE
 {
     interface IMyIE
@@ -87,6 +88,15 @@ namespace MyIE
 
         //设置为默认浏览器
         void SetDefault();
+
+        //注入收藏夹菜单栏
+        void InjectFavoritesMenu(ToolStripMenuItem tsmi);
+
+        //注入收藏夹工具条
+        void InjectFavoritesStrip(ToolStrip ts);
+
+        //注入页面窗口标题的上下文菜单
+        void InjectCaptionContextMenuStrip(ContextMenuStrip cms);
 
         //获取当前页面窗体，当然这不是作为用户功能提供的，
         //而是提供来开发扩展此浏览器的插件用的，通过PageForm可以获得WebBrowser控件

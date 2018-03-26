@@ -96,6 +96,8 @@ namespace MyIE
 
             _closedUrlLeakStack.OnPoped += new EventHandler(OnPoped);
             _closedUrlLeakStack.OnPushed += new EventHandler(OnPushed);
+
+            _favoritesAgent = new FavoritesAgent();
             FavoritesAgent.OnAddFavoritesItem += new ProcessFavoritesHandler(FavoritesAgent_OnProcessFavoritesMenu);
             FavoritesAgent.OnAddFavoritesItem += new ProcessFavoritesHandler(FavoritesAgent_OnProcessFavoritesStrip);
 
@@ -251,27 +253,42 @@ namespace MyIE
             _uiService = (IUiExService)_services.GetService<IUiExService>();
             _uiService.MainForm.WindowState = FormWindowState.Maximized;
 
-            _favoritesMenu = _uiService.GetToolStripItem("MenuStrip/收藏(&B)/") as ToolStripMenuItem;
-            _favoritesMenu.DropDownItems.Add(new ToolStripSeparator());
-            _tsmi = _favoritesMenu;
-            _favoritesStrip = _uiService.GetToolStrip("tspFavorites");
-            _contextMenuStripCaption = _uiService.GetContextMenuStrip("cmsPageForm");
-
-            if (_favoritesMenu == null)
-                MyIELogger.Error("获取收藏菜单栏失败！请用界面配置工具查看是否存在路径为“MenuStrip/收藏(&B)/”的菜单项。");
-
-            if (_favoritesStrip == null)
-                MyIELogger.Error("获取收藏工具条失败！请用界面配置工具查看是否存在名称为“ts1”的工具条。");
-
-            _favoritesAgent = new FavoritesAgent();
-
-
             if (e.Args != null && e.Args.Length > 0)
                 Go(e.Args[0]);
             else GoHome();
 
             _uiService.MainForm.TopLevel = true;
             _uiService.MainForm.FormClosing += new FormClosingEventHandler(MainForm_FormClosing);
+        }
+
+        //注入收藏夹菜单栏
+        public void InjectFavoritesMenu(ToolStripMenuItem tsmi)
+        {
+            _favoritesMenu = tsmi;
+            if (_favoritesMenu == null)
+            {
+                MyIELogger.Error("注入收藏菜单栏失败！请用界面配置工具查看是否存在路径为“MenuStrip/收藏(&B)/”的菜单项。");
+                return;
+            }
+
+            _favoritesMenu.DropDownItems.Add(new ToolStripSeparator());
+            _tsmi = _favoritesMenu;
+        }
+
+        //注入收藏夹工具条
+        public void InjectFavoritesStrip(ToolStrip ts)
+        {
+            _favoritesStrip = ts;
+            
+            if (_favoritesStrip == null)
+                MyIELogger.Error("注入收藏工具条失败！请用界面配置工具查看是否存在名称为“ts1”的工具条。");
+
+            return;
+        }
+
+        public void InjectCaptionContextMenuStrip(ContextMenuStrip cms)
+        {
+            _contextMenuStripCaption = cms;
         }
 
         private void SaveHistoryUrlList(object state)

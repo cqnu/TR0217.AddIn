@@ -358,18 +358,21 @@ namespace AddIn.Gui.Loader
             }
 
             object[] paras = new object[pis.Length];
-            try
-            {                
-                paras[0] = Convert.ChangeType(uip.UiElem, pis[0].ParameterType);
-            }
-            catch (Exception e)
-            {
-                AppFrame.FrameLogger.Error("服务 " + uip.Service + " 的成员方法 " + uip.Injector + "未能为注入界面元素" + uip.Text + " 提供类型相符的参数！", e);
-            }
+
+            Type uieType = uip.UiElem.GetType();
 
             try
             {
-                mi.Invoke(service, paras);
+                if (pis[0].ParameterType.IsAssignableFrom(uieType)
+                    || uieType.IsSubclassOf(pis[0].ParameterType))
+                {
+                    paras[0] = uip.UiElem;
+                    mi.Invoke(service, paras);
+                }
+                else
+                {
+                    AppFrame.FrameLogger.Error("服务 " + uip.Service + " 的成员方法 " + uip.Injector + "未能为注入界面元素" + uip.Text + " 提供类型相符的参数！");
+                } 
             }
             catch (System.Exception ex)
             {

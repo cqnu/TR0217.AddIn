@@ -5,17 +5,10 @@ using System.Windows.Forms;
 
 namespace AddIn.Gui.Parser
 {
-    class ToolStripWrapper
+    class ToolStripWrapper : ToolStrip
     {
-        ToolStrip _toolStrip;
-        public ToolStrip ToolStrip
-        {
-            get { return _toolStrip; }
-            set { _toolStrip = value; }
-        }
-
         ToolStripLocation _location;
-        public ToolStripLocation Location
+        public new ToolStripLocation Location
         {
             get { return _location; }
             set { _location = value; }

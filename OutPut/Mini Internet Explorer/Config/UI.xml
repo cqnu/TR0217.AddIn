@@ -5,204 +5,269 @@
     </service>
     <updateEvent>
     </updateEvent>
+    <injector>
+    </injector>
     <subItems>
-      <menuItem name="tsmi11" text="文件(&amp;F)" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="F, Alt" checked="False" checkOnClick="False">
+      <menuItem name="tsmi11" text="文件(&amp;F)" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="F, Alt" checked="False" checkOnClick="False">
         <service>
         </service>
+        <updateEvent>
+        </updateEvent>
+        <injector>
+        </injector>
         <function>
         </function>
         <paramProvider>
         </paramProvider>
         <parameter>
         </parameter>
-        <updateEvent>
-        </updateEvent>
         <toolTipText>
         </toolTipText>
         <image>
         </image>
         <subItems>
-          <menuItem name="tsmi255" text="打开主页" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi255" text="打开主页" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void GoHome()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\Images\homepage.png</image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi21" text="新建空白页" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi21" text="新建空白页" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void Go(System.String)</function>
             <paramProvider>
             </paramProvider>
             <parameter>about:blank</parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\Images\newempty.png</image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi22" text="复制当前页" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi22" text="复制当前页" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateClose</updateEvent>
+            <injector>
+            </injector>
             <function>Void CopyCurrentPage()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateClose</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <separator name="tss5" text="Separator" />
-          <menuItem name="tsmi24" text="打开..." enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <separator name="tss5" text="Separator" visible="True" enabled="True">
+            <service>
+            </service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
+          </separator>
+          <menuItem name="tsmi24" text="打开..." visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void OpenLoacal()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi25" text="保存..." enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi25" text="保存..." visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateComplete</updateEvent>
+            <injector>
+            </injector>
             <function>Void SaveCurrentPage()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateComplete</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi26" text="保存为图片..." enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi26" text="保存为图片..." visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateComplete</updateEvent>
+            <injector>
+            </injector>
             <function>Void SaveCurrentPageAsIamge()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateComplete</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <separator name="tss6" text="Separator" />
-          <menuItem name="tsmi28" text="关闭标签" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <separator name="tss6" text="Separator" visible="True" enabled="True">
+            <service>
+            </service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
+          </separator>
+          <menuItem name="tsmi28" text="关闭标签" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateClose</updateEvent>
+            <injector>
+            </injector>
             <function>Void CloseCurrentPage()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateClose</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi29" text="恢复最近关闭的页面" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi29" text="恢复最近关闭的页面" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateRestore</updateEvent>
+            <injector>
+            </injector>
             <function>Void Restore()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateRestore</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <separator name="tss7" text="Separator" />
-          <menuItem name="tsmi30" text="页面设置..." enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <separator name="tss7" text="Separator" visible="True" enabled="True">
+            <service>
+            </service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
+          </separator>
+          <menuItem name="tsmi30" text="页面设置..." visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateComplete</updateEvent>
+            <injector>
+            </injector>
             <function>Void PageSetup()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateComplete</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi31" text="打印" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi31" text="打印" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateComplete</updateEvent>
+            <injector>
+            </injector>
             <function>Void Print()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateComplete</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\Images\print.png</image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi33" text="打印预览" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi33" text="打印预览" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateComplete</updateEvent>
+            <injector>
+            </injector>
             <function>Void PrintPreview()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateComplete</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <separator name="tss8" text="Separator" />
-          <menuItem name="tsmi35" text="页面属性..." enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <separator name="tss8" text="Separator" visible="True" enabled="True">
+            <service>
+            </service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
+          </separator>
+          <menuItem name="tsmi35" text="页面属性..." visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateComplete</updateEvent>
+            <injector>
+            </injector>
             <function>Void PageProperties()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateComplete</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <separator name="tss9" text="Separator" />
-          <menuItem name="tsmi36" text="退出" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <separator name="tss9" text="Separator" visible="True" enabled="True">
+            <service>
+            </service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
+          </separator>
+          <menuItem name="tsmi36" text="退出" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>AddIn.Gui.UiService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void Exit()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
@@ -211,154 +276,183 @@
           </menuItem>
         </subItems>
       </menuItem>
-      <menuItem name="tsmi37" text="查看(&amp;V)" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="V, Alt" checked="False" checkOnClick="False">
+      <menuItem name="tsmi37" text="查看(&amp;V)" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="V, Alt" checked="False" checkOnClick="False">
         <service>
         </service>
+        <updateEvent>
+        </updateEvent>
+        <injector>
+        </injector>
         <function>
         </function>
         <paramProvider>
         </paramProvider>
         <parameter>
         </parameter>
-        <updateEvent>
-        </updateEvent>
         <toolTipText>
         </toolTipText>
         <image>
         </image>
         <subItems>
-          <menuItem name="tsmi38" text="浏览栏" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="True" checkOnClick="True">
+          <menuItem name="tsmi38" text="浏览栏" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="True" checkOnClick="True">
             <service>AddIn.Gui.UiService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void SetToolStripVisible(Boolean, System.String)</function>
             <paramProvider>tsmi38</paramProvider>
             <parameter>ts0</parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi332" text="搜索栏" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="True" checkOnClick="True">
+          <menuItem name="tsmi332" text="搜索栏" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="True" checkOnClick="True">
             <service>AddIn.Gui.UiService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void SetToolStripVisible(Boolean, System.String)</function>
             <paramProvider>tsmi332</paramProvider>
             <parameter>ts2</parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi39" text="状态栏" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="True" checkOnClick="True">
+          <menuItem name="tsmi39" text="状态栏" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="True" checkOnClick="True">
             <service>AddIn.Gui.UiService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void SetStatusStripVisible(Boolean)</function>
             <paramProvider>tsmi39</paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi40" text="收藏栏" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="True" checkOnClick="True">
+          <menuItem name="tsmi40" text="收藏栏" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="True" checkOnClick="True">
             <service>AddIn.Gui.UiService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void SetToolStripVisible(Boolean, System.String)</function>
             <paramProvider>tsmi40</paramProvider>
             <parameter>ts1</parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <separator name="tss10" text="Separator" />
-          <menuItem name="tsmi41" text="文字大小" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <separator name="tss10" text="Separator" visible="True" enabled="True">
+            <service>
+            </service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
+          </separator>
+          <menuItem name="tsmi41" text="文字大小" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateComplete</updateEvent>
+            <injector>
+            </injector>
             <function>
             </function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateComplete</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems>
-              <menuItem name="tsmi42" text="最大" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+              <menuItem name="tsmi42" text="最大" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
                 <service>MyIE.MyIEService</service>
+                <updateEvent>
+                </updateEvent>
+                <injector>
+                </injector>
                 <function>Void Zoom(Int32)</function>
                 <paramProvider>
                 </paramProvider>
                 <parameter>4</parameter>
-                <updateEvent>
-                </updateEvent>
                 <toolTipText>
                 </toolTipText>
                 <image>
                 </image>
                 <subItems />
               </menuItem>
-              <menuItem name="tsmi97" text="较大" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+              <menuItem name="tsmi97" text="较大" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
                 <service>MyIE.MyIEService</service>
+                <updateEvent>
+                </updateEvent>
+                <injector>
+                </injector>
                 <function>Void Zoom(Int32)</function>
                 <paramProvider>
                 </paramProvider>
                 <parameter>3</parameter>
-                <updateEvent>
-                </updateEvent>
                 <toolTipText>
                 </toolTipText>
                 <image>
                 </image>
                 <subItems />
               </menuItem>
-              <menuItem name="tsmi98" text="中等" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+              <menuItem name="tsmi98" text="中等" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
                 <service>MyIE.MyIEService</service>
+                <updateEvent>
+                </updateEvent>
+                <injector>
+                </injector>
                 <function>Void Zoom(Int32)</function>
                 <paramProvider>
                 </paramProvider>
                 <parameter>2</parameter>
-                <updateEvent>
-                </updateEvent>
                 <toolTipText>
                 </toolTipText>
                 <image>
                 </image>
                 <subItems />
               </menuItem>
-              <menuItem name="tsmi99" text="较小" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+              <menuItem name="tsmi99" text="较小" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
                 <service>MyIE.MyIEService</service>
+                <updateEvent>
+                </updateEvent>
+                <injector>
+                </injector>
                 <function>Void Zoom(Int32)</function>
                 <paramProvider>
                 </paramProvider>
                 <parameter>1</parameter>
-                <updateEvent>
-                </updateEvent>
                 <toolTipText>
                 </toolTipText>
                 <image>
                 </image>
                 <subItems />
               </menuItem>
-              <menuItem name="tsmi100" text="最小" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+              <menuItem name="tsmi100" text="最小" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
                 <service>MyIE.MyIEService</service>
+                <updateEvent>
+                </updateEvent>
+                <injector>
+                </injector>
                 <function>Void Zoom(Int32)</function>
                 <paramProvider>
                 </paramProvider>
                 <parameter>0</parameter>
-                <updateEvent>
-                </updateEvent>
                 <toolTipText>
                 </toolTipText>
                 <image>
@@ -367,56 +461,78 @@
               </menuItem>
             </subItems>
           </menuItem>
-          <separator name="tss11" text="Separator" />
-          <menuItem name="tsmi44" text="停止" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <separator name="tss11" text="Separator" visible="True" enabled="True">
+            <service>
+            </service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
+          </separator>
+          <menuItem name="tsmi44" text="停止" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateClose</updateEvent>
+            <injector>
+            </injector>
             <function>Void Stop()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateClose</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\Images\stop.png</image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi46" text="刷新" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi46" text="刷新" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateClose</updateEvent>
+            <injector>
+            </injector>
             <function>Void Refresh()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateClose</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\Images\refresh.png</image>
             <subItems />
           </menuItem>
-          <separator name="tss12" text="Separator" />
-          <menuItem name="tsmi49" text="源文件" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <separator name="tss12" text="Separator" visible="True" enabled="True">
+            <service>
+            </service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
+          </separator>
+          <menuItem name="tsmi49" text="源文件" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateComplete</updateEvent>
+            <injector>
+            </injector>
             <function>Void ViewSource()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateComplete</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi127" text="查找..." enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi127" text="查找..." visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateComplete</updateEvent>
+            <injector>
+            </injector>
             <function>Void Find()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateComplete</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\Images\find.png</image>
@@ -424,58 +540,64 @@
           </menuItem>
         </subItems>
       </menuItem>
-      <menuItem name="tsmi51" text="收藏(&amp;B)" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="B, Alt" checked="False" checkOnClick="False">
-        <service>
-        </service>
+      <menuItem name="tsmi51" text="收藏(&amp;B)" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="B, Alt" checked="False" checkOnClick="False">
+        <service>MyIE.MyIEService</service>
+        <updateEvent>
+        </updateEvent>
+        <injector>Void InjectFavoritesMenu(System.Windows.Forms.ToolStripMenuItem)</injector>
         <function>
         </function>
         <paramProvider>
         </paramProvider>
         <parameter>
         </parameter>
-        <updateEvent>
-        </updateEvent>
         <toolTipText>
         </toolTipText>
         <image>
         </image>
         <subItems>
-          <menuItem name="tsmi52" text="添加到收藏夹" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi52" text="添加到收藏夹" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateComplete</updateEvent>
+            <injector>
+            </injector>
             <function>Void AddFavorite()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateComplete</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\Images\add_to_favorites.png</image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi53" text="整理收藏夹" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi53" text="整理收藏夹" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void OrganizeFavorites()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\Images\deal_favorites.png</image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi54" text="打开收藏夹目录" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi54" text="打开收藏夹目录" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void OpenFavoritesPath()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\Images\favoritesFile.png</image>
@@ -483,183 +605,223 @@
           </menuItem>
         </subItems>
       </menuItem>
-      <menuItem name="tsmi55" text="工具(&amp;T)" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="T, Alt" checked="False" checkOnClick="False">
+      <menuItem name="tsmi55" text="工具(&amp;T)" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="T, Alt" checked="False" checkOnClick="False">
         <service>
         </service>
+        <updateEvent>
+        </updateEvent>
+        <injector>
+        </injector>
         <function>
         </function>
         <paramProvider>
         </paramProvider>
         <parameter>
         </parameter>
-        <updateEvent>
-        </updateEvent>
         <toolTipText>
         </toolTipText>
         <image>
         </image>
         <subItems>
-          <menuItem name="tsmi56" text="浏览历史" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi56" text="浏览历史" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void ViewHistory()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi57" text="清理历史记录" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi57" text="清理历史记录" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void DeleteHistory()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\Images\clean_history.png</image>
             <subItems />
           </menuItem>
-          <separator name="tss14" text="Separator" />
-          <menuItem name="tsmi58" text="默认浏览器..." enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <separator name="tss14" text="Separator" visible="True" enabled="True">
+            <service>
+            </service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
+          </separator>
+          <menuItem name="tsmi58" text="默认浏览器..." visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void SetDefault()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi426" text="浏览器设置..." enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi426" text="浏览器设置..." visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void Config()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi60" text="IE选项..." enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi60" text="IE选项..." visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void InternetOption()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <separator name="tss28" text="Separator" />
-          <menuItem name="tsmi379" text="脚本辅助工具..." enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <separator name="tss28" text="Separator" visible="True" enabled="True">
+            <service>
+            </service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
+          </separator>
+          <menuItem name="tsmi379" text="脚本辅助工具..." visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>AddIn.Gui.UiService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void Exexute(System.String)</function>
             <paramProvider>
             </paramProvider>
             <parameter>.\AddIns\MyIE\MyIE_Plugin\IEScript\IEScriptApp.exe</parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi158" text="灰色页面" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi158" text="灰色页面" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateComplete</updateEvent>
+            <injector>
+            </injector>
             <function>Void ExecScript(System.String)</function>
             <paramProvider>
             </paramProvider>
             <parameter>.\AddIns\MyIE\MyIE_Plugin\GrayColor\script.htm</parameter>
-            <updateEvent>UpdateComplete</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\MyIE_Plugin\GrayColor\icon.ico</image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi178" text="清除飞行广告" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi178" text="清除飞行广告" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateComplete</updateEvent>
+            <injector>
+            </injector>
             <function>Void ExecScript(System.String)</function>
             <paramProvider>
             </paramProvider>
             <parameter>.\AddIns\MyIE\MyIE_Plugin\KillAd\killad.htm</parameter>
-            <updateEvent>UpdateComplete</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi197" text="解除右键限制" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi197" text="解除右键限制" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateComplete</updateEvent>
+            <injector>
+            </injector>
             <function>Void ExecScript(System.String)</function>
             <paramProvider>
             </paramProvider>
             <parameter>.\AddIns\MyIE\MyIE_Plugin\MouseUnlock\MouseUnlock.htm</parameter>
-            <updateEvent>UpdateComplete</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\MyIE_Plugin\MouseUnlock\MouseUnlock.ico</image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi198" text="最佳图片尺寸" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi198" text="最佳图片尺寸" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateComplete</updateEvent>
+            <injector>
+            </injector>
             <function>Void ExecScript(System.String)</function>
             <paramProvider>
             </paramProvider>
             <parameter>.\AddIns\MyIE\MyIE_Plugin\ImageBestFitWidth\ImageBestFitWidth.htm</parameter>
-            <updateEvent>UpdateComplete</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi199" text="设所有网址为链接" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi199" text="设所有网址为链接" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateComplete</updateEvent>
+            <injector>
+            </injector>
             <function>Void ExecScript(System.String)</function>
             <paramProvider>
             </paramProvider>
             <parameter>.\AddIns\MyIE\MyIE_Plugin\Linkify\linkify.htm</parameter>
-            <updateEvent>UpdateComplete</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi470" text="截屏" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="S, Control, Alt" checked="False" checkOnClick="False">
+          <menuItem name="tsmi470" text="截屏" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="S, Control, Alt" checked="False" checkOnClick="False">
             <service>AddIn.Gui.UiService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void Exexute(System.String)</function>
             <paramProvider>
             </paramProvider>
             <parameter>.\AddIns\MyIE\MyIE_Plugin\SnapShot\SnapShot.exe</parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
@@ -668,60 +830,75 @@
           </menuItem>
         </subItems>
       </menuItem>
-      <menuItem name="tsmi61" text="帮助(&amp;H)" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="H, Alt" checked="False" checkOnClick="False">
+      <menuItem name="tsmi61" text="帮助(&amp;H)" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="H, Alt" checked="False" checkOnClick="False">
         <service>
         </service>
+        <updateEvent>
+        </updateEvent>
+        <injector>
+        </injector>
         <function>
         </function>
         <paramProvider>
         </paramProvider>
         <parameter>
         </parameter>
-        <updateEvent>
-        </updateEvent>
         <toolTipText>
         </toolTipText>
         <image>
         </image>
         <subItems>
-          <menuItem name="tsmi62" text="主站" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi62" text="主站" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void Go(System.String)</function>
             <paramProvider>
             </paramProvider>
             <parameter>http://tr0217.blog.163.com/</parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\Images\home.png</image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi63" text="查看帮助文档" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi63" text="查看帮助文档" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void ViewHelp()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <separator name="tss16" text="Separator" />
-          <menuItem name="tsmi65" text="系统配置..." enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <separator name="tss16" text="Separator" visible="True" enabled="True">
+            <service>
+            </service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
+          </separator>
+          <menuItem name="tsmi65" text="系统配置..." visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>AddIn.Gui.UiService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void Config()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
@@ -737,114 +914,134 @@
     </service>
     <updateEvent>
     </updateEvent>
+    <injector>
+    </injector>
     <subItems>
       <toolStrip name="ts0" text="浏览栏" visible="True" enabled="True" joined="False" location="Top">
         <service>
         </service>
         <updateEvent>
         </updateEvent>
+        <injector>
+        </injector>
         <subItems>
-          <button name="tsb13" text="主页" enabled="True" visible="True" alignment="Left" autoSize="True" displayStyle="ImageAndText" checked="False" checkOnClick="False">
+          <button name="tsb13" text="主页" visible="True" enabled="True" alignment="Left" autoSize="True" displayStyle="ImageAndText" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void GoHome()</function>
             <paramProvider>tsb13</paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\Images\homepage.png</image>
           </button>
-          <label name="tsl0" text="转到:" enabled="True" visible="True" alignment="Left" autoSize="True" textAlign="MiddleLeft" imageAlign="MiddleLeft">
+          <label name="tsl0" text="转到:" visible="True" enabled="True" alignment="Left" autoSize="True" textAlign="MiddleLeft" imageAlign="MiddleLeft">
             <service>
             </service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>
             </function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
           </label>
-          <comboBox name="tscb0" text="" enabled="True" visible="True" alignment="Left" autoSize="False" width="400" dropDownWidth="121" dropDownHeight="106" emptyTextTip="在此输入网址" emptyTextTipColor="LightGray" dropDownStyle="DropDown" autoCompleteMode="SuggestAppend" autoCompleteSource="HistoryList" maxDropDownItems="20">
+          <comboBox name="tscb0" text="" visible="True" enabled="True" alignment="Left" autoSize="False" width="400" dropDownWidth="121" dropDownHeight="106" emptyTextTip="在此输入网址" emptyTextTipColor="LightGray" dropDownStyle="DropDown" autoCompleteMode="SuggestAppend" autoCompleteSource="HistoryList" maxDropDownItems="20">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateSite</updateEvent>
+            <injector>
+            </injector>
             <function>Void Go(System.String)</function>
             <paramProvider>tscb0</paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateSite</updateEvent>
             <toolTipText>
             </toolTipText>
             <subItems />
           </comboBox>
-          <splitButton name="tssb0" text="转到" enabled="True" visible="True" alignment="Left" autoSize="True" displayStyle="Image">
+          <splitButton name="tssb0" text="转到" visible="True" enabled="True" alignment="Left" autoSize="True" displayStyle="Image">
             <service>MyIE.MyIEService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void Go(System.String)</function>
             <paramProvider>tscb0</paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\Images\go.png</image>
             <subItems>
-              <menuItem name="tsmi3" text="简约男人" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+              <menuItem name="tsmi3" text="简约男人" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
                 <service>MyIE.MyIEService</service>
+                <updateEvent>
+                </updateEvent>
+                <injector>
+                </injector>
                 <function>Void Go(System.String)</function>
                 <paramProvider>
                 </paramProvider>
                 <parameter>http://tr0217.blog.163.com/</parameter>
-                <updateEvent>
-                </updateEvent>
                 <toolTipText>
                 </toolTipText>
                 <image>
                 </image>
                 <subItems />
               </menuItem>
-              <menuItem name="tsmi4" text="CodeProject" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+              <menuItem name="tsmi4" text="CodeProject" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
                 <service>MyIE.MyIEService</service>
+                <updateEvent>
+                </updateEvent>
+                <injector>
+                </injector>
                 <function>Void Go(System.String)</function>
                 <paramProvider>
                 </paramProvider>
                 <parameter>http://www.codeproject.com/</parameter>
-                <updateEvent>
-                </updateEvent>
                 <toolTipText>
                 </toolTipText>
                 <image>
                 </image>
                 <subItems />
               </menuItem>
-              <menuItem name="tsmi6" text="CSND社区" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+              <menuItem name="tsmi6" text="CSND社区" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
                 <service>MyIE.MyIEService</service>
+                <updateEvent>
+                </updateEvent>
+                <injector>
+                </injector>
                 <function>Void Go(System.String)</function>
                 <paramProvider>
                 </paramProvider>
                 <parameter>http://community.csdn.net/</parameter>
-                <updateEvent>
-                </updateEvent>
                 <toolTipText>
                 </toolTipText>
                 <image>
                 </image>
                 <subItems />
               </menuItem>
-              <menuItem name="tsmi83" text="金山在线翻译" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+              <menuItem name="tsmi83" text="金山在线翻译" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
                 <service>MyIE.MyIEService</service>
+                <updateEvent>
+                </updateEvent>
+                <injector>
+                </injector>
                 <function>Void Go(System.String)</function>
                 <paramProvider>
                 </paramProvider>
                 <parameter>http://www.iciba.com/</parameter>
-                <updateEvent>
-                </updateEvent>
                 <toolTipText>
                 </toolTipText>
                 <image>
@@ -853,87 +1050,115 @@
               </menuItem>
             </subItems>
           </splitButton>
-          <button name="tsb5" text="在当前页面打开" enabled="True" visible="True" alignment="Left" autoSize="True" displayStyle="Image" checked="False" checkOnClick="False">
+          <button name="tsb5" text="在当前页面打开" visible="True" enabled="True" alignment="Left" autoSize="True" displayStyle="Image" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateClose</updateEvent>
+            <injector>
+            </injector>
             <function>Void GoInCurrentPage(System.String)</function>
             <paramProvider>tscb0</paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateClose</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\Images\open_in_current.png</image>
           </button>
-          <separator name="tss0" text="Separator" />
-          <button name="tsb0" text="后退" enabled="True" visible="True" alignment="Left" autoSize="True" displayStyle="Image" checked="False" checkOnClick="False">
+          <separator name="tss0" text="Separator" visible="True" enabled="True">
+            <service>
+            </service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
+          </separator>
+          <button name="tsb0" text="后退" visible="True" enabled="True" alignment="Left" autoSize="True" displayStyle="Image" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateGoBack</updateEvent>
+            <injector>
+            </injector>
             <function>Void GoBack()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateGoBack</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\Images\backward.png</image>
           </button>
-          <button name="tsb1" text="前进" enabled="True" visible="True" alignment="Left" autoSize="True" displayStyle="Image" checked="False" checkOnClick="False">
+          <button name="tsb1" text="前进" visible="True" enabled="True" alignment="Left" autoSize="True" displayStyle="Image" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateGoForward</updateEvent>
+            <injector>
+            </injector>
             <function>Void GoForward()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateGoForward</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\Images\forward.png</image>
           </button>
-          <button name="tsb2" text="停止" enabled="True" visible="True" alignment="Left" autoSize="True" displayStyle="Image" checked="False" checkOnClick="False">
+          <button name="tsb2" text="停止" visible="True" enabled="True" alignment="Left" autoSize="True" displayStyle="Image" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateClose</updateEvent>
+            <injector>
+            </injector>
             <function>Void Stop()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateClose</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\Images\stop.png</image>
           </button>
-          <button name="tsb3" text="刷新" enabled="True" visible="True" alignment="Left" autoSize="True" displayStyle="Image" checked="False" checkOnClick="False">
+          <button name="tsb3" text="刷新" visible="True" enabled="True" alignment="Left" autoSize="True" displayStyle="Image" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateClose</updateEvent>
+            <injector>
+            </injector>
             <function>Void Refresh()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateClose</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\Images\refresh.png</image>
           </button>
-          <separator name="tss1" text="Separator" />
-          <splitButton name="tssb1" text="关闭页面" enabled="True" visible="True" alignment="Left" autoSize="True" displayStyle="Image">
+          <separator name="tss1" text="Separator" visible="True" enabled="True">
+            <service>
+            </service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
+          </separator>
+          <splitButton name="tssb1" text="关闭页面" visible="True" enabled="True" alignment="Left" autoSize="True" displayStyle="Image">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateClose</updateEvent>
+            <injector>
+            </injector>
             <function>Void CloseCurrentPage()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateClose</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\Images\close.png</image>
             <subItems>
-              <menuItem name="tsmi0" text="关闭全部" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+              <menuItem name="tsmi0" text="关闭全部" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
                 <service>MyIE.MyIEService</service>
+                <updateEvent>UpdateClose</updateEvent>
+                <injector>
+                </injector>
                 <function>Void CloseAllPages()</function>
                 <paramProvider>
                 </paramProvider>
                 <parameter>
                 </parameter>
-                <updateEvent>UpdateClose</updateEvent>
                 <toolTipText>
                 </toolTipText>
                 <image>
@@ -942,14 +1167,16 @@
               </menuItem>
             </subItems>
           </splitButton>
-          <button name="tsb4" text="恢复最近关闭的标签" enabled="True" visible="True" alignment="Left" autoSize="True" displayStyle="Image" checked="False" checkOnClick="False">
+          <button name="tsb4" text="恢复最近关闭的标签" visible="True" enabled="True" alignment="Left" autoSize="True" displayStyle="Image" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateRestore</updateEvent>
+            <injector>
+            </injector>
             <function>Void Restore()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateRestore</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\Images\restore.png</image>
@@ -961,68 +1188,80 @@
         </service>
         <updateEvent>
         </updateEvent>
+        <injector>
+        </injector>
         <subItems>
-          <label name="tsl1" text="搜索:" enabled="True" visible="True" alignment="Left" autoSize="True" textAlign="MiddleLeft" imageAlign="MiddleLeft">
+          <label name="tsl1" text="搜索:" visible="True" enabled="True" alignment="Left" autoSize="True" textAlign="MiddleLeft" imageAlign="MiddleLeft">
             <service>
             </service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>
             </function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
           </label>
-          <textBox name="tstb0" text="" enabled="True" visible="True" alignment="Left" autoSize="False" borderStyle="Fixed3D" width="300" emptyTextTip="关键字" emptyTextTipColor="LightGray" readOnly="False">
+          <textBox name="tstb0" text="" visible="True" enabled="True" alignment="Left" autoSize="False" borderStyle="Fixed3D" width="300" emptyTextTip="关键字" emptyTextTipColor="LightGray" readOnly="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void Search(System.String)</function>
             <paramProvider>tstb0</paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
           </textBox>
-          <splitButton name="tssb2" text="选择引擎" enabled="True" visible="True" alignment="Left" autoSize="True" displayStyle="Image">
+          <splitButton name="tssb2" text="选择引擎" visible="True" enabled="True" alignment="Left" autoSize="True" displayStyle="Image">
             <service>MyIE.MyIEService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void Search(System.String)</function>
             <paramProvider>tstb0</paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>.\AddIns\MyIE\Images\search.png</image>
             <subItems>
-              <menuItem name="tsmi1" text="百度" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+              <menuItem name="tsmi1" text="百度" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
                 <service>MyIE.MyIEService</service>
+                <updateEvent>
+                </updateEvent>
+                <injector>
+                </injector>
                 <function>Void SetSearchEngine(System.String, System.String)</function>
                 <paramProvider>
                 </paramProvider>
                 <parameter>http://www.baidu.com/s?wd=,百度</parameter>
-                <updateEvent>
-                </updateEvent>
                 <toolTipText>
                 </toolTipText>
                 <image>
                 </image>
                 <subItems />
               </menuItem>
-              <menuItem name="tsmi2" text="谷歌" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+              <menuItem name="tsmi2" text="谷歌" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
                 <service>MyIE.MyIEService</service>
+                <updateEvent>
+                </updateEvent>
+                <injector>
+                </injector>
                 <function>Void SetSearchEngine(System.String, System.String)</function>
                 <paramProvider>
                 </paramProvider>
                 <parameter>http://www.google.com.hk/search?q=,谷歌</parameter>
-                <updateEvent>
-                </updateEvent>
                 <toolTipText>
                 </toolTipText>
                 <image>
@@ -1031,175 +1270,212 @@
               </menuItem>
             </subItems>
           </splitButton>
-          <button name="tsb11" text="百度" enabled="True" visible="True" alignment="Left" autoSize="True" displayStyle="Image" checked="False" checkOnClick="False">
+          <button name="tsb11" text="百度" visible="True" enabled="True" alignment="Left" autoSize="True" displayStyle="Image" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void SetEngineSearch(System.String, System.String, System.String)</function>
             <paramProvider>tstb0</paramProvider>
             <parameter>http://www.baidu.com/s?wd=,百度</parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>使用百度搜索</toolTipText>
             <image>.\AddIns\MyIE\FavoritesIcon\baidu.png</image>
           </button>
-          <button name="tsb12" text="谷歌" enabled="True" visible="True" alignment="Left" autoSize="True" displayStyle="Image" checked="False" checkOnClick="False">
+          <button name="tsb12" text="谷歌" visible="True" enabled="True" alignment="Left" autoSize="True" displayStyle="Image" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void SetEngineSearch(System.String, System.String, System.String)</function>
             <paramProvider>tstb0</paramProvider>
             <parameter>http://www.google.com.hk/search?q=,谷歌</parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>使用谷歌搜索</toolTipText>
             <image>.\AddIns\MyIE\FavoritesIcon\google.png</image>
           </button>
         </subItems>
       </toolStrip>
       <toolStrip name="tspFavorites" text="收藏栏" visible="True" enabled="True" joined="True" location="Top">
-        <service>
-        </service>
+        <service>MyIE.MyIEService</service>
         <updateEvent>
         </updateEvent>
+        <injector>Void InjectFavoritesStrip(System.Windows.Forms.ToolStrip)</injector>
         <subItems />
       </toolStrip>
     </subItems>
   </toolStripContainer>
-  <statusStrip name="tsss0" text="StatusStrip" visible="True" enabled="True">
+  <statusStrip name="tsss1" text="StatusStrip" visible="True" enabled="True">
     <service>
     </service>
     <updateEvent>
     </updateEvent>
+    <injector>
+    </injector>
     <subItems>
-      <statusLabel name="tssl1" text="等待" enabled="True" visible="True" alignment="Left" autoSize="True" spring="True" textAlign="MiddleLeft" imageAlign="MiddleLeft">
+      <statusLabel name="tssl1" text="等待" visible="True" enabled="True" alignment="Left" autoSize="True" spring="True" textAlign="MiddleLeft" imageAlign="MiddleLeft">
         <service>MyIE.MyIEService</service>
+        <updateEvent>UpdateStatus</updateEvent>
+        <injector>
+        </injector>
         <function>
         </function>
         <paramProvider>
         </paramProvider>
         <parameter>
         </parameter>
-        <updateEvent>UpdateStatus</updateEvent>
         <toolTipText>
         </toolTipText>
         <image>
         </image>
       </statusLabel>
-      <progressBar name="tspb0" text="ProgressBar" enabled="True" visible="True" alignment="Left" autoSize="True" width="200" maxmum="100" minimum="0">
+      <progressBar name="tspb0" text="ProgressBar" visible="True" enabled="True" alignment="Left" autoSize="True" width="200" maxmum="100" minimum="0">
         <service>MyIE.MyIEService</service>
+        <updateEvent>UpdateProgress</updateEvent>
+        <injector>
+        </injector>
         <function>
         </function>
         <paramProvider>
         </paramProvider>
         <parameter>
         </parameter>
-        <updateEvent>UpdateProgress</updateEvent>
         <toolTipText>
         </toolTipText>
       </progressBar>
-      <separator name="tss26" text="Separator" />
-      <statusLabel name="tssl3" text="搜索引擎:" enabled="True" visible="True" alignment="Left" autoSize="True" spring="False" textAlign="MiddleLeft" imageAlign="MiddleLeft">
+      <separator name="tss26" text="Separator" visible="True" enabled="True">
         <service>
         </service>
+        <updateEvent>
+        </updateEvent>
+        <injector>
+        </injector>
+      </separator>
+      <statusLabel name="tssl3" text="搜索引擎:" visible="True" enabled="True" alignment="Left" autoSize="True" spring="False" textAlign="MiddleLeft" imageAlign="MiddleLeft">
+        <service>
+        </service>
+        <updateEvent>
+        </updateEvent>
+        <injector>
+        </injector>
         <function>
         </function>
         <paramProvider>
         </paramProvider>
         <parameter>
         </parameter>
-        <updateEvent>
-        </updateEvent>
         <toolTipText>
         </toolTipText>
         <image>
         </image>
       </statusLabel>
-      <textBox name="tstb1" text="百度" enabled="True" visible="True" alignment="Left" autoSize="False" borderStyle="None" width="100" emptyTextTip="" emptyTextTipColor="LightGray" readOnly="True">
+      <textBox name="tstb1" text="百度" visible="True" enabled="True" alignment="Left" autoSize="False" borderStyle="None" width="100" emptyTextTip="" emptyTextTipColor="LightGray" readOnly="True">
         <service>MyIE.MyIEService</service>
+        <updateEvent>UpdateSearchEngine</updateEvent>
+        <injector>
+        </injector>
         <function>
         </function>
         <paramProvider>
         </paramProvider>
         <parameter>
         </parameter>
-        <updateEvent>UpdateSearchEngine</updateEvent>
         <toolTipText>
         </toolTipText>
       </textBox>
     </subItems>
   </statusStrip>
-  <contextMenus>
+  <contextMenus name="" text="" visible="True" enabled="True">
+    <service>
+    </service>
+    <updateEvent>
+    </updateEvent>
+    <injector>
+    </injector>
     <subItems>
-      <contextMenuStrip name="cmsPageForm" text="PageFormContextMenu">
-        <service>
-        </service>
+      <contextMenuStrip name="cmsPageForm" text="PageFormContextMenu" visible="True" enabled="True">
+        <service>MyIE.MyIEService</service>
         <updateEvent>
         </updateEvent>
+        <injector>Void InjectCaptionContextMenuStrip(System.Windows.Forms.ContextMenuStrip)</injector>
         <subItems>
-          <menuItem name="tsmi150" text="关闭" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi150" text="关闭" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void CloseCurrentPage()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi151" text="除此之外全部关闭" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi151" text="除此之外全部关闭" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void CloseAllOtherPages()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi152" text="关闭全部" enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi152" text="关闭全部" visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>
+            </updateEvent>
+            <injector>
+            </injector>
             <function>Void CloseAllPages()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>
-            </updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi153" text="保存..." enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi153" text="保存..." visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateComplete</updateEvent>
+            <injector>
+            </injector>
             <function>Void SaveCurrentPage()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateComplete</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>
             </image>
             <subItems />
           </menuItem>
-          <menuItem name="tsmi157" text="保存为图片..." enabled="True" visible="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
+          <menuItem name="tsmi157" text="保存为图片..." visible="True" enabled="True" alignment="Left" autoSize="True" shortcut="None" checked="False" checkOnClick="False">
             <service>MyIE.MyIEService</service>
+            <updateEvent>UpdateComplete</updateEvent>
+            <injector>
+            </injector>
             <function>Void SaveCurrentPageAsIamge()</function>
             <paramProvider>
             </paramProvider>
             <parameter>
             </parameter>
-            <updateEvent>UpdateComplete</updateEvent>
             <toolTipText>
             </toolTipText>
             <image>

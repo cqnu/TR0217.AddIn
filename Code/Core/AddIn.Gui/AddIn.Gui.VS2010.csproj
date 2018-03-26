@@ -115,7 +115,9 @@
     <Compile Include="Parser\ToolStripContainerParser.cs" />
     <Compile Include="Parser\ToolStripDispatchList.cs" />
     <Compile Include="Parser\ToolStripParser.cs" />
-    <Compile Include="Parser\ToolStripWrapper.cs" />
+    <Compile Include="Parser\ToolStripWrapper.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Parser\UiElemParser.cs" />
     <Compile Include="Parser\UiElemType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

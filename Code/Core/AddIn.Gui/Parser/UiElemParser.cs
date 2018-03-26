@@ -264,7 +264,7 @@ namespace AddIn.Gui.Parser
                         this.UiElemParserList.Add(tsp);
                         ToolStripWrapper tsw = tsp.UiElem as ToolStripWrapper;
                         tsci.Add(tsp.UiElem);
-                        UiLoader.ToolStrips.Add(tsp.Name, tsw.ToolStrip);
+                        UiLoader.ToolStrips.Add(tsp.Name, tsw as ToolStrip);
                         break;
                     case "ContextMenuStrip":
                         ContextMenuStripParser cmp = new ContextMenuStripParser(UiLoader);
