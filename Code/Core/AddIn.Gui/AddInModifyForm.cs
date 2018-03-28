@@ -25,13 +25,17 @@ namespace AddIn.Gui
 
 
         public static List<string> _serviceList = new List<string>();
-        public static List<string> _methodList = new List<string>();
-        public static List<string> _eventList = new List<string>();
+        public static HashSet<string> _functionList = new HashSet<string>();
+        public static HashSet<string> _injectorList = new HashSet<string>();
+        public static HashSet<string> _eventList = new HashSet<string>();
         public static List<string> _tsiList = new List<string>();
-        public static List<string> _formNameList = new List<string>();
 
         private string _lastService = string.Empty;
         private string _lastParent = string.Empty;
+
+        /// <summary>
+        /// 当前复制或者剪切的界面元素
+        /// </summary>
         private UiElemParser _uieParser = null;
 
         public string UiConfigPath
@@ -79,23 +83,6 @@ namespace AddIn.Gui
             }
         }
 
-        private void AddItemInServiceList(AddInParser aip)
-        {
-            _serviceList.Add(aip.Name);
-            if (aip.Assembly != null)
-            {
-
-                Assembly assembly = aip.Assembly;
-                Type[] types = assembly.GetTypes();
-                foreach (Type t in types)
-                {
-                    if (t.BaseType == typeof(Form)
-                        || t.BaseType == typeof(Form))
-                        _formNameList.Add(t.FullName);
-                }
-            }
-        }
-
         public IServiceCollection ServiceCollection
         {
             get { return _serviceCollection; }
@@ -105,15 +92,15 @@ namespace AddIn.Gui
                 if (_serviceCollection != null)
                 {
                     SetAddInListView();
-                    _formNameList.Add("");
+                    _serviceList.Add("");
                     foreach (AddInParser aip in _serviceCollection.AddInParserList)
                     {
-                        AddItemInServiceList(aip);
+                        _serviceList.Add(aip.Name);
                     }
 
                     foreach (AddInParser aip in _serviceCollection.BaseServiceParserList)
                     {
-                        AddItemInServiceList(aip);
+                        _serviceList.Add(aip.Name);
                     }
                 }
             }
@@ -252,7 +239,7 @@ namespace AddIn.Gui
                     node = CreateNode(cp.Text, "Label");
                     break;
                 case UiElemType.ProgressBar:
-                    node = CreateNode(cp.Text, "progressbar");
+                    node = CreateNode(cp.Text, "ProgressBar");
                     break;
                 case UiElemType.Separator:
                     node = CreateNode(cp.Text, "Separator");
@@ -341,11 +328,12 @@ namespace AddIn.Gui
         {
             //data binding
             propertyGrid.SelectedObject = treeView.SelectedNode.Tag;
-            CmdParser cp = treeView.SelectedNode.Tag as CmdParser;
+            UiElemParser cp = treeView.SelectedNode.Tag as UiElemParser;
             if (cp != null)
             {
                 UpdateEditorServiceResource(cp.Service);
-                UpdateEditorParaResource(treeView.SelectedNode.Parent.Name);
+                if(cp is CmdParser)
+                    UpdateEditorParaResource(treeView.SelectedNode.Parent.Name);
             }
             if (_uieParser != null)
             {
@@ -695,14 +683,15 @@ namespace AddIn.Gui
         {
             if (_uieParser != null)
             {
-                TreeNode node = CreateNodeRecursive(_uieParser);
-                node.Tag = _uieParser;
+                UiElemParser uie = _uieParser.Clone() as UiElemParser;
+                TreeNode node = CreateNodeRecursive(uie);
+                node.Tag = uie;
 
                 UiElemParser uep = treeView.SelectedNode.Tag as UiElemParser;
-                uep.UiElemParserList.Add(_uieParser);
+                uep.UiElemParserList.Add(uie);
                 IList ctrlList = GetCtrlList(treeView.SelectedNode);
                 if (ctrlList != null)
-                    ctrlList.Add(_uieParser.UiElem);
+                    ctrlList.Add(uie.UiElem);
 
                 treeView.SelectedNode.Nodes.Add(node);
                 treeView.SelectedNode = node;
@@ -1009,10 +998,11 @@ namespace AddIn.Gui
             if (_lastService != aip.Name)
             {
                 _eventList.Clear();
-                _methodList.Clear();
+                _functionList.Clear();
                 _lastService = string.Empty;
             }
 
+            _serviceList.Add("");
             _serviceList.Add(aip.Name);
             _serviceCollection.Services.Add(aip.Name, aip.Service);
             _serviceCollection.AddInParserList.Add(aip);
@@ -1054,7 +1044,7 @@ namespace AddIn.Gui
             if (_lastService != aip.Name)
             {
                 _eventList.Clear();
-                _methodList.Clear();
+                _functionList.Clear();
                 _lastService = string.Empty;
             }
 
@@ -1083,43 +1073,52 @@ namespace AddIn.Gui
         {
             if (value != _lastService)
             {
+                _eventList.Clear();
+                _eventList.Add("");
+                _functionList.Clear();
+                _functionList.Add("");
+                _injectorList.Clear();
+                _injectorList.Add("");
+
+                if (value == "")
+                    return;
+
                 try
                 {
                     ServiceBase service = _serviceCollection.GetService(value);
                     if (service != null)
                     {
-                        Type type = service.GetType();
-                        EventInfo[] eventInfos = type.GetEvents(BindingFlags.Instance | BindingFlags.Public);
-                        _eventList.Clear();
-                        _eventList.Add("");
-                        foreach (EventInfo ei in eventInfos)
+                        Type[] interfaces = service.GetType().GetInterfaces();
+                        Type[] types = new Type[interfaces.Length + 1];
+                        interfaces.CopyTo(types, 0);
+                        types[interfaces.Length] = service.GetType();
+                        foreach (Type type in types)
                         {
-                            if (ei.EventHandlerType == typeof(UpdateUiElemHandler))
-                                _eventList.Add(ei.Name);
-                        }
+                            EventInfo[] eventInfos = type.GetEvents(BindingFlags.Instance | BindingFlags.Public);
 
-                        MethodInfo[] methodInfos = type.GetMethods(BindingFlags.Instance | BindingFlags.Public);
-                        _methodList.Clear();
-                        _methodList.Add("");
-                        foreach (MethodInfo mi in methodInfos)
-                        {
-                            string method = mi.ToString();
-                            if (method.Contains("Void remove_")
-                                || method.Contains("Void add_")
-                                || method.Contains("get_")
-                                || method.Contains("set_"))
-                                continue;
-                            _methodList.Add(mi.ToString());
-                        }
+                            foreach (EventInfo ei in eventInfos)
+                            {
+                                if (ei.EventHandlerType == typeof(UpdateUiElemHandler))
+                                    _eventList.Add(ei.Name);
+                            }
 
-                        //PropertyInfo[] propertyInfos = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
-                        //_propertyList.Clear();
-                        //_propertyList.Add("");
-                        //foreach (PropertyInfo pi in propertyInfos)
-                        //{
-                        //    if ((pi.ToString()).Contains("Boolean"))
-                        //        _propertyList.Add(pi.Name);
-                        //}
+                            MethodInfo[] methodInfos = type.GetMethods(BindingFlags.Instance | BindingFlags.Public);
+
+                            foreach (MethodInfo mi in methodInfos)
+                            {
+                                object[] fas = mi.GetCustomAttributes(typeof(FunctionAttribute), true);
+                                if (fas != null && fas.Length > 0)
+                                {
+                                    _functionList.Add(mi.ToString());
+                                }
+
+                                object[] ias = mi.GetCustomAttributes(typeof(InjectorAttribute), true);
+                                if (ias != null && ias.Length > 0)
+                                {
+                                    _injectorList.Add(mi.ToString());
+                                }
+                            }
+                        }
                     }
                 }
                 catch

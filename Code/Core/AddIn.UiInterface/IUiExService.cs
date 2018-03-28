@@ -11,7 +11,9 @@ namespace AddIn.UiInterface
         ContextMenuStrip GetContextMenuStrip(string name);
         ToolStrip GetToolStrip(string name);
         ToolStripItem GetToolStripItem(string path);
+        [Function]
         void SetStatusStripVisible(bool visible);
+        [Function]
         void SetToolStripVisible(bool visible, string name);
         void ShowDocForm(Form docForm);
         void ShowToolWin(Form toolWin, DockStyle dockStyle);

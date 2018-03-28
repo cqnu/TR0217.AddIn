@@ -127,8 +127,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="PropertyEditor\EventConverter.cs" />
-    <Compile Include="PropertyEditor\FormNameConvert.cs" />
+    <Compile Include="PropertyEditor\FunctionConverter.cs" />
     <Compile Include="PropertyEditor\ImagePathEditor.cs" />
+    <Compile Include="PropertyEditor\InjectorConverter.cs" />
     <Compile Include="PropertyEditor\MethodConverter.cs" />
     <Compile Include="PropertyEditor\ServiceConverter.cs" />
     <Compile Include="PropertyEditor\TSIConverter.cs" />

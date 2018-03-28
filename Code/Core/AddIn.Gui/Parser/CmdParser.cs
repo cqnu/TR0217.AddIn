@@ -135,7 +135,7 @@ namespace AddIn.Gui.Parser
         //[ DescriptionAttribute("插件类提供的完成某一功能的方法，注册到该控件的Click或者SelectedIndexChange事件上。")]
         [CategoryAttribute("Action related")]
         [DescriptionAttribute("Method that addin-class provided to complete a function, registed to the control's Click or SelectedIndexChange event.")]
-        [TypeConverter(typeof(MethodConverter))]
+        [TypeConverter(typeof(FunctionConverter))]
         public virtual  string Function
         {
             get { return _function; }

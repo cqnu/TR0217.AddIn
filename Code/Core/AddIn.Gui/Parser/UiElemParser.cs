@@ -101,7 +101,7 @@ namespace AddIn.Gui.Parser
         //[ DescriptionAttribute("插件类提供的以该UI元素为参数的方法，通常用于在插件加载完毕后用于将该UI元素注入插件服务。")]
         [CategoryAttribute("Action related")]
         [DescriptionAttribute("Method that takes this uiElem as parameter, it usually used to inject the uiElem into an AddIn service.")]
-        [TypeConverter(typeof(MethodConverter))]
+        [TypeConverter(typeof(InjectorConverter))]
         public virtual string Injector
         {
             get { return _injector; }

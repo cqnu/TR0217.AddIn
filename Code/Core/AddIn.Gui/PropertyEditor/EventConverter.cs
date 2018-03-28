@@ -23,7 +23,7 @@ namespace AddIn.Gui
         public override TypeConverter.StandardValuesCollection
         GetStandardValues(ITypeDescriptorContext context)
         {
-            return new StandardValuesCollection(AddInModifyForm._eventList);
+            return new StandardValuesCollection(new List<string>(AddInModifyForm._eventList));
         }
 
     }

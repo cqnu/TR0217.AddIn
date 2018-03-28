@@ -5,7 +5,7 @@ using System.ComponentModel;
 
 namespace AddIn.Gui
 {
-    internal class MethodConverter : StringConverter
+    internal abstract class  MethodConverter : StringConverter
     {
 
         public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
@@ -19,12 +19,5 @@ namespace AddIn.Gui
             //true will limit to list. false will show the list, but allow free-form entry
             return true;
         }
-
-        public override TypeConverter.StandardValuesCollection
-        GetStandardValues(ITypeDescriptorContext context)
-        {
-            return new StandardValuesCollection(AddInModifyForm._methodList);
-        }
-
     }
 }

@@ -74,7 +74,9 @@
     <Compile Include="AddInParser.cs" />
     <Compile Include="AppFrame.cs" />
     <Compile Include="EventHandlers.cs" />
+    <Compile Include="FunctionAttribute.cs" />
     <Compile Include="ILoginDialog.cs" />
+    <Compile Include="InjectorAttribute.cs" />
     <Compile Include="IServiceCollection.cs" />
     <Compile Include="ISplashScreen.cs" />
     <Compile Include="IUiService.cs" />
