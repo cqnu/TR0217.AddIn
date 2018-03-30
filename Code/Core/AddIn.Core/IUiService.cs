@@ -16,6 +16,7 @@ namespace AddIn.Core
         void Config();
         Form LoadMainForm();
         Form MainForm { get; }
+        bool IsMainFormLoaded { get; }
         void ModifyAddIns();
     }
 }

@@ -18,10 +18,16 @@ namespace AddIn.Gui
         private UiLoader _uiLoader;
         private AddInModifyForm _addinModifyForm = null;
         private MainForm _mainForm = null;
+        private bool _isMainFormLoaded = false;
 
         public Form MainForm
         {
             get { return _mainForm; }
+        }
+
+        public bool IsMainFormLoaded
+        {
+            get { return _isMainFormLoaded; }
         }
 
         private string _configPath;
@@ -58,6 +64,7 @@ namespace AddIn.Gui
                         uiLoader.Load(false);
                         _addinModifyForm.UiLoader = uiLoader;
                         _addinModifyForm.ServiceCollection = AppFrame.ServiceCollection;
+                        _isMainFormLoaded = true;
                     }                    
                 }
                 catch(Exception e)
@@ -95,6 +102,7 @@ namespace AddIn.Gui
             {
                 _uiLoader.Load(true);
                 _uiLoader.RegistEvent(AppFrame.ServiceCollection);
+                _isMainFormLoaded = true;
             }
             catch (Exception e)
             {
